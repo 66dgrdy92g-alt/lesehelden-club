@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html><html lang="de"><head><meta name="ms-sp-authoring-source" content="agent"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lesehelden-Club</title>
+<!DOCTYPE html><html lang="de"><head><meta name="ms-sp-authoring-source" content="agent"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lesehelden-Club</title>
 <style>*{box-sizing:border-box}body{max-width:900px;margin:auto;padding:20px;background:#000;color:#00ff00;font:17px/1.5 "Courier New",monospace}a{color:#00ff00}a:hover{color:#ffff00}.box{position:relative;border:2px solid #00ff00;padding:20px;margin-bottom:20px}.hidden{display:none}.start-layout{display:flex;gap:20px;align-items:flex-start}.legal-layout{display:flex;gap:20px;align-items:flex-start}.legal-layout .box{flex:1;min-width:0}.legal-layout summary{cursor:pointer;font-weight:bold;color:#ffff00;padding:4px 0}.legal-text{padding-top:10px}@media(max-width:900px){.legal-layout{display:block}}.start-layout .box{flex:1;min-width:0}@media(max-width:700px){.start-layout{display:block}}.club-art{margin:0 auto 16px;text-align:center;color:#ffff00;font:15px/1.15 monospace;text-shadow:0 0 5px #00ff00;overflow:auto}.book-corner{position:absolute;top:18px;right:145px;margin:0;color:#ffff00;font:14px/1.1 monospace;text-shadow:0 0 5px #00ff00;z-index:2;pointer-events:none}input,select{width:100%;max-width:420px;margin:5px 0 15px;padding:10px;background:#000;color:#00ff00;border:1px solid #00ff00;font:inherit}button{margin:5px;padding:10px 14px;background:#000;color:#00ff00;border:1px solid #00ff00;font:inherit;cursor:pointer}button:hover:not(:disabled){background:#00ff00;color:#000}button:disabled{color:#067706;border-color:#067706}.book,.achievement{padding:14px 0;border-top:1px dashed #00ff00}.menu-header{display:flex;align-items:center;gap:18px;margin-bottom:12px}.menu-header h2{margin:0}.menu-art{position:absolute;left:-260px;top:0;margin:0;color:#ffff00;font:14px/1.1 monospace;text-shadow:0 0 5px #00ff00;white-space:pre}@media(max-width:1100px){.menu-art{display:none}}.answer{display:block;width:100%;text-align:left}.status{padding:10px 0;border-top:1px dashed;border-bottom:1px dashed}.success,.unlocked{color:#ffff00}.error{color:#ff5555}.locked{color:#067706}.progress{height:22px;border:1px solid;margin:12px 0}.progress-bar{height:100%;background:#00ff00;width:0}.certificate{position:relative;overflow:hidden;max-width:720px;margin:18px auto;padding:46px 40px;text-align:center;color:#fff7b0;background:linear-gradient(135deg,#07180c,#12331b 48%,#07180c);border:8px double #e8bd45;box-shadow:inset 0 0 0 5px #0b3019,inset 0 0 36px #e8bd45,0 0 20px #00ff00}.certificate:before,.certificate:after{content:"★";position:absolute;color:#e8bd45;font-size:32px;text-shadow:0 0 10px #ffff00}.certificate:before{top:16px;left:24px}.certificate:after{right:24px;bottom:16px}.certificate h3{margin:12px 0;font-size:30px;letter-spacing:4px;color:#ffff00;text-shadow:0 0 10px #00ff00}.certificate h2{margin:20px 0;padding:10px 0;border-top:1px solid #e8bd45;border-bottom:1px solid #e8bd45;font-size:34px;color:#fff;text-shadow:0 0 12px #00ff00}.certificate p{position:relative;z-index:1}.certificate p:last-child{margin-top:26px;color:#b7e8bd;letter-spacing:2px}.rank{padding:10px 0;border-top:1px dashed #00ff00}@media(max-width:600px){body{padding:10px;font-size:15px}button{width:100%;margin:5px 0}.mascots svg{width:120px;height:80px}}
 /* Mobile-Optimierung */
 @media (max-width:700px){
@@ -688,6 +688,8 @@ FREIGESCHALTETE ERFOLGE:
 <button onclick="showProgress()"> FORTSCHRITT</button>
 
 <button onclick="showLearning()"> LERNEN</button>
+<button onclick="showGame()"> SPIEL (SNAKE)</button>
+<button onclick="showRanking()"> RANKING</button>
 
 <button onclick="showAchievements()"> ERFOLGE</button>
 
@@ -706,7 +708,9 @@ FREIGESCHALTETE ERFOLGE:
 
 </div>
 <div id="urkundeView" class="box hidden"><h2>URKUNDE</h2><p>Wähle, wofür du eine Urkunde möchtest. Zur Auswahl stehen eine Gesamt-Urkunde und jeder Erfolg, den du freigeschaltet hast.</p><label for="urkundeChoice">URKUNDE FÜR:</label><br><select id="urkundeChoice" onchange="renderUrkunde()"></select><div id="urkundePreview" class="urkunde-wrap"></div><button type="button" onclick="printUrkunde()">[ DRUCKEN / ALS PDF SPEICHERN ]</button><p>Im Druckfenster „Als PDF speichern" wählen, wenn du eine Datei möchtest. Die Urkunde ist für A4 im Querformat gemacht.</p><button onclick="showAchievements()">[ ZURÜCK ZU DEN ERFOLGEN ]</button> <button onclick="showBooks()">[ ZURÜCK ]</button></div>
-<div id="learningView" class="box hidden"><h2>LERNEN: MEDIENKOMPETENZ</h2><p>Mit jedem neuen Level schaltest du eine neue Lerneinheit frei. Deine Lernstufe: <strong id="learnStufeLabel"></strong></p><div id="learningContent"></div><button onclick="showBooks()">[ ZURÜCK ]</button></div>
+<div id="learningView" class="box hidden"><h2>LERNEN: MEDIENKOMPETENZ</h2><p>Alle Lerneinheiten sind frei. Such dir aus, was du lernen möchtest. Deine Lernstufe: <strong id="learnStufeLabel"></strong></p><div id="learningContent"></div><button onclick="showBooks()">[ ZURÜCK ]</button></div>
+<div id="gameView" class="box hidden"><h2>SPIEL: SNAKE</h2><div class="status">SPIELMARKEN: <strong id="gameTokens">0</strong> | DEIN REKORD: <strong id="gameBest">0</strong> | DIESE WOCHE: <strong id="gameWeek">0</strong></div><p>1 abgeschlossenes Quiz = 1 Marke. Quiz fehlerfrei = 5 Marken. Jedes Spiel kostet 1 Marke. TAGES-BONUS: Dein erstes Quiz am Tag gibt 1 Extra-Marke. Stirbst du, kannst du mit einer richtigen Quiz-Antwort einmal weiterspielen.</p><div id="snakeInfo" class="status">PUNKTE: 0 | LEVEL: 1</div><div style="text-align:center"><canvas id="snakeCanvas" width="400" height="320" style="width:100%;max-width:400px;height:auto;border:4px solid #0f380f;touch-action:none"></canvas></div><p id="snakeMsg" class="success"></p><div id="snakeRevive" class="box hidden"></div><div style="text-align:center"><button onclick="snakeDir(0,-1)">[ ↑ ]</button><br><button onclick="snakeDir(-1,0)">[ ← ]</button><button onclick="snakeDir(0,1)">[ ↓ ]</button><button onclick="snakeDir(1,0)">[ → ]</button></div><button id="snakeStart" onclick="snakeStart()">[ SPIEL STARTEN (1 MARKE) ]</button><button id="snakePauseBtn" onclick="snakePause()">[ PAUSE ]</button><h3>RANGLISTE (TOP 20)</h3><button id="snakeTabWeek" onclick="snakeTab('week')">[ DIESE WOCHE ]</button><button id="snakeTabAll" onclick="snakeTab('all')">[ FÜR IMMER ]</button><div id="snakeRanking"></div><button onclick="showBooks()">[ ZURÜCK ]</button></div>
+<div id="rankingView" class="box hidden"><h2>RANKING</h2><button id="rkTabQuiz" onclick="rankTab('quiz')">[ QUIZ-PUNKTE ]</button><button id="rkTabPerfect" onclick="rankTab('perfect')">[ PERFEKTE QUIZ ]</button><button id="rkTabGame" onclick="rankTab('game')">[ SPIEL ]</button><div id="rankSub" class="hidden"><button id="rkSubWeek" onclick="snakeTab('week')">[ DIESE WOCHE ]</button><button id="rkSubAll" onclick="snakeTab('all')">[ FÜR IMMER ]</button></div><div id="rankList"></div><button onclick="showBooks()">[ ZURÜCK ]</button></div>
 <div id="learnUnitView" class="box hidden"><h2 id="learnUnitTitle"></h2><div class="status" id="learnUnitInfo"></div><div id="learnStufeSwitch"></div><div id="learnUnitBody"></div><button onclick="showLearning()">[ ZURÜCK ZUM LERNEN ]</button></div>
 <div id="learnLevelPanel" class="box hidden"><h2>LERNSTUFE</h2><p>Wähle, wie ausführlich die Lerneinheiten für dich sein sollen. Du kannst das jederzeit ändern. Deine Wahl wird gespeichert.</p><div id="learnLevelButtons"></div><p id="learnLevelStatus" class="success"></p><button onclick="showSettings()">[ ZURÜCK ]</button></div>
 <div id="settingsPanel" class="box hidden"><h2>EINSTELLUNGEN</h2><button onclick="showPasswordSettings()">[ PASSWORT ÄNDERN ]</button><button onclick="showDesignSettings()">[ DESIGN AUSWAHL ]</button><button onclick="showLearnLevelSettings()">[ LERNSTUFE ]</button><br><button onclick="showBooks()">[ ZURÜCK ]</button></div>
@@ -781,13 +785,13 @@ function showLearning(){
         h.textContent="KAPITEL "+c.n+": "+c.title.toUpperCase()+(learnChapterDone(c.n)?" ✓":"");
         box.append(h);
         for(let i=c.from;i<=c.to;i++){
-            const open=i<=lv;
+            const open=true;
             const b=document.createElement("button");
             b.type="button";b.className="learn-unit";
             const t=LEARN[i]&&LEARN[i].title?LEARN[i].title:"Lerneinheit "+i;
             const lvName=LEVELS.find(x=>x.level===i).name;
             b.textContent=open
-                ? (learnUnitDone(i)?"✓ ":"▶ ")+"LEVEL "+i+": "+t+"  ["+learnStufenText(i)+"]"
+                ? (learnUnitDone(i)?"✓ ":"▶ ")+"LEKTION "+i+": "+t+"  ["+learnStufenText(i)+"]"
                 : "🔒 LEVEL "+i+": "+lvName+" ERREICHEN";
             b.disabled=!open||!LEARN[i];
             if(open&&LEARN[i])b.onclick=()=>openLearnUnit(i);
@@ -804,7 +808,7 @@ function openLearnUnit(n,stufe){
     const unit=LEARN[n];
     const d=unit&&(unit[stufe]||unit.entdecker);
     if(!d){showLearning();return}
-    $("learnUnitTitle").textContent="LEVEL "+n+": "+d.title.toUpperCase();
+    $("learnUnitTitle").textContent="LEKTION "+n+": "+d.title.toUpperCase();
     $("learnUnitInfo").textContent="STUFE: "+LEARN_STUFEN[stufe]+(learnUnitDone(n)?" | ERLEDIGT ✓ | "+learnStufenText(n):"");
     const sw=$("learnStufeSwitch");sw.textContent="";
     Object.keys(LEARN_STUFEN).forEach(k=>{
@@ -848,6 +852,7 @@ function openLearnUnit(n,stufe){
 }
 
 function learnComplete(n,stufe,out){
+    newBadges=[];
     const first=!learnUnitDone(n);
     const neueStufe=!learnStufenDone(n).includes(stufe);
     if(first||neueStufe){
@@ -855,12 +860,13 @@ function learnComplete(n,stufe,out){
         const alt=learnStufenDone(n);
         const prev=user.learned[n]||{};
         user.learned[n]={stufe:prev.stufe||stufe,date:prev.date||new Date().toISOString(),stufen:[...new Set([...alt,stufe])]};
-        save();
+        checkBadges(true);
     }
     let msg=first?"SUPER! EINHEIT ERLEDIGT ✓":(neueStufe?"SUPER! NEUE STUFE GESCHAFFT ✓":"RICHTIG! WIEDERHOLUNG GESCHAFFT ✓");
     const ch=LEARN_CHAPTERS.find(c=>n>=c.from&&n<=c.to);
     if(first&&learnChapterDone(ch.n))msg+=" KAPITEL \""+ch.title.toUpperCase()+"\" GESCHAFFT – URKUNDE IM HAUPTMENÜ!";
     if(first&&learnAllDone())msg+=" DU BIST MEDIENPROFI!";
+    if(newBadges.length)msg+=" NEUER ERFOLG: "+newBadges.map(a=>a.symbol+" "+a.name).join(", ")+" (SIEHE ERFOLGE)";
     out.textContent=msg;
     $("learnUnitInfo").textContent="STUFE: "+LEARN_STUFEN[stufe]+" | ERLEDIGT ✓ | "+learnStufenText(n);
     [...$("learnStufeSwitch").children].forEach((b,i)=>{const k=Object.keys(LEARN_STUFEN)[i];if(learnStufenDone(n).includes(k)&&!b.textContent.endsWith("✓"))b.textContent+=" ✓"});
@@ -945,7 +951,7 @@ const sb = window.supabase.createClient(
     
 const ROLE_KEY="lhc_roles";const ROLE_LABELS={user:"NUTZER",moderator:"MODERATOR",admin:"ADMIN"};
 const LEVELS=[{level:1,name:"LESEANFÄNGER",min:0},{level:2,name:"WORTENTDECKER",min:50},{level:3,name:"GESCHICHTENFREUND",min:100},{level:4,name:"BÜCHERWURM",min:200},{level:5,name:"LESEPROFI",min:350},{level:6,name:"LESEHELD",min:500},{level:7,name:"MÄRCHENMEISTER",min:700},{level:8,name:"LESEKENNER",min:1000},{level:9,name:"PUNKTFUNKEN",min:1500},{level:10,name:"BÜCHERSPÜRER",min:2000},{level:11,name:"WORTZAUBERER",min:2500},{level:12,name:"GESCHICHTENHELD",min:3000},{level:13,name:"MÄRCHENWÄCHTER",min:3500},{level:14,name:"LESESTAR",min:4000},{level:15,name:"BÜCHERSAMMLER",min:4500},{level:16,name:"BÜCHERLEGENDE",min:5000},{level:17,name:"WELTENERZÄHLER",min:5500},{level:18,name:"LESERITTER",min:6000},{level:19,name:"MÄRCHENBOTE",min:6500},{level:20,name:"GESCHICHTENKÖNIG",min:7000},{level:21,name:"WORTMEISTER",min:7500},{level:22,name:"LESEORAKEL",min:8000},{level:23,name:"MÄRCHENHÜTER",min:8500},{level:24,name:"BUCHMAGIER",min:9000},{level:25,name:"LESEHELDEN-CHAMPION",min:9500},{level:26,name:"LEGENDÄRER LESEHELD",min:10000}];
-const ACHIEVEMENTS=[{id:"first",symbol:"[01]",name:"ERSTER SCHRITT",text:"Ein Quiz abschließen",ok:s=>s.done>=1},{id:"three",symbol:"[03]",name:"MÄRCHENFREUND",text:"Drei Quiz abschließen",ok:s=>s.done>=3},{id:"five",symbol:"[05]",name:"BÜCHERWURM",text:"Fünf Quiz abschließen",ok:s=>s.done>=5},{id:"all",symbol:"[07]",name:"MÄRCHENMEISTER",text:"Alle Quiz abschließen",ok:s=>s.done>=books.length},{id:"p100",symbol:"[100]",name:"PUNKTESAMMLER",text:"100 Punkte erreichen",ok:s=>s.points>=100},{id:"p250",symbol:"[250]",name:"LESEPROFI",text:"250 Punkte erreichen",ok:s=>s.points>=250},{id:"p500",symbol:"[500]",name:"LESEHELD",text:"500 Punkte erreichen",ok:s=>s.points>=500},{id:"perfect",symbol:"[10/10]",name:"FEHLERFREI",text:"Ein Quiz fehlerfrei lösen",ok:s=>s.perfect>=1},{id:"perfect3",symbol:"[3X]",name:"QUIZMEISTER",text:"Drei Quiz fehlerfrei lösen",ok:s=>s.perfect>=3},{id:"ten",symbol:"[10]",name:"LESERATTE",text:"Zehn Quiz abschließen",ok:s=>s.done>=10},{id:"p750",symbol:"[750]",name:"PUNKTJÄGER",text:"750 Punkte erreichen",ok:s=>s.points>=750},{id:"p1000",symbol:"[1000]",name:"TAUSENDERCLUB",text:"1.000 Punkte erreichen",ok:s=>s.points>=1000},{id:"perfect5",symbol:"[5X]",name:"PERFEKTIONIST",text:"Fünf Quiz fehlerfrei lösen",ok:s=>s.perfect>=5},{id:"perfectAll",symbol:"[ALLE]",name:"MÄRCHENKÖNIG",text:"Alle Quiz fehlerfrei lösen",ok:s=>s.perfect>=books.length},{id:"p1500",symbol:"[1500]",name:"PUNKTFUNKEN",text:"1.500 Punkte erreichen",ok:s=>s.points>=1500},{id:"p1750",symbol:"[1750]",name:"WORTFINDER",text:"1.750 Punkte erreichen",ok:s=>s.points>=1750},{id:"p2000",symbol:"[2000]",name:"BÜCHERSPÜRER",text:"2.000 Punkte erreichen",ok:s=>s.points>=2000},{id:"p2500",symbol:"[2500]",name:"WORTZAUBERER",text:"2.500 Punkte erreichen",ok:s=>s.points>=2500},{id:"p3000",symbol:"[3000]",name:"GESCHICHTENHELD",text:"3.000 Punkte erreichen",ok:s=>s.points>=3000},{id:"p3500",symbol:"[3500]",name:"MÄRCHENWÄCHTER",text:"3.500 Punkte erreichen",ok:s=>s.points>=3500},{id:"p4000",symbol:"[4000]",name:"LESESTAR",text:"4.000 Punkte erreichen",ok:s=>s.points>=4000},{id:"p4500",symbol:"[4500]",name:"BÜCHERSAMMLER",text:"4.500 Punkte erreichen",ok:s=>s.points>=4500},{id:"p5000",symbol:"[5000]",name:"BÜCHERLEGENDE",text:"5.000 Punkte erreichen",ok:s=>s.points>=5000},{id:"p5500",symbol:"[5500]",name:"WELTENERZÄHLER",text:"5.500 Punkte erreichen",ok:s=>s.points>=5500},{id:"p6000",symbol:"[6000]",name:"LESERITTER",text:"6.000 Punkte erreichen",ok:s=>s.points>=6000},{id:"p6500",symbol:"[6500]",name:"MÄRCHENBOTE",text:"6.500 Punkte erreichen",ok:s=>s.points>=6500},{id:"p7000",symbol:"[7000]",name:"GESCHICHTENKÖNIG",text:"7.000 Punkte erreichen",ok:s=>s.points>=7000},{id:"p7500",symbol:"[7500]",name:"WORTMEISTER",text:"7.500 Punkte erreichen",ok:s=>s.points>=7500},{id:"p8000",symbol:"[8000]",name:"LESEORAKEL",text:"8.000 Punkte erreichen",ok:s=>s.points>=8000},{id:"p8500",symbol:"[8500]",name:"MÄRCHENHÜTER",text:"8.500 Punkte erreichen",ok:s=>s.points>=8500},{id:"p9000",symbol:"[9000]",name:"BUCHMAGIER",text:"9.000 Punkte erreichen",ok:s=>s.points>=9000},{id:"p9500",symbol:"[9500]",name:"LESEHELDEN-CHAMPION",text:"9.500 Punkte erreichen",ok:s=>s.points>=9500},{id:"p10000",symbol:"[10000]",name:"LEGENDÄRER LESEHELD",text:"10.000 Punkte erreichen",ok:s=>s.points>=10000}];
+const ACHIEVEMENTS=[{id:"first",symbol:"[01]",name:"ERSTER SCHRITT",text:"Ein Quiz abschließen",ok:s=>s.done>=1},{id:"three",symbol:"[03]",name:"MÄRCHENFREUND",text:"Drei Quiz abschließen",ok:s=>s.done>=3},{id:"five",symbol:"[05]",name:"BÜCHERWURM",text:"Fünf Quiz abschließen",ok:s=>s.done>=5},{id:"all",symbol:"[07]",name:"MÄRCHENMEISTER",text:"Alle Quiz abschließen",ok:s=>s.done>=books.length},{id:"p100",symbol:"[100]",name:"PUNKTESAMMLER",text:"100 Punkte erreichen",ok:s=>s.points>=100},{id:"p250",symbol:"[250]",name:"LESEPROFI",text:"250 Punkte erreichen",ok:s=>s.points>=250},{id:"p500",symbol:"[500]",name:"LESEHELD",text:"500 Punkte erreichen",ok:s=>s.points>=500},{id:"perfect",symbol:"[10/10]",name:"FEHLERFREI",text:"Ein Quiz fehlerfrei lösen",ok:s=>s.perfect>=1},{id:"perfect3",symbol:"[3X]",name:"QUIZMEISTER",text:"Drei Quiz fehlerfrei lösen",ok:s=>s.perfect>=3},{id:"ten",symbol:"[10]",name:"LESERATTE",text:"Zehn Quiz abschließen",ok:s=>s.done>=10},{id:"p750",symbol:"[750]",name:"PUNKTJÄGER",text:"750 Punkte erreichen",ok:s=>s.points>=750},{id:"p1000",symbol:"[1000]",name:"TAUSENDERCLUB",text:"1.000 Punkte erreichen",ok:s=>s.points>=1000},{id:"perfect5",symbol:"[5X]",name:"PERFEKTIONIST",text:"Fünf Quiz fehlerfrei lösen",ok:s=>s.perfect>=5},{id:"perfectAll",symbol:"[ALLE]",name:"MÄRCHENKÖNIG",text:"Alle Quiz fehlerfrei lösen",ok:s=>s.perfect>=books.length},{id:"p1500",symbol:"[1500]",name:"PUNKTFUNKEN",text:"1.500 Punkte erreichen",ok:s=>s.points>=1500},{id:"p1750",symbol:"[1750]",name:"WORTFINDER",text:"1.750 Punkte erreichen",ok:s=>s.points>=1750},{id:"p2000",symbol:"[2000]",name:"BÜCHERSPÜRER",text:"2.000 Punkte erreichen",ok:s=>s.points>=2000},{id:"p2500",symbol:"[2500]",name:"WORTZAUBERER",text:"2.500 Punkte erreichen",ok:s=>s.points>=2500},{id:"p3000",symbol:"[3000]",name:"GESCHICHTENHELD",text:"3.000 Punkte erreichen",ok:s=>s.points>=3000},{id:"p3500",symbol:"[3500]",name:"MÄRCHENWÄCHTER",text:"3.500 Punkte erreichen",ok:s=>s.points>=3500},{id:"p4000",symbol:"[4000]",name:"LESESTAR",text:"4.000 Punkte erreichen",ok:s=>s.points>=4000},{id:"p4500",symbol:"[4500]",name:"BÜCHERSAMMLER",text:"4.500 Punkte erreichen",ok:s=>s.points>=4500},{id:"p5000",symbol:"[5000]",name:"BÜCHERLEGENDE",text:"5.000 Punkte erreichen",ok:s=>s.points>=5000},{id:"p5500",symbol:"[5500]",name:"WELTENERZÄHLER",text:"5.500 Punkte erreichen",ok:s=>s.points>=5500},{id:"p6000",symbol:"[6000]",name:"LESERITTER",text:"6.000 Punkte erreichen",ok:s=>s.points>=6000},{id:"p6500",symbol:"[6500]",name:"MÄRCHENBOTE",text:"6.500 Punkte erreichen",ok:s=>s.points>=6500},{id:"p7000",symbol:"[7000]",name:"GESCHICHTENKÖNIG",text:"7.000 Punkte erreichen",ok:s=>s.points>=7000},{id:"p7500",symbol:"[7500]",name:"WORTMEISTER",text:"7.500 Punkte erreichen",ok:s=>s.points>=7500},{id:"p8000",symbol:"[8000]",name:"LESEORAKEL",text:"8.000 Punkte erreichen",ok:s=>s.points>=8000},{id:"p8500",symbol:"[8500]",name:"MÄRCHENHÜTER",text:"8.500 Punkte erreichen",ok:s=>s.points>=8500},{id:"p9000",symbol:"[9000]",name:"BUCHMAGIER",text:"9.000 Punkte erreichen",ok:s=>s.points>=9000},{id:"p9500",symbol:"[9500]",name:"LESEHELDEN-CHAMPION",text:"9.500 Punkte erreichen",ok:s=>s.points>=9500},{id:"p10000",symbol:"[10000]",name:"LEGENDÄRER LESEHELD",text:"10.000 Punkte erreichen",ok:s=>s.points>=10000},{id:"snake100",symbol:"[S100]",name:"SCHLANGENLEHRLING",text:"100 Punkte in Snake erreichen",ok:s=>s.snake>=100},{id:"snake250",symbol:"[S250]",name:"BÜCHERFRESSER",text:"250 Punkte in Snake erreichen",ok:s=>s.snake>=250},{id:"snake500",symbol:"[S500]",name:"SCHLANGENMEISTER",text:"500 Punkte in Snake erreichen",ok:s=>s.snake>=500},{id:"snake1000",symbol:"[S1000]",name:"SNAKE-LEGENDE",text:"1.000 Punkte in Snake erreichen",ok:s=>s.snake>=1000},{id:"snakePlay10",symbol:"[S10X]",name:"SPIELRATTE",text:"Zehn Mal Snake spielen",ok:s=>s.snakePlays>=10},{id:"snakeRevive",symbol:"[S+1]",name:"KLUGE SCHLANGE",text:"Mit einer Quiz-Antwort weiterleben",ok:s=>s.revives>=1},{id:"lern1",symbol:"[L01]",name:"ERSTE LEKTION",text:"Eine Lerneinheit abschließen",ok:s=>s.learnDone>=1},{id:"lern5",symbol:"[L05]",name:"NEUGIERIG",text:"Fünf Lerneinheiten abschließen",ok:s=>s.learnDone>=5},{id:"lern10",symbol:"[L10]",name:"MEDIEN-ENTDECKER",text:"Zehn Lerneinheiten abschließen",ok:s=>s.learnDone>=10},{id:"lern20",symbol:"[L20]",name:"MEDIEN-KENNER",text:"20 Lerneinheiten abschließen",ok:s=>s.learnDone>=20},{id:"lernKap1",symbol:"[K01]",name:"KAPITELSTART",text:"Ein Lernkapitel komplett schaffen",ok:s=>s.learnChapters>=1},{id:"lernKap3",symbol:"[K03]",name:"KAPITELJÄGER",text:"Drei Lernkapitel komplett schaffen",ok:s=>s.learnChapters>=3},{id:"lernAlle",symbol:"[K06]",name:"MEDIENPROFI",text:"Alle 26 Lerneinheiten abschließen",ok:s=>s.learnDone>=26},{id:"lernProfi5",symbol:"[PRO]",name:"PROFI-LERNER",text:"Fünf Lerneinheiten in der Profi-Stufe schaffen",ok:s=>s.learnProfi>=5},{id:"snakeLvl3",symbol:"[SL3]",name:"LEVEL-AUFSTEIGER",text:"Level 3 in Snake erreichen",ok:s=>s.gameLevel>=3},{id:"snakeLvl5",symbol:"[SL5]",name:"SCHLANGEN-PROFI",text:"Level 5 in Snake erreichen",ok:s=>s.gameLevel>=5},{id:"snakeLvl8",symbol:"[SL8]",name:"SNAKE-KÖNIG",text:"Level 8 in Snake erreichen",ok:s=>s.gameLevel>=8},{id:"snakeBooks25",symbol:"[B25]",name:"BÜCHERMAMPF",text:"25 Bücher in Snake fressen",ok:s=>s.gameBooks>=25},{id:"snakeBooks100",symbol:"[B100]",name:"BIBLIOTHEKAR",text:"100 Bücher in Snake fressen",ok:s=>s.gameBooks>=100},{id:"snakeBonus5",symbol:"[*5]",name:"STERNENFÄNGER",text:"5 Bonus-Rauten in Snake einsammeln",ok:s=>s.gameBonusEaten>=5},{id:"snakeBonus25",symbol:"[*25]",name:"FAKTENSAMMLER",text:"25 Bonus-Rauten in Snake einsammeln",ok:s=>s.gameBonusEaten>=25},{id:"snakePlay50",symbol:"[S50X]",name:"SNAKE-FAN",text:"50 Mal Snake spielen",ok:s=>s.snakePlays>=50},{id:"daily3",symbol:"[T03]",name:"TREUER LESER",text:"An drei verschiedenen Tagen ein Quiz schaffen",ok:s=>s.bonusDays>=3},{id:"daily7",symbol:"[T07]",name:"WOCHENHELD",text:"An sieben verschiedenen Tagen ein Quiz schaffen",ok:s=>s.bonusDays>=7},{id:"daily30",symbol:"[T30]",name:"MONATSHELD",text:"An 30 verschiedenen Tagen ein Quiz schaffen",ok:s=>s.bonusDays>=30}];
 
 let books=[],
 roles={},
@@ -1065,6 +1071,7 @@ function openPortal(key, progress){
             ? progress.achievements
             : [],
         learned: (progress?.learned && typeof progress.learned==="object") ? progress.learned : {},
+        gameBest:0,gameSpent:0,gamePlays:0,
         learnStufe: ["starter","entdecker","profi"].includes(progress?.learn_level) ? progress.learn_level : "entdecker"
     };
 
@@ -1239,7 +1246,17 @@ function stats(){
         perfect: entries.filter(([bookId, result]) => {
             const book = books.find(b => b.id === bookId);
             return book && result.correctAnswers === book.questions.length;
-        }).length
+        }).length,
+        snake: Number(user.gameBest)||0,
+        snakePlays: Number(user.gamePlays)||0,
+        revives: Number(user.gameRevives)||0,
+        gameLevel: Number(user.gameLevel)||0,
+        gameBooks: Number(user.gameBooks)||0,
+        gameBonusEaten: Number(user.gameBonusEaten)||0,
+        bonusDays: Number(user.gameBonus)||0,
+        learnDone: Object.keys(user.learned||{}).length,
+        learnChapters: (typeof LEARN_CHAPTERS!=="undefined")?LEARN_CHAPTERS.filter(c=>{for(let i=c.from;i<=c.to;i++)if(!(user.learned&&user.learned[i]))return false;return true}).length:0,
+        learnProfi: Object.values(user.learned||{}).filter(e=>e&&Array.isArray(e.stufen)&&e.stufen.includes("profi")).length
     };
 }
 function isRead(bookId){
@@ -1410,8 +1427,9 @@ function finishQuiz(){
     else if(correct >= total * 0.4) msg = "GUT GEMACHT! BEIM NÄCHSTEN MAL KLAPPT ES NOCH BESSER.";
     else msg = "NICHT AUFGEBEN! LIES DAS BUCH NOCH EINMAL UND VERSUCH ES ERNEUT.";
     if(!better) msg += " DEIN BESTES ERGEBNIS BLEIBT GESPEICHERT.";
-    if(level().level > lvBefore) msg += " NEUE LERNEINHEIT FREIGESCHALTET! SIEHE MENÜ: LERNEN.";
+    
     $("resultMessage").textContent = msg;
+    gameDailyBonus().then(got=>{if(got)$("resultMessage").textContent+=" ⭐ TAGES-BONUS: 1 EXTRA-SPIELMARKE FÜR SNAKE!"}).catch(()=>{});
 
     // Neue Erfolge anzeigen
     const list = $("newAchievementList");
@@ -1496,7 +1514,7 @@ function showAchievements(){ /* Tipps: siehe learnTipFor */
         row.className = "achievement " + (unlocked ? "unlocked" : "locked");
         row.textContent =
             (unlocked ? "★ " : "🔒 ") + a.symbol + " " + a.name + " – " + a.text;
-        if(unlocked && LEARN_TIPS[a.id]){
+        if(LEARN_TIPS[a.id]){
             const tip = document.createElement("div");
             tip.className = "learn-tip";
             tip.textContent = "💡 MEDIEN-TIPP: " + LEARN_TIPS[a.id];
@@ -1509,7 +1527,7 @@ function showAchievements(){ /* Tipps: siehe learnTipFor */
 }
 function level(){return LEVELS.filter(x=>points()>=x.min).at(-1)||LEVELS[0]}
 
-function checkBadges(notify=false){let s=stats(),fresh=[];ACHIEVEMENTS.forEach(a=>{if(!user.achievements.includes(a.id)&&a.ok(s)){user.achievements.push(a.id);fresh.push(a)}});if(notify)newBadges=fresh;save()}
+function checkBadges(notify=false){let s=stats(),fresh=[];ACHIEVEMENTS.forEach(a=>{if(!user.achievements.includes(a.id)&&a.ok(s)){user.achievements.push(a.id);fresh.push(a)}});if(notify)newBadges=fresh;save();if(typeof rankSync==='function')rankSync()}
 async function renderCommunityStats(){
     let read = 0;
     let done = 0;
@@ -1584,7 +1602,342 @@ btn.onclick = async()=>{
 };
 
 ;d.append(name,sel,btn);box.append(d)})}
-function hideViews(){["booksView","bookDetailView","quizView","resultView","progressView","achievementsView","urkundeView","settingsPanel","learningView","learnUnitView","learnLevelPanel","passwordPanel","designPanel","adminPanel","bookManagePanel"].forEach(id=>$(id).classList.add("hidden"))}
+/* ===== SNAKE ===== */
+const SN={cols:20,rows:16,cell:20,timer:null,running:false,paused:false,over:false,asking:false,revived:false,snake:[],dir:{x:1,y:0},queue:[],food:null,bonus:null,walls:[],score:0,level:1,eaten:0,ticks:0,rankTab:"week"};
+function ymd(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function snakeToday(){return ymd(new Date())}
+function snakeWeekStart(){const d=new Date();d.setDate(d.getDate()-((d.getDay()+6)%7));return ymd(d)}
+function gameTokensEarned(){
+    const quiz=Object.entries(user.completed||{}).reduce((s,[id,r])=>{const b=books.find(x=>x.id===id);return s+((b&&r.correctAnswers===b.questions.length)?5:1)},0);
+    return quiz+(Number(user.gameBonus)||0);
+}
+function gameTokens(){return Math.max(0,gameTokensEarned()-(Number(user.gameSpent)||0))}
+function snakeWeekScore(){return user.gameWeekStart===snakeWeekStart()?(Number(user.gameWeek)||0):0}
+async function gameSync(){
+    if(!currentUserId)return true;
+    try{
+        const {error}=await sb.from("snake_players").upsert({
+            user_id:currentUserId,username:user.username,
+            best_score:user.gameBest||0,spent:user.gameSpent||0,plays:user.gamePlays||0,
+            week_score:snakeWeekScore(),week_start:user.gameWeekStart||null,
+            bonus:user.gameBonus||0,bonus_day:user.gameBonusDay||null,revives:user.gameRevives||0,max_level:user.gameLevel||0,books_eaten:user.gameBooks||0,bonus_eaten:user.gameBonusEaten||0,
+            updated_at:new Date().toISOString()});
+        if(error){console.error("SNAKE SYNC",error);return false}
+    }catch(e){console.error(e);return false}
+    return true;
+}
+async function gameLoadOwn(){
+    if(!currentUserId)return;
+    try{
+        const {data}=await sb.from("snake_players").select("best_score,spent,plays,week_score,week_start,bonus,bonus_day,revives,max_level,books_eaten,bonus_eaten").eq("user_id",currentUserId).maybeSingle();
+        if(data){
+            user.gameBest=Math.max(user.gameBest||0,data.best_score||0);
+            user.gameSpent=Math.max(user.gameSpent||0,data.spent||0);
+            user.gamePlays=Math.max(user.gamePlays||0,data.plays||0);
+            user.gameBonus=Math.max(user.gameBonus||0,data.bonus||0);
+            user.gameRevives=Math.max(user.gameRevives||0,data.revives||0);
+            user.gameLevel=Math.max(user.gameLevel||0,data.max_level||0);
+            user.gameBooks=Math.max(user.gameBooks||0,data.books_eaten||0);
+            user.gameBonusEaten=Math.max(user.gameBonusEaten||0,data.bonus_eaten||0);
+            if((data.bonus_day||"")>(user.gameBonusDay||""))user.gameBonusDay=data.bonus_day;
+            const ws=snakeWeekStart();
+            if(data.week_start===ws&&user.gameWeekStart===ws)user.gameWeek=Math.max(user.gameWeek||0,data.week_score||0);
+            else if(data.week_start===ws){user.gameWeekStart=ws;user.gameWeek=data.week_score||0}
+        }
+    }catch(e){console.error(e)}
+}
+async function gameDailyBonus(){
+    await gameLoadOwn();
+    const t=snakeToday();
+    if(user.gameBonusDay===t)return false;
+    user.gameBonusDay=t;user.gameBonus=(Number(user.gameBonus)||0)+1;
+    checkBadges(false);await gameSync();
+    return true;
+}
+function snakeTab(t){SN.rankTab=t;renderSnakeRanking()}
+async function renderSnakeRanking(){
+    const box=$(SN.rankBox||"snakeRanking");box.textContent="LADE …";
+    const week=SN.rankTab==="week";
+    [["snakeTabWeek",week],["snakeTabAll",!week],["rkSubWeek",week],["rkSubAll",!week]].forEach(([id,on])=>{const b=$(id);if(b){b.style.background=on?"#00ff00":"";b.style.color=on?"#000":""}});
+    try{
+        let q=sb.from("snake_players").select("username,best_score,week_score,plays");
+        if(week)q=q.eq("week_start",snakeWeekStart()).gt("week_score",0).order("week_score",{ascending:false});
+        else q=q.gt("best_score",0).order("best_score",{ascending:false});
+        const {data,error}=await q.limit(20);
+        box.textContent="";
+        const note=document.createElement("div");note.className="status";
+        note.textContent=week?"WOCHEN-RANGLISTE – WIRD JEDEN MONTAG ZURÜCKGESETZT":"RANGLISTE FÜR IMMER – BESTE PUNKTZAHL ALLER ZEITEN";
+        box.append(note);
+        if(error||!data||!data.length){const m=document.createElement("div");m.textContent=error?"RANGLISTE NOCH NICHT VERFÜGBAR.":"NOCH KEIN EINTRAG. SEI DER ERSTE!";box.append(m);return}
+        data.forEach((r,i)=>{
+            const d=document.createElement("div");d.className="rank";
+            const me=norm(r.username)===norm(user.username);
+            d.textContent=(i+1)+". "+(i===0?"👑 ":"")+r.username+(me?" (DU)":"")+" – "+(week?r.week_score:r.best_score)+" PUNKTE";
+            if(me)d.classList.add("success");
+            box.append(d);
+        });
+    }catch(e){box.textContent="RANGLISTE NICHT VERFÜGBAR."}
+}
+function snakeUpdateInfo(){
+    $("gameTokens").textContent=gameTokens();
+    $("gameBest").textContent=user.gameBest||0;
+    $("gameWeek").textContent=snakeWeekScore();
+    $("snakeInfo").textContent="PUNKTE: "+SN.score+" | LEVEL: "+SN.level+" | BÜCHER: "+SN.eaten+(SN.revived?" | LEBEN GENUTZT":"");
+    $("snakeStart").disabled=SN.running||gameTokens()<1;
+    $("snakePauseBtn").disabled=!SN.running||SN.asking;
+    $("snakeStart").textContent=gameTokens()<1?"[ KEINE MARKEN – LÖSE QUIZ! ]":"[ SPIEL STARTEN (1 MARKE) ]";
+}
+async function showGame(){
+    hideViews();
+    $("gameView").classList.remove("hidden");SN.rankBox="snakeRanking";
+    $("snakeMsg").textContent="";$("snakeRevive").classList.add("hidden");
+    snakeReset();snakeDraw();
+    snakeUpdateInfo();
+    await gameLoadOwn();
+    snakeUpdateInfo();
+    renderSnakeRanking();
+}
+function snakeReset(){
+    clearInterval(SN.timer);SN.timer=null;
+    SN.running=false;SN.paused=false;SN.over=false;SN.asking=false;SN.revived=false;
+    SN.snake=[{x:5,y:8},{x:4,y:8},{x:3,y:8}];
+    SN.dir={x:1,y:0};SN.queue=[];SN.walls=[];SN.bonus=null;
+    SN.score=0;SN.level=1;SN.eaten=0;SN.ticks=0;
+    SN.food=null;SN.food=snakeFree();
+    $("snakeRevive").classList.add("hidden");
+}
+function snakeFree(){
+    for(let n=0;n<500;n++){
+        const p={x:Math.floor(Math.random()*SN.cols),y:Math.floor(Math.random()*SN.rows)};
+        if(!snakeBlocked(p)&&!(SN.food&&SN.food.x===p.x&&SN.food.y===p.y)&&!(SN.bonus&&SN.bonus.x===p.x&&SN.bonus.y===p.y))return p;
+    }
+    return {x:0,y:0};
+}
+function snakeBlocked(p){
+    return SN.snake.some(s=>s.x===p.x&&s.y===p.y)||SN.walls.some(w=>w.x===p.x&&w.y===p.y);
+}
+function snakeSpeed(){return Math.max(60,150-(SN.level-1)*12)}
+function snakeStart(){
+    if(SN.running||gameTokens()<1)return;
+    user.gameSpent=(Number(user.gameSpent)||0)+1;
+    user.gamePlays=(Number(user.gamePlays)||0)+1;
+    save();gameSync();
+    snakeReset();
+    SN.running=true;user.gameLevel=Math.max(Number(user.gameLevel)||0,1);
+    $("snakeMsg").textContent="LOS GEHT'S! FRISS BÜCHER 📖. STEUERUNG: PFEILTASTEN, WASD ODER WISCHEN. LEERTASTE = PAUSE.";
+    snakeUpdateInfo();
+    SN.timer=setInterval(snakeTick,snakeSpeed());
+}
+function snakeRestartTimer(){clearInterval(SN.timer);SN.timer=setInterval(snakeTick,snakeSpeed())}
+function snakePause(){
+    if(!SN.running||SN.asking)return;
+    SN.paused=!SN.paused;
+    if(SN.paused){clearInterval(SN.timer);SN.timer=null;$("snakeMsg").textContent="PAUSE – LEERTASTE ZUM WEITERMACHEN."}
+    else{$("snakeMsg").textContent="";SN.timer=setInterval(snakeTick,snakeSpeed())}
+    snakeDraw();
+}
+function snakeAutoPause(){if(SN.running&&!SN.paused&&!SN.asking)snakePause()}
+function snakeDir(x,y){
+    if(!SN.running||SN.paused||SN.asking)return;
+    const last=SN.queue.length?SN.queue[SN.queue.length-1]:SN.dir;
+    if(last.x===-x&&last.y===-y)return;
+    if(last.x===x&&last.y===y)return;
+    if(SN.queue.length<3)SN.queue.push({x,y});
+}
+function snakeFact(){
+    const st=user.learnStufe||"entdecker",pool=[];
+    Object.keys(LEARN||{}).forEach(k=>{
+        const u=LEARN[k],d=u&&(u[st]||u.entdecker);
+        if(d){(d.points||[]).forEach(p=>pool.push(p));if(d.motto)pool.push(d.motto)}
+    });
+    Object.values(LEARN_TIPS||{}).forEach(t=>pool.push(t));
+    return pool.length?pool[Math.floor(Math.random()*pool.length)]:null;
+}
+function snakeTick(){
+    SN.ticks++;
+    if(SN.queue.length)SN.dir=SN.queue.shift();
+    const h={x:SN.snake[0].x+SN.dir.x,y:SN.snake[0].y+SN.dir.y};
+    if(h.x<0||h.y<0||h.x>=SN.cols||h.y>=SN.rows||snakeBlocked(h)){snakeDie();return}
+    SN.snake.unshift(h);
+    let grew=false;
+    if(h.x===SN.food.x&&h.y===SN.food.y){
+        grew=true;SN.score+=10;SN.eaten++;user.gameBooks=(Number(user.gameBooks)||0)+1;
+        SN.food=snakeFree();
+        if(SN.eaten%4===0)SN.bonus=Object.assign(snakeFree(),{t:45});
+        if(SN.eaten%5===0)snakeLevelUp();
+    }else if(SN.bonus&&h.x===SN.bonus.x&&h.y===SN.bonus.y){
+        SN.score+=50;SN.bonus=null;user.gameBonusEaten=(Number(user.gameBonusEaten)||0)+1;
+        const f=snakeFact();
+        $("snakeMsg").textContent="BONUS! +50 PUNKTE ⭐"+(f?"  💡 MEDIEN-FAKT: "+f:"");
+    }
+    if(!grew)SN.snake.pop();
+    if(SN.bonus){SN.bonus.t--;if(SN.bonus.t<=0)SN.bonus=null}
+    snakeDraw();snakeUpdateInfo();
+}
+function snakeLevelUp(){
+    SN.level++;user.gameLevel=Math.max(Number(user.gameLevel)||0,SN.level);
+    $("snakeMsg").textContent="LEVEL "+SN.level+"! ES WIRD SCHNELLER"+(SN.level>=2?" UND ES KOMMEN HINDERNISSE.":".");
+    const head=SN.snake[0];
+    const add=Math.min(3,SN.level);
+    for(let i=0;i<add;i++){
+        for(let n=0;n<200;n++){
+            const p={x:1+Math.floor(Math.random()*(SN.cols-2)),y:1+Math.floor(Math.random()*(SN.rows-2))};
+            const near=Math.abs(p.x-head.x)+Math.abs(p.y-head.y)<5;
+            if(!near&&!snakeBlocked(p)&&!(SN.food.x===p.x&&SN.food.y===p.y)){SN.walls.push(p);break}
+        }
+    }
+    SN.score+=20*SN.level;
+    snakeRestartTimer();
+}
+/* Quiz-Wiederbelebung */
+function snakeRandomQuestion(){
+    const all=[];
+    books.forEach(b=>(b.questions||[]).forEach(q=>{if(q.a&&q.a.length===4&&q.a.every(x=>x))all.push({q,b})}));
+    return all.length?all[Math.floor(Math.random()*all.length)]:null;
+}
+function snakeDie(){
+    clearInterval(SN.timer);SN.timer=null;
+    const item=SN.revived?null:snakeRandomQuestion();
+    if(!item){snakeEnd();return}
+    SN.asking=true;
+    snakeUpdateInfo();snakeDraw();
+    const box=$("snakeRevive");box.textContent="";box.classList.remove("hidden");
+    const h=document.createElement("div");h.className="success";
+    h.textContent="💥 AUS! BEANTWORTE EINE FRAGE UND SPIEL WEITER (EINMAL PRO SPIEL):";
+    const qt=document.createElement("div");qt.textContent="📖 "+item.b.title+": "+item.q.q;
+    box.append(h,qt);
+    shuffle(item.q.a.map((text,i)=>({text,right:i===item.q.c}))).forEach(o=>{
+        const b=document.createElement("button");b.type="button";b.className="answer";b.textContent=o.text;
+        b.onclick=()=>{
+            box.querySelectorAll("button").forEach(x=>x.disabled=true);
+            if(o.right)snakeRevive();
+            else{
+                const right=item.q.a[item.q.c];
+                $("snakeMsg").textContent="LEIDER FALSCH. RICHTIG WAR: "+right;
+                setTimeout(snakeEnd,1500);
+            }
+        };
+        box.append(b);
+    });
+}
+function snakeRevive(){
+    $("snakeRevive").classList.add("hidden");
+    const h=SN.snake[0];
+    const dirs=[{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}].filter(d=>!(d.x===-SN.dir.x&&d.y===-SN.dir.y));
+    const ok=dirs.filter(d=>{const p={x:h.x+d.x,y:h.y+d.y};return p.x>=0&&p.y>=0&&p.x<SN.cols&&p.y<SN.rows&&!snakeBlocked(p)});
+    if(!ok.length){$("snakeMsg").textContent="RICHTIG! ABER ES GIBT KEINEN PLATZ MEHR.";setTimeout(snakeEnd,1200);return}
+    SN.revived=true;SN.dir=ok[0];SN.queue=[];
+    user.gameRevives=(Number(user.gameRevives)||0)+1;
+    $("snakeMsg").textContent="RICHTIG! ✓ DU LEBST WEITER – GLEICH GEHT'S LOS …";
+    setTimeout(()=>{
+        if(!SN.running||SN.over)return;
+        SN.asking=false;snakeUpdateInfo();
+        SN.timer=setInterval(snakeTick,snakeSpeed());
+    },1000);
+}
+function snakeEnd(){
+    clearInterval(SN.timer);SN.timer=null;SN.running=false;SN.over=true;SN.asking=false;
+    $("snakeRevive").classList.add("hidden");
+    const rec=SN.score>(user.gameBest||0);
+    if(rec)user.gameBest=SN.score;
+    const ws=snakeWeekStart();
+    if(user.gameWeekStart!==ws){user.gameWeekStart=ws;user.gameWeek=0}
+    if(SN.score>(user.gameWeek||0))user.gameWeek=SN.score;
+    checkBadges(true);
+    const fresh=(typeof newBadges!=="undefined"?newBadges:[]).map(a=>a.symbol+" "+a.name);
+    save();gameSync().then(renderSnakeRanking);
+    $("snakeMsg").textContent="GAME OVER! "+SN.score+" PUNKTE"+(rec?" – NEUER REKORD! 🏆":"")+(fresh.length?" | NEUER ERFOLG: "+fresh.join(", ")+" (URKUNDE UNTER ERFOLGE)":"")+" | FÜR EIN NEUES SPIEL BRAUCHST DU 1 MARKE.";
+    snakeDraw();snakeUpdateInfo();
+}
+function snakeDraw(){
+    const c=$("snakeCanvas"),g=c.getContext("2d"),k=SN.cell;
+    g.fillStyle="#9bbc0f";g.fillRect(0,0,c.width,c.height);
+    const dark="#0f380f";
+    const px=(p,pad)=>g.fillRect(p.x*k+pad,p.y*k+pad,k-2*pad,k-2*pad);
+    g.fillStyle=dark;
+    SN.walls.forEach(w=>px(w,1));
+    SN.snake.forEach((s,i)=>px(s,i===0?1:2));
+    if(SN.food){
+        const x=SN.food.x*k,y=SN.food.y*k;
+        g.fillRect(x+2,y+4,16,12);
+        g.fillStyle="#9bbc0f";g.fillRect(x+9,y+4,2,12);g.fillRect(x+4,y+7,4,1);g.fillRect(x+4,y+10,4,1);g.fillRect(x+12,y+7,4,1);g.fillRect(x+12,y+10,4,1);
+        g.fillStyle=dark;
+    }
+    if(SN.bonus&&(SN.bonus.t>12||SN.ticks%2===0)){
+        const x=SN.bonus.x*k,y=SN.bonus.y*k;
+        g.beginPath();g.moveTo(x+10,y+1);g.lineTo(x+19,y+10);g.lineTo(x+10,y+19);g.lineTo(x+1,y+10);g.closePath();g.fill();
+        g.fillStyle="#9bbc0f";g.font="bold 11px monospace";g.textAlign="center";g.fillText("?",x+10,y+14);g.fillStyle=dark;
+    }
+    if(SN.over||SN.paused||SN.asking){
+        g.fillStyle="rgba(155,188,15,0.8)";g.fillRect(0,120,c.width,80);
+        g.fillStyle=dark;g.font="bold 28px 'Courier New',monospace";g.textAlign="center";
+        g.fillText(SN.asking?"AUS! FRAGE …":SN.over?"GAME OVER":"PAUSE",c.width/2,168);
+    }
+}
+document.addEventListener("keydown",e=>{
+    if($("gameView").classList.contains("hidden"))return;
+    const m={ArrowUp:[0,-1],w:[0,-1],W:[0,-1],ArrowDown:[0,1],s:[0,1],S:[0,1],ArrowLeft:[-1,0],a:[-1,0],A:[-1,0],ArrowRight:[1,0],d:[1,0],D:[1,0]};
+    if(m[e.key]&&SN.running){e.preventDefault();snakeDir(m[e.key][0],m[e.key][1])}
+    else if(e.key===" "&&SN.running){e.preventDefault();snakePause()}
+});
+(function(){
+    let t=null;
+    const c=document.getElementById("snakeCanvas");
+    if(!c)return;
+    c.addEventListener("touchstart",e=>{t=e.touches[0]},{passive:true});
+    c.addEventListener("touchmove",e=>{if(SN.running)e.preventDefault()},{passive:false});
+    c.addEventListener("touchend",e=>{
+        if(!t)return;
+        const p=e.changedTouches[0],dx=p.clientX-t.clientX,dy=p.clientY-t.clientY;t=null;
+        if(Math.max(Math.abs(dx),Math.abs(dy))<20)return;
+        if(Math.abs(dx)>Math.abs(dy))snakeDir(dx>0?1:-1,0);else snakeDir(0,dy>0?1:-1);
+    });
+})();
+
+/* ===== RANKING ===== */
+let rankLastSync="";
+async function rankSync(){
+    if(!currentUserId||!user)return;
+    const st=stats(),key=st.points+"|"+st.perfect+"|"+st.done;
+    if(key===rankLastSync)return;
+    try{
+        const {error}=await sb.from("ranking_stats").upsert({user_id:currentUserId,username:user.username,points:st.points,perfect:st.perfect,done:st.done,updated_at:new Date().toISOString()});
+        if(error)console.error("RANK SYNC",error);else rankLastSync=key;
+    }catch(e){console.error(e)}
+}
+async function showRanking(){
+    hideViews();
+    $("rankingView").classList.remove("hidden");
+    $("rankList").textContent="LADE …";
+    await rankSync();
+    rankTab(SN.mainRank||"quiz");
+}
+async function rankTab(t){
+    SN.mainRank=t;
+    [["rkTabQuiz","quiz"],["rkTabPerfect","perfect"],["rkTabGame","game"]].forEach(([id,k])=>{const b=$(id);b.style.background=k===t?"#00ff00":"";b.style.color=k===t?"#000":""});
+    const box=$("rankList");
+    $("rankSub").classList.toggle("hidden",t!=="game");
+    if(t==="game"){SN.rankBox="rankList";renderSnakeRanking();return}
+    box.textContent="LADE …";
+    try{
+        const col=t==="quiz"?"points":"perfect";
+        const {data,error}=await sb.from("ranking_stats").select("username,points,perfect,done").gt(col,0).order(col,{ascending:false}).limit(20);
+        box.textContent="";
+        const note=document.createElement("div");note.className="status";
+        note.textContent=t==="quiz"?"RANGLISTE: MEISTE QUIZ-PUNKTE":"RANGLISTE: MEISTE FEHLERFREIE QUIZ";
+        box.append(note);
+        if(error||!data||!data.length){const m=document.createElement("div");m.textContent=error?"RANGLISTE NOCH NICHT VERFÜGBAR.":"NOCH KEIN EINTRAG.";box.append(m);return}
+        data.forEach((r,i)=>{
+            const d=document.createElement("div");d.className="rank";
+            const me=norm(r.username)===norm(user.username);
+            d.textContent=(i+1)+". "+(i===0?"👑 ":"")+r.username+(me?" (DU)":"")+" – "+(t==="quiz"?r.points+" PUNKTE ("+r.done+" QUIZ)":r.perfect+" FEHLERFREIE QUIZ");
+            if(me)d.classList.add("success");
+            box.append(d);
+        });
+    }catch(e){box.textContent="RANGLISTE NICHT VERFÜGBAR."}
+}
+
+function hideViews(){if(typeof snakeAutoPause==="function")snakeAutoPause();["booksView","bookDetailView","quizView","resultView","progressView","achievementsView","urkundeView","settingsPanel","learningView","gameView","rankingView","learnUnitView","learnLevelPanel","passwordPanel","designPanel","adminPanel","bookManagePanel"].forEach(id=>$(id).classList.add("hidden"))}
 async function logout(){
     await sb.auth.signOut();
 
@@ -1618,7 +1971,7 @@ function showDesignSettings(){
     $("themeStatus").textContent = "";
     $("designPanel").classList.remove("hidden");
 }
-function showBooks(){hideViews();$("booksView").classList.remove("hidden");renderBookList();updateDashboard()}
+function showBooks(){hideViews();if(typeof rankSync==='function')rankSync();$("booksView").classList.remove("hidden");renderBookList();updateDashboard()}
 /* ===== BÜCHERLISTE ===== */
 let bookPage = 1;
 let activeLetter = "";
