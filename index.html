@@ -709,7 +709,7 @@ FREIGESCHALTETE ERFOLGE:
 </div>
 <div id="urkundeView" class="box hidden"><h2>URKUNDE</h2><p>Wähle, wofür du eine Urkunde möchtest. Zur Auswahl stehen eine Gesamt-Urkunde und jeder Erfolg, den du freigeschaltet hast.</p><label for="urkundeChoice">URKUNDE FÜR:</label><br><select id="urkundeChoice" onchange="renderUrkunde()"></select><div id="urkundePreview" class="urkunde-wrap"></div><button type="button" onclick="printUrkunde()">[ DRUCKEN / ALS PDF SPEICHERN ]</button><p>Im Druckfenster „Als PDF speichern" wählen, wenn du eine Datei möchtest. Die Urkunde ist für A4 im Querformat gemacht.</p><button onclick="showAchievements()">[ ZURÜCK ZU DEN ERFOLGEN ]</button> <button onclick="showBooks()">[ ZURÜCK ]</button></div>
 <div id="learningView" class="box hidden"><h2>LERNEN: MEDIENKOMPETENZ</h2><p>Alle Lerneinheiten sind frei. Such dir aus, was du lernen möchtest. Deine Lernstufe: <strong id="learnStufeLabel"></strong></p><div id="learningContent"></div><button onclick="showBooks()">[ ZURÜCK ]</button></div>
-<div id="gameView" class="box hidden"><h2>SPIEL: SNAKE</h2><div class="status">SPIELMARKEN: <strong id="gameTokens">0</strong> | DEIN REKORD: <strong id="gameBest">0</strong> | DIESE WOCHE: <strong id="gameWeek">0</strong></div><p>1 abgeschlossenes Quiz = 1 Marke. Quiz fehlerfrei = 5 Marken. Jedes Spiel kostet 1 Marke. TAGES-BONUS: Dein erstes Quiz am Tag gibt 1 Extra-Marke. Stirbst du, kannst du mit einer richtigen Quiz-Antwort einmal weiterspielen.</p><div id="snakeInfo" class="status">PUNKTE: 0 | LEVEL: 1</div><div style="text-align:center"><canvas id="snakeCanvas" width="400" height="320" style="width:100%;max-width:400px;height:auto;border:4px solid #0f380f;touch-action:none"></canvas></div><p id="snakeMsg" class="success"></p><div id="snakeRevive" class="box hidden"></div><div style="text-align:center"><button onclick="snakeDir(0,-1)">[ ↑ ]</button><br><button onclick="snakeDir(-1,0)">[ ← ]</button><button onclick="snakeDir(0,1)">[ ↓ ]</button><button onclick="snakeDir(1,0)">[ → ]</button></div><button id="snakeStart" onclick="snakeStart()">[ SPIEL STARTEN (1 MARKE) ]</button><button id="snakePauseBtn" onclick="snakePause()">[ PAUSE ]</button><h3>RANGLISTE (TOP 20)</h3><button id="snakeTabWeek" onclick="snakeTab('week')">[ DIESE WOCHE ]</button><button id="snakeTabAll" onclick="snakeTab('all')">[ FÜR IMMER ]</button><div id="snakeRanking"></div><button onclick="showBooks()">[ ZURÜCK ]</button></div>
+<div id="gameView" class="box hidden"><h2>SPIEL: SNAKE</h2><div class="status">SPIELMARKEN: <strong id="gameTokens">0</strong> | DEIN REKORD: <strong id="gameBest">0</strong> | DIESE WOCHE: <strong id="gameWeek">0</strong></div><p>1 abgeschlossenes Quiz = 1 Marke. Quiz fehlerfrei = 5 Marken. Jedes Spiel kostet 1 Marke. TAGES-BONUS: Dein erstes Quiz am Tag gibt 1 Extra-Marke. Stirbst du, kannst du mit einer richtigen Quiz-Antwort einmal weiterspielen.</p><div id="snakeInfo" class="status">PUNKTE: 0 | LEVEL: 1</div><div style="text-align:center"><canvas id="snakeCanvas" width="400" height="320" style="width:100%;max-width:400px;height:auto;touch-action:none"></canvas></div><p id="snakeMsg" class="success"></p><div id="snakeRevive" class="box hidden"></div><div style="text-align:center"><button onclick="snakeDir(0,-1)">[ ↑ ]</button><br><button onclick="snakeDir(-1,0)">[ ← ]</button><button onclick="snakeDir(0,1)">[ ↓ ]</button><button onclick="snakeDir(1,0)">[ → ]</button></div><button id="snakeStart" onclick="snakeStart()">[ SPIEL STARTEN (1 MARKE) ]</button><button id="snakePauseBtn" onclick="snakePause()">[ PAUSE ]</button><h3>RANGLISTE (TOP 20)</h3><button id="snakeTabWeek" onclick="snakeTab('week')">[ DIESE WOCHE ]</button><button id="snakeTabAll" onclick="snakeTab('all')">[ FÜR IMMER ]</button><div id="snakeRanking"></div><button onclick="showBooks()">[ ZURÜCK ]</button></div>
 <div id="rankingView" class="box hidden"><h2>RANKING</h2><button id="rkTabQuiz" onclick="rankTab('quiz')">[ QUIZ-PUNKTE ]</button><button id="rkTabPerfect" onclick="rankTab('perfect')">[ PERFEKTE QUIZ ]</button><button id="rkTabGame" onclick="rankTab('game')">[ SPIEL ]</button><div id="rankSub" class="hidden"><button id="rkSubWeek" onclick="snakeTab('week')">[ DIESE WOCHE ]</button><button id="rkSubAll" onclick="snakeTab('all')">[ FÜR IMMER ]</button></div><div id="rankList"></div><button onclick="showBooks()">[ ZURÜCK ]</button></div>
 <div id="learnUnitView" class="box hidden"><h2 id="learnUnitTitle"></h2><div class="status" id="learnUnitInfo"></div><div id="learnStufeSwitch"></div><div id="learnUnitBody"></div><button onclick="showLearning()">[ ZURÜCK ZUM LERNEN ]</button></div>
 <div id="learnLevelPanel" class="box hidden"><h2>LERNSTUFE</h2><p>Wähle, wie ausführlich die Lerneinheiten für dich sein sollen. Du kannst das jederzeit ändern. Deine Wahl wird gespeichert.</p><div id="learnLevelButtons"></div><p id="learnLevelStatus" class="success"></p><button onclick="showSettings()">[ ZURÜCK ]</button></div>
@@ -909,6 +909,7 @@ function setTheme(theme){
     }
 
     try{ window.localStorage.setItem("lhc_theme", theme); }catch{}
+    try{ if(typeof snakeDraw==="function"&&!$("gameView").classList.contains("hidden"))snakeDraw(); }catch{}
 }
 
 // Nutzer wählt ein Design: anwenden und im Konto speichern
@@ -1716,7 +1717,7 @@ function snakeFree(){
 function snakeBlocked(p){
     return SN.snake.some(s=>s.x===p.x&&s.y===p.y)||SN.walls.some(w=>w.x===p.x&&w.y===p.y);
 }
-function snakeSpeed(){return Math.max(60,150-(SN.level-1)*12)}
+function snakeSpeed(){return Math.max(110,260-(SN.level-1)*12)}
 function snakeStart(){
     if(SN.running||gameTokens()<1)return;
     user.gameSpent=(Number(user.gameSpent)||0)+1;
@@ -1726,7 +1727,9 @@ function snakeStart(){
     SN.running=true;user.gameLevel=Math.max(Number(user.gameLevel)||0,1);
     $("snakeMsg").textContent="LOS GEHT'S! FRISS BÜCHER 📖. STEUERUNG: PFEILTASTEN, WASD ODER WISCHEN. LEERTASTE = PAUSE.";
     snakeUpdateInfo();
-    SN.timer=setInterval(snakeTick,snakeSpeed());
+    snakeDraw();
+    SN.asking=true;snakeUpdateInfo();
+    setTimeout(()=>{if(!SN.running||SN.over)return;SN.asking=false;snakeUpdateInfo();SN.timer=setInterval(snakeTick,snakeSpeed())},1500);
 }
 function snakeRestartTimer(){clearInterval(SN.timer);SN.timer=setInterval(snakeTick,snakeSpeed())}
 function snakePause(){
@@ -1849,29 +1852,40 @@ function snakeEnd(){
     $("snakeMsg").textContent="GAME OVER! "+SN.score+" PUNKTE"+(rec?" – NEUER REKORD! 🏆":"")+(fresh.length?" | NEUER ERFOLG: "+fresh.join(", ")+" (URKUNDE UNTER ERFOLGE)":"")+" | FÜR EIN NEUES SPIEL BRAUCHST DU 1 MARKE.";
     snakeDraw();snakeUpdateInfo();
 }
+function snakePalette(){
+    const c=document.body.classList;
+    if(c.contains("theme-blatt"))return {bg:"#fffef7",fg:"#1a3a8a",food:"#c0392b",bonus:"#e67e22",line:"#ef6c6c",wall:"#6b6b6b",grid:"rgba(26,58,138,0.10)"};
+    if(c.contains("theme-miami"))return {bg:"#14002e",fg:"#00e5ff",food:"#ff2fd0",bonus:"#fff200",line:"#ff00ff",wall:"#7a4dff",grid:"rgba(255,0,255,0.12)"};
+    if(c.contains("theme-maerchen"))return {bg:"#f3e8c8",fg:"#4b3216",food:"#b3261e",bonus:"#2e7d32",line:"#8b5a2b",wall:"#8d7b68",grid:"rgba(75,50,22,0.10)"};
+    return {bg:"#000000",fg:"#00ff00",food:"#ffff00",bonus:"#ff5555",line:"#00ff00",wall:"#067706",grid:"rgba(0,255,0,0.10)"};
+}
 function snakeDraw(){
-    const c=$("snakeCanvas"),g=c.getContext("2d"),k=SN.cell;
-    g.fillStyle="#9bbc0f";g.fillRect(0,0,c.width,c.height);
-    const dark="#0f380f";
+    const c=$("snakeCanvas"),g=c.getContext("2d"),k=SN.cell,P=snakePalette();
+    c.style.border="4px solid "+P.line;
+    g.fillStyle=P.bg;g.fillRect(0,0,c.width,c.height);
+    g.strokeStyle=P.grid;g.lineWidth=1;
+    for(let x=1;x<SN.cols;x++){g.beginPath();g.moveTo(x*k+.5,0);g.lineTo(x*k+.5,c.height);g.stroke()}
+    for(let y=1;y<SN.rows;y++){g.beginPath();g.moveTo(0,y*k+.5);g.lineTo(c.width,y*k+.5);g.stroke()}
     const px=(p,pad)=>g.fillRect(p.x*k+pad,p.y*k+pad,k-2*pad,k-2*pad);
-    g.fillStyle=dark;
+    g.fillStyle=P.wall;
     SN.walls.forEach(w=>px(w,1));
-    SN.snake.forEach((s,i)=>px(s,i===0?1:2));
+    SN.snake.forEach((s,i)=>{g.fillStyle=P.fg;px(s,i===0?1:2);if(i===0){g.fillStyle=P.bg;g.fillRect(s.x*k+13,s.y*k+5,3,3)}});
     if(SN.food){
         const x=SN.food.x*k,y=SN.food.y*k;
-        g.fillRect(x+2,y+4,16,12);
-        g.fillStyle="#9bbc0f";g.fillRect(x+9,y+4,2,12);g.fillRect(x+4,y+7,4,1);g.fillRect(x+4,y+10,4,1);g.fillRect(x+12,y+7,4,1);g.fillRect(x+12,y+10,4,1);
-        g.fillStyle=dark;
+        g.fillStyle=P.food;g.fillRect(x+2,y+4,16,12);
+        g.fillStyle=P.bg;g.fillRect(x+9,y+4,2,12);g.fillRect(x+4,y+7,4,1);g.fillRect(x+4,y+10,4,1);g.fillRect(x+12,y+7,4,1);g.fillRect(x+12,y+10,4,1);
     }
     if(SN.bonus&&(SN.bonus.t>12||SN.ticks%2===0)){
         const x=SN.bonus.x*k,y=SN.bonus.y*k;
+        g.fillStyle=P.bonus;
         g.beginPath();g.moveTo(x+10,y+1);g.lineTo(x+19,y+10);g.lineTo(x+10,y+19);g.lineTo(x+1,y+10);g.closePath();g.fill();
-        g.fillStyle="#9bbc0f";g.font="bold 11px monospace";g.textAlign="center";g.fillText("?",x+10,y+14);g.fillStyle=dark;
+        g.fillStyle=P.bg;g.font="bold 11px monospace";g.textAlign="center";g.fillText("?",x+10,y+14);
     }
     if(SN.over||SN.paused||SN.asking){
-        g.fillStyle="rgba(155,188,15,0.8)";g.fillRect(0,120,c.width,80);
-        g.fillStyle=dark;g.font="bold 28px 'Courier New',monospace";g.textAlign="center";
-        g.fillText(SN.asking?"AUS! FRAGE …":SN.over?"GAME OVER":"PAUSE",c.width/2,168);
+        g.globalAlpha=0.85;g.fillStyle=P.bg;g.fillRect(0,120,c.width,80);g.globalAlpha=1;
+        g.strokeStyle=P.line;g.lineWidth=2;g.strokeRect(1,120,c.width-2,80);
+        g.fillStyle=P.fg;g.font="bold 28px 'Courier New',monospace";g.textAlign="center";
+        g.fillText(SN.asking?($("snakeRevive").classList.contains("hidden")?"BEREIT? …":"AUS! FRAGE …"):SN.over?"GAME OVER":"PAUSE",c.width/2,168);
     }
 }
 document.addEventListener("keydown",e=>{
