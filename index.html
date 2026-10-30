@@ -1614,17 +1614,30 @@ function gameTokensEarned(){
 }
 function gameTokens(){return Math.max(0,gameTokensEarned()-(Number(user.gameSpent)||0))}
 function snakeWeekScore(){return user.gameWeekStart===snakeWeekStart()?(Number(user.gameWeek)||0):0}
+let snakeLastError="";
 async function gameSync(){
     if(!currentUserId)return true;
+    snakeLastError="";
     try{
+        const basis={user_id:currentUserId,username:user.username,best_score:user.gameBest||0,spent:user.gameSpent||0,plays:user.gamePlays||0,updated_at:new Date().toISOString()};
         const {error}=await sb.from("snake_players").upsert({
             user_id:currentUserId,username:user.username,
             best_score:user.gameBest||0,spent:user.gameSpent||0,plays:user.gamePlays||0,
             week_score:snakeWeekScore(),week_start:user.gameWeekStart||null,
             bonus:user.gameBonus||0,bonus_day:user.gameBonusDay||null,revives:user.gameRevives||0,max_level:user.gameLevel||0,books_eaten:user.gameBooks||0,bonus_eaten:user.gameBonusEaten||0,
             updated_at:new Date().toISOString()});
-        if(error){console.error("SNAKE SYNC",error);return false}
-    }catch(e){console.error(e);return false}
+        if(error){
+            console.error("SNAKE SYNC",error);
+            snakeLastError=error.message||String(error);
+            /* Notlösung: nur Grunddaten speichern, falls neue Spalten in Supabase fehlen */
+            const r2=await sb.from("snake_players").upsert(basis);
+            if(r2.error){snakeLastError=r2.error.message||snakeLastError;return false}
+            const r3=await sb.from("snake_players").update({week_score:snakeWeekScore(),week_start:user.gameWeekStart||null}).eq("user_id",currentUserId);
+            if(!r3.error)snakeLastError="";
+            else snakeLastError="SPALTEN FEHLEN: "+snakeLastError;
+            return false;
+        }
+    }catch(e){console.error(e);snakeLastError=String(e);return false}
     return true;
 }
 async function gameLoadOwn(){
@@ -1669,7 +1682,8 @@ async function renderSnakeRanking(){
         const note=document.createElement("div");note.className="status";
         note.textContent=week?"WOCHEN-RANGLISTE – WIRD JEDEN MONTAG ZURÜCKGESETZT":"RANGLISTE FÜR IMMER – BESTE PUNKTZAHL ALLER ZEITEN";
         box.append(note);
-        if(error||!data||!data.length){const m=document.createElement("div");m.textContent=error?"RANGLISTE NOCH NICHT VERFÜGBAR.":"NOCH KEIN EINTRAG. SEI DER ERSTE!";box.append(m);return}
+        if(snakeLastError){const m=document.createElement("div");m.className="error";m.textContent="FEHLER BEIM EINTRAGEN: "+snakeLastError;box.append(m)}
+        if(error||!data||!data.length){const m=document.createElement("div");m.textContent=error?"RANGLISTE NOCH NICHT VERFÜGBAR: "+(error.message||""):"NOCH KEIN EINTRAG. SEI DER ERSTE!";box.append(m);return}
         data.forEach((r,i)=>{
             const d=document.createElement("div");d.className="rank";
             const me=norm(r.username)===norm(user.username);
@@ -1909,15 +1923,15 @@ document.addEventListener("keydown",e=>{
 })();
 
 /* ===== RANKING ===== */
-let rankLastSync="";
+let rankLastSync="",rankLastError="";
 async function rankSync(){
     if(!currentUserId||!user)return;
     const st=stats(),key=st.points+"|"+st.perfect+"|"+st.done;
     if(key===rankLastSync)return;
     try{
         const {error}=await sb.from("ranking_stats").upsert({user_id:currentUserId,username:user.username,points:st.points,perfect:st.perfect,done:st.done,updated_at:new Date().toISOString()});
-        if(error)console.error("RANK SYNC",error);else rankLastSync=key;
-    }catch(e){console.error(e)}
+        if(error){console.error("RANK SYNC",error);rankLastError=error.message||String(error)}else{rankLastSync=key;rankLastError=""}
+    }catch(e){console.error(e);rankLastError=String(e)}
 }
 async function showRanking(){
     hideViews();
@@ -1940,7 +1954,9 @@ async function rankTab(t){
         const note=document.createElement("div");note.className="status";
         note.textContent=t==="quiz"?"RANGLISTE: MEISTE QUIZ-PUNKTE":"RANGLISTE: MEISTE FEHLERFREIE QUIZ";
         box.append(note);
-        if(error||!data||!data.length){const m=document.createElement("div");m.textContent=error?"RANGLISTE NOCH NICHT VERFÜGBAR.":"NOCH KEIN EINTRAG.";box.append(m);return}
+        if(rankLastError){const m=document.createElement("div");m.className="error";m.textContent="FEHLER BEIM EINTRAGEN: "+rankLastError;box.append(m)}
+        if(error){const m=document.createElement("div");m.className="error";m.textContent="FEHLER BEIM LADEN: "+error.message;box.append(m);return}
+        if(!data||!data.length){const m=document.createElement("div");m.textContent="NOCH KEIN EINTRAG.";box.append(m);return}
         data.forEach((r,i)=>{
             const d=document.createElement("div");d.className="rank";
             const me=norm(r.username)===norm(user.username);
