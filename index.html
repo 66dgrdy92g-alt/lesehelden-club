@@ -683,6 +683,18 @@ body.win-open{overflow:hidden}
 @media(max-width:700px){#winLayer{padding:10px 8px}#winLayer .win-bar button{width:auto;flex:0 0 auto}}
 
 
+
+/* ===== Lesebereich ===== */
+#readerView .rd-sub{opacity:.85;margin:4px 0}
+#readerView .rd-tools{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+#readerView .rd-tools button{margin:0;width:auto !important;flex:1 1 40%}
+#readerText{max-width:42em;margin:14px auto}
+#readerText p{margin:0 0 1.1em;line-height:1.75;white-space:pre-line;font-size:var(--rd-fs,1.1em);text-align:left;hyphens:auto}
+#readerView .rd-src{font-size:.8em;opacity:.8;margin:14px 0;border-top:1px dashed currentColor;padding-top:8px}
+#readerEnd{text-align:center;margin:12px 0}
+#textEditor{margin-top:18px;padding-top:8px;border-top:1px dashed currentColor}
+#textEditor input[type=text],#textEditor input:not([type]){display:block;width:100%;box-sizing:border-box}
+
 /* ===== Vollbild-Spielmodus (kein Wegscrollen beim Wischen) ===== */
 #snakeLeave{display:none}
 body.snake-play{overflow:hidden;overscroll-behavior:none}
@@ -692,9 +704,17 @@ body.snake-play{overflow:hidden;overscroll-behavior:none}
 #gameView.playing .g-board{margin:4px 0;width:100%}
 #gameView.playing #snakeCanvas{width:min(100%,calc((100vh - 360px)*1.25)) !important;width:min(100%,calc((100dvh - 360px)*1.25)) !important;min-width:200px;max-width:560px !important;height:auto !important}
 #gameView.playing #snakeMsg{min-height:2.4em;max-height:5.5em;overflow:auto;margin:4px 0;font-size:.85em;text-align:center;width:100%;max-width:560px}
-#gameView.playing #snakeRevive{width:100%;max-width:560px;max-height:46vh;overflow:auto;margin:4px 0}
+#gameView.playing #snakeRevive{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(92vw,540px);max-width:none;max-height:88vh;max-height:88dvh;overflow:auto;margin:0;padding:14px;z-index:1010;box-shadow:0 0 0 100vmax rgba(0,0,0,.6),0 8px 28px rgba(0,0,0,.5)}
+#gameView.playing #snakeRevive>div{margin:0 0 8px;font-size:.95em}
+#gameView.playing #snakeRevive .answer{margin:5px 0;padding:10px;font-size:.95em}
 #gameView.playing .g-dpad{margin:8px auto;grid-template-columns:repeat(3,76px);grid-template-rows:repeat(2,58px)}
 #gameView.playing:has(#snakeRevive:not(.hidden)) .g-dpad{display:none}
+#gameView #snakeMsg{white-space:pre-line}
+#gameView.playing.over .g-dpad{display:none}
+#gameView.playing.over #snakeMsg{max-height:none;overflow:visible;font-size:.95em;line-height:1.55;padding:10px 8px;margin:8px 0;border-top:1px dashed currentColor;border-bottom:1px dashed currentColor}
+#gameView.playing.over .g-actions{margin-top:10px}
+#gameView.playing.over #snakeStart{flex:1 1 100%;font-size:1em;padding:14px 8px}
+#gameView.playing.over #snakePauseBtn{display:none}
 #gameView.playing .g-actions{flex-direction:row !important;flex-wrap:wrap;gap:8px;margin:6px 0 0;width:100%;max-width:560px}
 #gameView.playing .g-actions button{margin:0 !important;flex:1 1 40%;font-size:.85em;padding:10px 6px}
 #gameView.playing #snakeLeave{display:block;flex:1 1 100%}
@@ -781,15 +801,23 @@ body.theme-pirat button.tab-on{background:#1d5a4a !important;color:#ffe9b0 !impo
 .av-hero{display:flex;align-items:center;gap:16px;margin:12px 0}
 .av-name{font-size:1.3em;font-weight:700}
 .av-sub{font-size:.9em;opacity:.85}
-#avatarGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin:14px 0}
+#avatarGrid .av-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin:8px 0 22px}
+#avatarGrid .av-pack{margin:22px 0 2px}
+#avatarGrid .av-sub{margin:0 0 4px}
+#avatarGrid .av-sub2{margin:14px 0 2px;font-size:1em;opacity:.9}
+#avatarGrid .av-pack-halloween{color:#e8780c !important}
 #avatarGrid .av-item{display:flex;flex-direction:column;align-items:center;gap:8px;margin:0;padding:12px 8px;min-height:0;text-align:center;line-height:1.2;white-space:normal}
 #avatarGrid .av-item .av{width:84px;height:84px}
 #avatarGrid .av-n{font-size:.8em}
 #avatarGrid .av-item.locked .av{filter:grayscale(1);opacity:.45}
+#avatarGrid .av-item.peek .av{filter:none;opacity:1}
+#avatarGrid .av-item.peek{outline:2px dashed #888;outline-offset:2px}
+#avatarGrid .av-wait-head{margin-top:34px}
+#avatarGrid .av-pack-wait,#avatarGrid .av-pack-event{font-size:1.05em}
 #avatarGrid .av-item.sel{outline:4px solid #f2c230;outline-offset:2px}
 #avatarGrid .av-item.sel .av-n::before{content:"✓ "}
 .rank .av.sm{margin:0 6px;vertical-align:middle}
-@media(max-width:700px){#avatarGrid{grid-template-columns:repeat(auto-fill,minmax(108px,1fr))}#avatarGrid .av-item .av{width:72px;height:72px}}
+@media(max-width:700px){#avatarGrid .av-grid{grid-template-columns:repeat(auto-fill,minmax(108px,1fr))}#avatarGrid .av-item .av{width:72px;height:72px}}
 
 #bookManagePanel label,#settingsPanel label,#questionEditors label{display:block;margin:6px 0 0}
 #bookManagePanel input,#bookManagePanel select,#settingsPanel input,#questionEditors input,#questionEditors select{display:block;width:100%;box-sizing:border-box}
@@ -955,7 +983,7 @@ body[class*="theme-"] .club-badge-dos{display:none}
 <div id="winLayer"><div id="winInner"><div class="win-bar"><div class="win-who"><span id="winAvatar"></span><span id="winName"></span></div><button id="winClose" type="button" onclick="showMenu()">[ ✕ ZUM HAUPTMENÜ ]</button></div>
 <div id="avatarView" class="box hidden"><h2>MEIN AVATAR</h2>
 <div class="av-hero"><div id="avatarBig"></div><div><div id="avatarName" class="av-name"></div><div id="avatarCount" class="av-sub"></div></div></div>
-<p>Für jeden Erfolg, den du freischaltest, kommt ein neuer Avatar dazu. Tippe auf einen Avatar, um ihn auszuwählen. Dein Avatar erscheint im Hauptmenü, in jedem Fenster und in der Rangliste.</p>
+<p>Tippe auf einen Avatar, um ihn auszuwählen. Dein Avatar erscheint im Hauptmenü, in jedem Fenster und in der Rangliste.</p>
 <div id="avatarGrid"></div><p id="avatarStatus" class="success"></p>
 <button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
 <div id="urkundeView" class="box hidden"><h2>URKUNDE</h2><p>Wähle, wofür du eine Urkunde möchtest. Zur Auswahl stehen eine Gesamt-Urkunde und jeder Erfolg, den du freigeschaltet hast.</p><label for="urkundeChoice">URKUNDE FÜR:</label><br><select id="urkundeChoice" onchange="renderUrkunde()"></select><div id="urkundePreview" class="urkunde-wrap"></div><button type="button" onclick="printUrkunde()">[ DRUCKEN / ALS PDF SPEICHERN ]</button><p>Im Druckfenster „Als PDF speichern" wählen, wenn du eine Datei möchtest. Die Urkunde ist für A4 im Querformat gemacht.</p><button onclick="showAchievements()">[ ZURÜCK ZU DEN ERFOLGEN ]</button> <button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
@@ -980,7 +1008,7 @@ body[class*="theme-"] .club-badge-dos{display:none}
 <h4>⭐ PUNKTE UND LEVEL</h4>
 <ul>
 <li>Ein Buch 📖 = <strong>10 Punkte</strong>.</li>
-<li>Der Bonus-Stern ⭐ mit dem Fragezeichen erscheint ab und zu, aber nur kurz! Schnapp ihn dir: <strong>50 Punkte</strong> und ein spannender Medien-Tipp.</li>
+<li>Der Bonus-Stern ⭐ mit dem Fragezeichen erscheint ab und zu, aber nur kurz! Schnapp ihn dir: <strong>50 Punkte</strong>.</li>
 <li>Nach <strong>5 Büchern</strong> kommt das nächste Level. Dann gibt es Extra-Punkte, die Schlange wird schneller und es tauchen graue Hindernisse auf.</li>
 </ul>
 <h4>💥 WANN IST SCHLUSS?</h4>
@@ -1014,8 +1042,8 @@ body[class*="theme-"] .club-badge-dos{display:none}
 <div id="passwordPanel" class="box hidden"><h2>PASSWORT ÄNDERN</h2><label>AKTUELLES PASSWORT:</label><br><input id="currentPassword" type="password"><br><label>NEUES PASSWORT:</label><br><input id="newPassword" type="password"><br><label>NEUES PASSWORT WIEDERHOLEN:</label><br><input id="newPasswordRepeat" type="password"><br><button onclick="changePassword()">[ PASSWORT SPEICHERN ]</button><p id="passwordStatus"></p><button onclick="showSettings()">[ ZURÜCK ]</button></div>
 <div id="designPanel" class="box hidden"><h2>DESIGN AUSWAHL</h2><p>Dein Design wird in deinem Konto gespeichert und beim Anmelden automatisch geladen.</p><div id="themeSwitcher"><button onclick="chooseTheme('blatt')">COLLEGE BOOK</button> <button onclick="chooseTheme('maerchen')">MÄRCHENBUCH</button> <button onclick="chooseTheme('miami')">MIAMI</button> <button onclick="chooseTheme('kids')">KUNTERBUNT</button> <button onclick="chooseTheme('pirat')">PIRATEN</button> <button onclick="chooseTheme('dos')">DOS</button></div><p id="themeStatus"></p><button onclick="showSettings()">[ ZURÜCK ]</button></div>
 <div id="adminPanel" class="box hidden"><h2>BENUTZERVERWALTUNG</h2><h3>REGISTRIERTE NUTZER</h3><p id="registeredUserSummary"></p><div id="registeredUserOverview"></div><h3>ROLLEN UND PASSWÖRTER</h3><p>Rolle auswählen und bei Bedarf ein neues Passwort eintragen.</p><div id="adminUserList"></div><p id="adminStatus"></p><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
-<div id="bookManagePanel" class="box hidden"><h2 id="bookManageHeading">NEUES BUCH UND QUIZ</h2><div id="importExportPanel" class="import-export"><h3>IMPORT UND EXPORT</h3><p>Die gesamte Bibliothek mit allen Quizfragen als Excel-kompatible CSV-Datei sichern oder neue Bücher einlesen.</p><button type="button" onclick="downloadImportTemplate()">[ EXCEL-IMPORTVORLAGE HERUNTERLADEN ]</button><button type="button" onclick="exportBooksAndQuizzes()">[ GESAMTE BIBLIOTHEK EXPORTIEREN ]</button><button type="button" onclick="$('bookQuizImport').click()">[ EXCEL-CSV IMPORTIEREN ]</button><p>Eine Zeile entspricht einer Quizfrage. Die richtige Antwort wird mit A, B, C oder D angegeben.</p><input id="bookQuizImport" type="file" accept=".csv,text/csv" onchange="importBooksAndQuizzes(this)"><p id="bookImportStatus"></p></div><label>TITEL:</label><br><input id="newBookTitle" placeholder="Buchtitel"><br><label>AUTOR:</label><br><input id="newBookAuthor" placeholder="Autor"><br><label>ISBN:</label><br><input id="newBookIsbn" placeholder="z. B. 978-3-..."><br><label>SCHWIERIGKEITSGRAD:</label><br><select id="newBookDifficulty"><option value="1">1 – 1 Punkt pro richtige Antwort</option><option value="2">2 – 2 Punkte pro richtige Antwort</option><option value="3">3 – 3 Punkte pro richtige Antwort</option></select><br><h3>QUIZ-FRAGEN</h3><div id="questionEditors"></div><button onclick="addQuestionEditor()">[ FRAGE HINZUFÜGEN ]</button><br><button id="bookSaveButton" onclick="addBookAndQuiz()">[ BUCH UND QUIZ SPEICHERN ]</button><p id="bookManageStatus"></p><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div><div id="booksView" class="box hidden"><h2>VERFÜGBARE BÜCHER</h2><p>BÜCHER: <span id="bookCount"></span> | QUIZ: <span id="quizCount"></span> | FRAGEN: <span id="questionCount"></span></p><div class="lib-filters"><input id="bookSearch" type="search" placeholder="Titel oder Autor suchen" oninput="bookPage=1;renderBookList()"><div class="lib-group"><span class="lib-label">STATUS</span><div class="lib-row"><button id="newBooksFilter" type="button" onclick="toggleNewBooksFilter()" title="Bücher der letzten 30 Tage">[ NEU ]</button><button id="readBooksFilter" type="button" onclick="toggleReadBooksFilter()">[ GELESEN ]</button><button id="openQuizFilter" type="button" onclick="toggleOpenQuizFilter()">[ QUIZ OFFEN ]</button><button id="completedQuizFilter" type="button" onclick="toggleCompletedQuizFilter()">[ QUIZ FERTIG ]</button><button id="improveFilter" type="button" onclick="toggleFilter('improve')">[ VERBESSERBAR ]</button></div></div><div class="lib-selects"><div><label for="bookDifficulty" class="lib-label">SCHWIERIGKEIT</label><select id="bookDifficulty" onchange="bookPage=1;renderBookList()"><option value="0">ALLE</option><option value="1">LEICHT (1)</option><option value="2">MITTEL (2)</option><option value="3">SCHWER (3)</option></select></div><div><label for="bookSort" class="lib-label">SORTIERUNG</label><select id="bookSort" onchange="bookPage=1;renderBookList()"><option value="title">TITEL A–Z</option><option value="author">AUTOR A–Z</option><option value="easy">LEICHT ZUERST</option><option value="hard">SCHWER ZUERST</option></select></div><button type="button" onclick="resetBookFilters()">[ FILTER LÖSCHEN ]</button></div></div><p id="bookFilterStatus" class="hidden"></p><div id="bookAlphabet" class="book-alphabet" aria-label="Schnellauswahl nach Anfangsbuchstaben"></div><p id="bookSearchEmpty" class="hidden">KEINE PASSENDEN BÜCHER.</p><div id="bookList"></div><div id="bookPagination" class="book-pagination"></div></div>
-<div id="bookDetailView" class="box hidden"><h2 id="detailBookTitle"></h2><p id="detailBookAuthor"></p><p id="detailBookIsbn"></p><p id="detailReadingStatus" class="status"></p><button id="detailReadButton" type="button">[ ALS GELESEN MARKIEREN ]</button><button id="detailQuizButton">[ QUIZ STARTEN ]</button><button id="detailEditButton" class="hidden" type="button">[ BUCH UND QUIZ BEARBEITEN ]</button><button onclick="showBooks()">[ ZURÜCK ZUR BUCHLISTE ]</button></div>
+<div id="bookManagePanel" class="box hidden"><h2 id="bookManageHeading">NEUES BUCH UND QUIZ</h2><div id="importExportPanel" class="import-export"><h3>IMPORT UND EXPORT</h3><p>Die gesamte Bibliothek mit allen Quizfragen als Excel-kompatible CSV-Datei sichern oder neue Bücher einlesen.</p><button type="button" onclick="downloadImportTemplate()">[ EXCEL-IMPORTVORLAGE HERUNTERLADEN ]</button><button type="button" onclick="exportBooksAndQuizzes()">[ GESAMTE BIBLIOTHEK EXPORTIEREN ]</button><button type="button" onclick="$('bookQuizImport').click()">[ EXCEL-CSV IMPORTIEREN ]</button><p>Eine Zeile entspricht einer Quizfrage. Die richtige Antwort wird mit A, B, C oder D angegeben.</p><input id="bookQuizImport" type="file" accept=".csv,text/csv" onchange="importBooksAndQuizzes(this)"><p id="bookImportStatus"></p></div><label>TITEL:</label><br><input id="newBookTitle" placeholder="Buchtitel"><br><label>AUTOR:</label><br><input id="newBookAuthor" placeholder="Autor"><br><label>ISBN:</label><br><input id="newBookIsbn" placeholder="z. B. 978-3-..."><br><label>SCHWIERIGKEITSGRAD:</label><br><select id="newBookDifficulty"><option value="1">1 – 1 Punkt pro richtige Antwort</option><option value="2">2 – 2 Punkte pro richtige Antwort</option><option value="3">3 – 3 Punkte pro richtige Antwort</option></select><br><h3>QUIZ-FRAGEN</h3><div id="questionEditors"></div><button onclick="addQuestionEditor()">[ FRAGE HINZUFÜGEN ]</button><br><button id="bookSaveButton" onclick="addBookAndQuiz()">[ BUCH UND QUIZ SPEICHERN ]</button><p id="bookManageStatus"></p><div id="textEditor" class="hidden"><h3>LESETEXT (NUR GEMEINFREI!)</h3><p id="textEditorInfo"></p><label>TEXTDATEI (.TXT, UTF-8):</label><input id="textFile" type="file" accept=".txt,text/plain"><label>QUELLE (WEBADRESSE ODER NAME):</label><input id="textSource" placeholder="z. B. gutenberg.org, Nr. 12345"><label>ÜBERSETZER / AUSGABE:</label><input id="textTranslator" placeholder="z. B. Originaltext oder Name und Jahr"><label>LIZENZ:</label><input id="textLicense" value="Gemeinfrei"><label style="display:flex;gap:8px;align-items:flex-start"><input id="textCheck" type="checkbox" style="width:auto;margin-top:6px"> ICH HABE GEPRÜFT: AUTOR UND ÜBERSETZER SIND SEIT MEHR ALS 70 JAHREN TOT.</label><button type="button" onclick="saveBookText()">[ LESETEXT SPEICHERN ]</button><button type="button" onclick="deleteBookText()">[ LESETEXT LÖSCHEN ]</button><p id="textStatus"></p></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div><div id="booksView" class="box hidden"><h2>VERFÜGBARE BÜCHER</h2><p>BÜCHER: <span id="bookCount"></span> | QUIZ: <span id="quizCount"></span> | FRAGEN: <span id="questionCount"></span></p><div class="lib-filters"><input id="bookSearch" type="search" placeholder="Titel oder Autor suchen" oninput="bookPage=1;renderBookList()"><div class="lib-group"><span class="lib-label">STATUS</span><div class="lib-row"><button id="newBooksFilter" type="button" onclick="toggleNewBooksFilter()" title="Bücher der letzten 30 Tage">[ NEU ]</button><button id="readBooksFilter" type="button" onclick="toggleReadBooksFilter()">[ GELESEN ]</button><button id="openQuizFilter" type="button" onclick="toggleOpenQuizFilter()">[ QUIZ OFFEN ]</button><button id="completedQuizFilter" type="button" onclick="toggleCompletedQuizFilter()">[ QUIZ FERTIG ]</button><button id="improveFilter" type="button" onclick="toggleFilter('improve')">[ VERBESSERBAR ]</button></div></div><div class="lib-selects"><div><label for="bookDifficulty" class="lib-label">SCHWIERIGKEIT</label><select id="bookDifficulty" onchange="bookPage=1;renderBookList()"><option value="0">ALLE</option><option value="1">LEICHT (1)</option><option value="2">MITTEL (2)</option><option value="3">SCHWER (3)</option></select></div><div><label for="bookSort" class="lib-label">SORTIERUNG</label><select id="bookSort" onchange="bookPage=1;renderBookList()"><option value="title">TITEL A–Z</option><option value="author">AUTOR A–Z</option><option value="easy">LEICHT ZUERST</option><option value="hard">SCHWER ZUERST</option></select></div><button type="button" onclick="resetBookFilters()">[ FILTER LÖSCHEN ]</button></div></div><p id="bookFilterStatus" class="hidden"></p><div id="bookAlphabet" class="book-alphabet" aria-label="Schnellauswahl nach Anfangsbuchstaben"></div><p id="bookSearchEmpty" class="hidden">KEINE PASSENDEN BÜCHER.</p><div id="bookList"></div><div id="bookPagination" class="book-pagination"></div></div>
+<div id="readerView" class="box hidden"><h2 id="readerTitle"></h2><p id="readerAuthor" class="rd-sub"></p><div class="rd-tools"><button type="button" onclick="readerFont(-1)" aria-label="Schrift kleiner">[ A− ]</button><button type="button" onclick="readerFont(1)" aria-label="Schrift größer">[ A+ ]</button><button type="button" onclick="readerGo(-1)">[ ◀ ZURÜCK ]</button><button type="button" onclick="readerGo(1)">[ WEITER ▶ ]</button></div><div class="progress"><div id="readerBar" class="progress-bar"></div></div><p id="readerPos" class="rd-sub"></p><div id="readerText"></div><div id="readerEnd" class="hidden"><p class="success">🎉 DU BIST AM ENDE! TOLL GELESEN.</p><button id="readerMarkBtn" type="button"></button><button id="readerQuizBtn" type="button">[ QUIZ STARTEN ]</button></div><div class="rd-tools"><button type="button" onclick="readerGo(-1)">[ ◀ ZURÜCK ]</button><button type="button" onclick="readerGo(1)">[ WEITER ▶ ]</button></div><p id="readerSource" class="rd-src"></p><button type="button" onclick="readerClose()">[ ZURÜCK ZUM BUCH ]</button></div><div id="bookDetailView" class="box hidden"><h2 id="detailBookTitle"></h2><p id="detailBookAuthor"></p><p id="detailBookIsbn"></p><p id="detailReadingStatus" class="status"></p><button id="detailTextButton" type="button" class="hidden">[ 📖 JETZT LESEN ]</button><button id="detailReadButton" type="button">[ ALS GELESEN MARKIEREN ]</button><button id="detailQuizButton">[ QUIZ STARTEN ]</button><button id="detailEditButton" class="hidden" type="button">[ BUCH UND QUIZ BEARBEITEN ]</button><button onclick="showBooks()">[ ZURÜCK ZUR BUCHLISTE ]</button></div>
 <div id="quizView" class="box hidden"><h2 id="bookTitle"></h2><div class="status">FRAGE <span id="questionNumber"></span> VON <span id="questionTotal"></span><br>QUIZ-PUNKTE: <span id="quizPoints">0</span></div><div class="progress"><div id="progressBar" class="progress-bar"></div></div><h3 id="questionText"></h3><div id="answers"></div><p id="answerResult"></p><button id="nextButton" class="hidden" onclick="nextQuestion()">[ WEITER ]</button><button onclick="cancelQuiz()">[ ABBRECHEN ]</button></div>
 <div id="resultView" class="box hidden"><h2>QUIZ ABGESCHLOSSEN</h2><p>BUCH: <span id="resultBook"></span><br>RICHTIG: <span id="correctAnswers"></span> VON <span id="resultQuestionTotal"></span><br>QUIZ-PUNKTE: <span id="earnedPoints"></span><br>GESAMTPUNKTE: <span id="resultTotal"></span></p><p id="resultMessage"></p><div id="newAchievements" class="hidden"><h3>NEUE ERFOLGE</h3><div id="newAchievementList"></div></div><button onclick="showBooks()">[ ZURÜCK ]</button></div>
 <div id="progressView" class="box hidden"><h2>MEIN FORTSCHRITT</h2><div id="progressContent"></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
@@ -1257,7 +1285,7 @@ const sb = window.supabase.createClient(
     
 const ROLE_KEY="lhc_roles";const ROLE_LABELS={user:"NUTZER",moderator:"MODERATOR",admin:"ADMIN"};
 const LEVELS=[{level:1,name:"LESEANFÄNGER",min:0},{level:2,name:"WORTENTDECKER",min:50},{level:3,name:"GESCHICHTENFREUND",min:100},{level:4,name:"BÜCHERWURM",min:200},{level:5,name:"LESEPROFI",min:350},{level:6,name:"LESEHELD",min:500},{level:7,name:"MÄRCHENMEISTER",min:700},{level:8,name:"LESEKENNER",min:1000},{level:9,name:"PUNKTFUNKEN",min:1500},{level:10,name:"BÜCHERSPÜRER",min:2000},{level:11,name:"WORTZAUBERER",min:2500},{level:12,name:"GESCHICHTENHELD",min:3000},{level:13,name:"MÄRCHENWÄCHTER",min:3500},{level:14,name:"LESESTAR",min:4000},{level:15,name:"BÜCHERSAMMLER",min:4500},{level:16,name:"BÜCHERLEGENDE",min:5000},{level:17,name:"WELTENERZÄHLER",min:5500},{level:18,name:"LESERITTER",min:6000},{level:19,name:"MÄRCHENBOTE",min:6500},{level:20,name:"GESCHICHTENKÖNIG",min:7000},{level:21,name:"WORTMEISTER",min:7500},{level:22,name:"LESEORAKEL",min:8000},{level:23,name:"MÄRCHENHÜTER",min:8500},{level:24,name:"BUCHMAGIER",min:9000},{level:25,name:"LESEHELDEN-CHAMPION",min:9500},{level:26,name:"LEGENDÄRER LESEHELD",min:10000}];
-const ACHIEVEMENTS=[{id:"first",symbol:"[01]",name:"ERSTER SCHRITT",text:"Ein Quiz abschließen",ok:s=>s.done>=1},{id:"three",symbol:"[03]",name:"MÄRCHENFREUND",text:"Drei Quiz abschließen",ok:s=>s.done>=3},{id:"five",symbol:"[05]",name:"BÜCHERWURM",text:"Fünf Quiz abschließen",ok:s=>s.done>=5},{id:"all",symbol:"[07]",name:"MÄRCHENMEISTER",text:"Alle Quiz abschließen",ok:s=>s.done>=books.length},{id:"p100",symbol:"[100]",name:"PUNKTESAMMLER",text:"100 Punkte erreichen",ok:s=>s.points>=100},{id:"p250",symbol:"[250]",name:"LESEPROFI",text:"250 Punkte erreichen",ok:s=>s.points>=250},{id:"p500",symbol:"[500]",name:"LESEHELD",text:"500 Punkte erreichen",ok:s=>s.points>=500},{id:"perfect",symbol:"[10/10]",name:"FEHLERFREI",text:"Ein Quiz fehlerfrei lösen",ok:s=>s.perfect>=1},{id:"perfect3",symbol:"[3X]",name:"QUIZMEISTER",text:"Drei Quiz fehlerfrei lösen",ok:s=>s.perfect>=3},{id:"ten",symbol:"[10]",name:"LESERATTE",text:"Zehn Quiz abschließen",ok:s=>s.done>=10},{id:"p750",symbol:"[750]",name:"PUNKTJÄGER",text:"750 Punkte erreichen",ok:s=>s.points>=750},{id:"p1000",symbol:"[1000]",name:"TAUSENDERCLUB",text:"1.000 Punkte erreichen",ok:s=>s.points>=1000},{id:"perfect5",symbol:"[5X]",name:"PERFEKTIONIST",text:"Fünf Quiz fehlerfrei lösen",ok:s=>s.perfect>=5},{id:"perfectAll",symbol:"[ALLE]",name:"MÄRCHENKÖNIG",text:"Alle Quiz fehlerfrei lösen",ok:s=>s.perfect>=books.length},{id:"p1500",symbol:"[1500]",name:"PUNKTFUNKEN",text:"1.500 Punkte erreichen",ok:s=>s.points>=1500},{id:"p1750",symbol:"[1750]",name:"WORTFINDER",text:"1.750 Punkte erreichen",ok:s=>s.points>=1750},{id:"p2000",symbol:"[2000]",name:"BÜCHERSPÜRER",text:"2.000 Punkte erreichen",ok:s=>s.points>=2000},{id:"p2500",symbol:"[2500]",name:"WORTZAUBERER",text:"2.500 Punkte erreichen",ok:s=>s.points>=2500},{id:"p3000",symbol:"[3000]",name:"GESCHICHTENHELD",text:"3.000 Punkte erreichen",ok:s=>s.points>=3000},{id:"p3500",symbol:"[3500]",name:"MÄRCHENWÄCHTER",text:"3.500 Punkte erreichen",ok:s=>s.points>=3500},{id:"p4000",symbol:"[4000]",name:"LESESTAR",text:"4.000 Punkte erreichen",ok:s=>s.points>=4000},{id:"p4500",symbol:"[4500]",name:"BÜCHERSAMMLER",text:"4.500 Punkte erreichen",ok:s=>s.points>=4500},{id:"p5000",symbol:"[5000]",name:"BÜCHERLEGENDE",text:"5.000 Punkte erreichen",ok:s=>s.points>=5000},{id:"p5500",symbol:"[5500]",name:"WELTENERZÄHLER",text:"5.500 Punkte erreichen",ok:s=>s.points>=5500},{id:"p6000",symbol:"[6000]",name:"LESERITTER",text:"6.000 Punkte erreichen",ok:s=>s.points>=6000},{id:"p6500",symbol:"[6500]",name:"MÄRCHENBOTE",text:"6.500 Punkte erreichen",ok:s=>s.points>=6500},{id:"p7000",symbol:"[7000]",name:"GESCHICHTENKÖNIG",text:"7.000 Punkte erreichen",ok:s=>s.points>=7000},{id:"p7500",symbol:"[7500]",name:"WORTMEISTER",text:"7.500 Punkte erreichen",ok:s=>s.points>=7500},{id:"p8000",symbol:"[8000]",name:"LESEORAKEL",text:"8.000 Punkte erreichen",ok:s=>s.points>=8000},{id:"p8500",symbol:"[8500]",name:"MÄRCHENHÜTER",text:"8.500 Punkte erreichen",ok:s=>s.points>=8500},{id:"p9000",symbol:"[9000]",name:"BUCHMAGIER",text:"9.000 Punkte erreichen",ok:s=>s.points>=9000},{id:"p9500",symbol:"[9500]",name:"LESEHELDEN-CHAMPION",text:"9.500 Punkte erreichen",ok:s=>s.points>=9500},{id:"p10000",symbol:"[10000]",name:"LEGENDÄRER LESEHELD",text:"10.000 Punkte erreichen",ok:s=>s.points>=10000},{id:"snake100",symbol:"[S100]",name:"SCHLANGENLEHRLING",text:"100 Punkte in Snake erreichen",ok:s=>s.snake>=100},{id:"snake250",symbol:"[S250]",name:"BÜCHERFRESSER",text:"250 Punkte in Snake erreichen",ok:s=>s.snake>=250},{id:"snake500",symbol:"[S500]",name:"SCHLANGENMEISTER",text:"500 Punkte in Snake erreichen",ok:s=>s.snake>=500},{id:"snake1000",symbol:"[S1000]",name:"SNAKE-LEGENDE",text:"1.000 Punkte in Snake erreichen",ok:s=>s.snake>=1000},{id:"snakePlay10",symbol:"[S10X]",name:"SPIELRATTE",text:"Zehn Mal Snake spielen",ok:s=>s.snakePlays>=10},{id:"snakeRevive",symbol:"[S+1]",name:"KLUGE SCHLANGE",text:"Mit einer Quiz-Antwort weiterleben",ok:s=>s.revives>=1},{id:"lern1",symbol:"[L01]",name:"ERSTE LEKTION",text:"Eine Lerneinheit abschließen",ok:s=>s.learnDone>=1},{id:"lern5",symbol:"[L05]",name:"NEUGIERIG",text:"Fünf Lerneinheiten abschließen",ok:s=>s.learnDone>=5},{id:"lern10",symbol:"[L10]",name:"MEDIEN-ENTDECKER",text:"Zehn Lerneinheiten abschließen",ok:s=>s.learnDone>=10},{id:"lern20",symbol:"[L20]",name:"MEDIEN-KENNER",text:"20 Lerneinheiten abschließen",ok:s=>s.learnDone>=20},{id:"lernKap1",symbol:"[K01]",name:"KAPITELSTART",text:"Ein Lernkapitel komplett schaffen",ok:s=>s.learnChapters>=1},{id:"lernKap3",symbol:"[K03]",name:"KAPITELJÄGER",text:"Drei Lernkapitel komplett schaffen",ok:s=>s.learnChapters>=3},{id:"lernAlle",symbol:"[K06]",name:"MEDIENPROFI",text:"Alle 26 Lerneinheiten abschließen",ok:s=>s.learnDone>=26},{id:"lernProfi5",symbol:"[PRO]",name:"PROFI-LERNER",text:"Fünf Lerneinheiten in der Profi-Stufe schaffen",ok:s=>s.learnProfi>=5},{id:"snakeLvl3",symbol:"[SL3]",name:"LEVEL-AUFSTEIGER",text:"Level 3 in Snake erreichen",ok:s=>s.gameLevel>=3},{id:"snakeLvl5",symbol:"[SL5]",name:"SCHLANGEN-PROFI",text:"Level 5 in Snake erreichen",ok:s=>s.gameLevel>=5},{id:"snakeLvl8",symbol:"[SL8]",name:"SNAKE-KÖNIG",text:"Level 8 in Snake erreichen",ok:s=>s.gameLevel>=8},{id:"snakeBooks25",symbol:"[B25]",name:"BÜCHERMAMPF",text:"25 Bücher in Snake fressen",ok:s=>s.gameBooks>=25},{id:"snakeBooks100",symbol:"[B100]",name:"BIBLIOTHEKAR",text:"100 Bücher in Snake fressen",ok:s=>s.gameBooks>=100},{id:"snakeBonus5",symbol:"[*5]",name:"STERNENFÄNGER",text:"5 Bonus-Rauten in Snake einsammeln",ok:s=>s.gameBonusEaten>=5},{id:"snakeBonus25",symbol:"[*25]",name:"FAKTENSAMMLER",text:"25 Bonus-Rauten in Snake einsammeln",ok:s=>s.gameBonusEaten>=25},{id:"snakePlay50",symbol:"[S50X]",name:"SNAKE-FAN",text:"50 Mal Snake spielen",ok:s=>s.snakePlays>=50},{id:"daily3",symbol:"[T03]",name:"TREUER LESER",text:"An drei verschiedenen Tagen ein Quiz schaffen",ok:s=>s.bonusDays>=3},{id:"daily7",symbol:"[T07]",name:"WOCHENHELD",text:"An sieben verschiedenen Tagen ein Quiz schaffen",ok:s=>s.bonusDays>=7},{id:"daily30",symbol:"[T30]",name:"MONATSHELD",text:"An 30 verschiedenen Tagen ein Quiz schaffen",ok:s=>s.bonusDays>=30}];
+const ACHIEVEMENTS=[{id:"first",symbol:"[01]",name:"ERSTER SCHRITT",text:"Ein Quiz abschließen",ok:s=>s.done>=1},{id:"three",symbol:"[03]",name:"MÄRCHENFREUND",text:"Drei Quiz abschließen",ok:s=>s.done>=3},{id:"five",symbol:"[05]",name:"BÜCHERWURM",text:"Fünf Quiz abschließen",ok:s=>s.done>=5},{id:"all",symbol:"[07]",name:"MÄRCHENMEISTER",text:"Alle Quiz abschließen",ok:s=>s.done>=books.length},{id:"p100",symbol:"[100]",name:"PUNKTESAMMLER",text:"100 Punkte erreichen",ok:s=>s.points>=100},{id:"p250",symbol:"[250]",name:"LESEPROFI",text:"250 Punkte erreichen",ok:s=>s.points>=250},{id:"p500",symbol:"[500]",name:"LESEHELD",text:"500 Punkte erreichen",ok:s=>s.points>=500},{id:"perfect",symbol:"[10/10]",name:"FEHLERFREI",text:"Ein Quiz fehlerfrei lösen",ok:s=>s.perfect>=1},{id:"perfect3",symbol:"[3X]",name:"QUIZMEISTER",text:"Drei Quiz fehlerfrei lösen",ok:s=>s.perfect>=3},{id:"ten",symbol:"[10]",name:"LESERATTE",text:"Zehn Quiz abschließen",ok:s=>s.done>=10},{id:"p750",symbol:"[750]",name:"PUNKTJÄGER",text:"750 Punkte erreichen",ok:s=>s.points>=750},{id:"p1000",symbol:"[1000]",name:"TAUSENDERCLUB",text:"1.000 Punkte erreichen",ok:s=>s.points>=1000},{id:"perfect5",symbol:"[5X]",name:"PERFEKTIONIST",text:"Fünf Quiz fehlerfrei lösen",ok:s=>s.perfect>=5},{id:"perfectAll",symbol:"[ALLE]",name:"MÄRCHENKÖNIG",text:"Alle Quiz fehlerfrei lösen",ok:s=>s.perfect>=books.length},{id:"p1500",symbol:"[1500]",name:"PUNKTFUNKEN",text:"1.500 Punkte erreichen",ok:s=>s.points>=1500},{id:"p1750",symbol:"[1750]",name:"WORTFINDER",text:"1.750 Punkte erreichen",ok:s=>s.points>=1750},{id:"p2000",symbol:"[2000]",name:"BÜCHERSPÜRER",text:"2.000 Punkte erreichen",ok:s=>s.points>=2000},{id:"p2500",symbol:"[2500]",name:"WORTZAUBERER",text:"2.500 Punkte erreichen",ok:s=>s.points>=2500},{id:"p3000",symbol:"[3000]",name:"GESCHICHTENHELD",text:"3.000 Punkte erreichen",ok:s=>s.points>=3000},{id:"p3500",symbol:"[3500]",name:"MÄRCHENWÄCHTER",text:"3.500 Punkte erreichen",ok:s=>s.points>=3500},{id:"p4000",symbol:"[4000]",name:"LESESTAR",text:"4.000 Punkte erreichen",ok:s=>s.points>=4000},{id:"p4500",symbol:"[4500]",name:"BÜCHERSAMMLER",text:"4.500 Punkte erreichen",ok:s=>s.points>=4500},{id:"p5000",symbol:"[5000]",name:"BÜCHERLEGENDE",text:"5.000 Punkte erreichen",ok:s=>s.points>=5000},{id:"p5500",symbol:"[5500]",name:"WELTENERZÄHLER",text:"5.500 Punkte erreichen",ok:s=>s.points>=5500},{id:"p6000",symbol:"[6000]",name:"LESERITTER",text:"6.000 Punkte erreichen",ok:s=>s.points>=6000},{id:"p6500",symbol:"[6500]",name:"MÄRCHENBOTE",text:"6.500 Punkte erreichen",ok:s=>s.points>=6500},{id:"p7000",symbol:"[7000]",name:"GESCHICHTENKÖNIG",text:"7.000 Punkte erreichen",ok:s=>s.points>=7000},{id:"p7500",symbol:"[7500]",name:"WORTMEISTER",text:"7.500 Punkte erreichen",ok:s=>s.points>=7500},{id:"p8000",symbol:"[8000]",name:"LESEORAKEL",text:"8.000 Punkte erreichen",ok:s=>s.points>=8000},{id:"p8500",symbol:"[8500]",name:"MÄRCHENHÜTER",text:"8.500 Punkte erreichen",ok:s=>s.points>=8500},{id:"p9000",symbol:"[9000]",name:"BUCHMAGIER",text:"9.000 Punkte erreichen",ok:s=>s.points>=9000},{id:"p9500",symbol:"[9500]",name:"LESEHELDEN-CHAMPION",text:"9.500 Punkte erreichen",ok:s=>s.points>=9500},{id:"p10000",symbol:"[10000]",name:"LEGENDÄRER LESEHELD",text:"10.000 Punkte erreichen",ok:s=>s.points>=10000},{id:"snake100",symbol:"[S100]",name:"SCHLANGENLEHRLING",text:"100 Punkte in Snake erreichen",ok:s=>s.snake>=100},{id:"snake250",symbol:"[S250]",name:"BÜCHERFRESSER",text:"250 Punkte in Snake erreichen",ok:s=>s.snake>=250},{id:"snake500",symbol:"[S500]",name:"SCHLANGENMEISTER",text:"500 Punkte in Snake erreichen",ok:s=>s.snake>=500},{id:"snake1000",symbol:"[S1000]",name:"SNAKE-LEGENDE",text:"1.000 Punkte in Snake erreichen",ok:s=>s.snake>=1000},{id:"snakePlay10",symbol:"[S10X]",name:"SPIELRATTE",text:"Zehn Mal Snake spielen",ok:s=>s.snakePlays>=10},{id:"snakeRevive",symbol:"[S+1]",name:"KLUGE SCHLANGE",text:"Mit einer Quiz-Antwort weiterleben",ok:s=>s.revives>=1},{id:"lern1",symbol:"[L01]",name:"ERSTE LEKTION",text:"Eine Lerneinheit abschließen",ok:s=>s.learnDone>=1},{id:"lern5",symbol:"[L05]",name:"NEUGIERIG",text:"Fünf Lerneinheiten abschließen",ok:s=>s.learnDone>=5},{id:"lern10",symbol:"[L10]",name:"MEDIEN-ENTDECKER",text:"Zehn Lerneinheiten abschließen",ok:s=>s.learnDone>=10},{id:"lern20",symbol:"[L20]",name:"MEDIEN-KENNER",text:"20 Lerneinheiten abschließen",ok:s=>s.learnDone>=20},{id:"lernKap1",symbol:"[K01]",name:"KAPITELSTART",text:"Ein Lernkapitel komplett schaffen",ok:s=>s.learnChapters>=1},{id:"lernKap3",symbol:"[K03]",name:"KAPITELJÄGER",text:"Drei Lernkapitel komplett schaffen",ok:s=>s.learnChapters>=3},{id:"lernAlle",symbol:"[K06]",name:"MEDIENPROFI",text:"Alle 26 Lerneinheiten abschließen",ok:s=>s.learnDone>=26},{id:"lernProfi5",symbol:"[PRO]",name:"PROFI-LERNER",text:"Fünf Lerneinheiten in der Profi-Stufe schaffen",ok:s=>s.learnProfi>=5},{id:"snakeLvl3",symbol:"[SL3]",name:"LEVEL-AUFSTEIGER",text:"Level 3 in Snake erreichen",ok:s=>s.gameLevel>=3},{id:"snakeLvl5",symbol:"[SL5]",name:"SCHLANGEN-PROFI",text:"Level 5 in Snake erreichen",ok:s=>s.gameLevel>=5},{id:"snakeLvl8",symbol:"[SL8]",name:"SNAKE-KÖNIG",text:"Level 8 in Snake erreichen",ok:s=>s.gameLevel>=8},{id:"snakeBooks25",symbol:"[B25]",name:"BÜCHERMAMPF",text:"25 Bücher in Snake fressen",ok:s=>s.gameBooks>=25},{id:"snakeBooks100",symbol:"[B100]",name:"BIBLIOTHEKAR",text:"100 Bücher in Snake fressen",ok:s=>s.gameBooks>=100},{id:"snakeBonus5",symbol:"[*5]",name:"STERNENFÄNGER",text:"5 Bonus-Rauten in Snake einsammeln",ok:s=>s.gameBonusEaten>=5},{id:"snakeBonus25",symbol:"[*25]",name:"FAKTENSAMMLER",text:"25 Bonus-Rauten in Snake einsammeln",ok:s=>s.gameBonusEaten>=25},{id:"snakePlay50",symbol:"[S50X]",name:"SNAKE-FAN",text:"50 Mal Snake spielen",ok:s=>s.snakePlays>=50},{id:"daily3",symbol:"[T03]",name:"TREUER LESER",text:"An drei verschiedenen Tagen ein Quiz schaffen",ok:s=>s.bonusDays>=3},{id:"daily7",symbol:"[T07]",name:"WOCHENHELD",text:"An sieben verschiedenen Tagen ein Quiz schaffen",ok:s=>s.bonusDays>=7},{id:"daily30",symbol:"[T30]",name:"MONATSHELD",text:"An 30 verschiedenen Tagen ein Quiz schaffen",ok:s=>s.bonusDays>=30},{id:"read1",symbol:"[R01]",name:"ERSTES BUCH",text:"Ein Buch als gelesen markieren",ok:s=>s.read>=1},{id:"read5",symbol:"[R05]",name:"LESEANFÄNGER",text:"Fünf Bücher als gelesen markieren",ok:s=>s.read>=5},{id:"read10",symbol:"[R10]",name:"VIELLESER",text:"Zehn Bücher als gelesen markieren",ok:s=>s.read>=10},{id:"read25",symbol:"[R25]",name:"BÜCHERREGAL",text:"25 Bücher als gelesen markieren",ok:s=>s.read>=25},{id:"read50",symbol:"[R50]",name:"BÜCHEREI",text:"50 Bücher als gelesen markieren",ok:s=>s.read>=50},{id:"read100",symbol:"[R100]",name:"LESEMARATHON",text:"100 Bücher als gelesen markieren",ok:s=>s.read>=100},{id:"done25",symbol:"[25]",name:"QUIZ-PROFI",text:"25 Quiz abschließen",ok:s=>s.done>=25},{id:"done50",symbol:"[50]",name:"QUIZ-CHAMPION",text:"50 Quiz abschließen",ok:s=>s.done>=50},{id:"done100",symbol:"[100Q]",name:"QUIZ-LEGENDE",text:"100 Quiz abschließen",ok:s=>s.done>=100},{id:"perfect10",symbol:"[10X]",name:"GLASKLAR",text:"Zehn Quiz fehlerfrei lösen",ok:s=>s.perfect>=10},{id:"perfect25",symbol:"[25X]",name:"KEIN FEHLER IN SICHT",text:"25 Quiz fehlerfrei lösen",ok:s=>s.perfect>=25},{id:"perfect50",symbol:"[50X]",name:"FEHLERLOS-KÖNIG",text:"50 Quiz fehlerfrei lösen",ok:s=>s.perfect>=50},{id:"p12500",symbol:"[12500]",name:"PUNKTEKÖNIG",text:"12.500 Punkte erreichen",ok:s=>s.points>=12500},{id:"p15000",symbol:"[15000]",name:"PUNKTEKAISER",text:"15.000 Punkte erreichen",ok:s=>s.points>=15000},{id:"p20000",symbol:"[20000]",name:"UNSTERBLICHER LESEHELD",text:"20.000 Punkte erreichen",ok:s=>s.points>=20000},{id:"snake1500",symbol:"[S1500]",name:"SCHLANGEN-STAR",text:"1.500 Punkte in Snake erreichen",ok:s=>s.snake>=1500},{id:"snake2500",symbol:"[S2500]",name:"SNAKE-CHAMPION",text:"2.500 Punkte in Snake erreichen",ok:s=>s.snake>=2500},{id:"snakePlay100",symbol:"[S100X]",name:"SNAKE-SÜCHTIG",text:"100 Mal Snake spielen",ok:s=>s.snakePlays>=100},{id:"snakeRevive5",symbol:"[S+5]",name:"SCHLAUER KOPF",text:"5 Mal mit einer Quiz-Antwort weiterleben",ok:s=>s.revives>=5},{id:"snakeRevive25",symbol:"[S+25]",name:"NEUN LEBEN",text:"25 Mal mit einer Quiz-Antwort weiterleben",ok:s=>s.revives>=25},{id:"snakeLvl10",symbol:"[SL10]",name:"SNAKE-KAISER",text:"Level 10 in Snake erreichen",ok:s=>s.gameLevel>=10},{id:"snakeBooks250",symbol:"[B250]",name:"BÜCHERVERSCHLINGER",text:"250 Bücher in Snake fressen",ok:s=>s.gameBooks>=250},{id:"snakeBooks1000",symbol:"[B1000]",name:"LESEWURM-GIGANT",text:"1.000 Bücher in Snake fressen",ok:s=>s.gameBooks>=1000},{id:"snakeBonus100",symbol:"[*100]",name:"FAKTENKÖNIG",text:"100 Bonus-Rauten in Snake einsammeln",ok:s=>s.gameBonusEaten>=100},{id:"daily14",symbol:"[T14]",name:"ZWEI-WOCHEN-HELD",text:"An 14 verschiedenen Tagen ein Quiz schaffen",ok:s=>s.bonusDays>=14},{id:"daily60",symbol:"[T60]",name:"ZWEI-MONATE-HELD",text:"An 60 verschiedenen Tagen ein Quiz schaffen",ok:s=>s.bonusDays>=60},{id:"daily100",symbol:"[T100]",name:"HUNDERT-TAGE-HELD",text:"An 100 verschiedenen Tagen ein Quiz schaffen",ok:s=>s.bonusDays>=100},{id:"lernKap5",symbol:"[K05]",name:"KAPITELKENNER",text:"Fünf Lernkapitel komplett schaffen",ok:s=>s.learnChapters>=5},{id:"lernKapAlle",symbol:"[KALL]",name:"KAPITELMEISTER",text:"Alle Lernkapitel komplett schaffen",ok:s=>s.learnChapters>=(typeof LEARN_CHAPTERS!=="undefined"?LEARN_CHAPTERS.length:99)},{id:"lernProfi15",symbol:"[PR15]",name:"PROFI-STUFE",text:"15 Lerneinheiten in der Profi-Stufe schaffen",ok:s=>s.learnProfi>=15},{id:"lernProfiAlle",symbol:"[PRALL]",name:"PROFI-MEISTER",text:"Alle 26 Lerneinheiten in der Profi-Stufe schaffen",ok:s=>s.learnProfi>=26},{id:"avatar1",symbol:"[AV]",name:"NEUES GESICHT",text:"Einen eigenen Avatar wählen",ok:s=>s.avatarChosen},{id:"allround",symbol:"[ALL]",name:"ALLESKÖNNER",text:"Ein Quiz, eine Lerneinheit und ein Snake-Spiel schaffen",ok:s=>s.done>=1&&s.learnDone>=1&&s.snakePlays>=1}];
 
 let books=[],
 roles={},
@@ -1560,6 +1588,8 @@ function stats(){
         gameBooks: Number(user.gameBooks)||0,
         gameBonusEaten: Number(user.gameBonusEaten)||0,
         bonusDays: Number(user.gameBonus)||0,
+        read: Object.values(user.readBooks||{}).filter(Boolean).length,
+        avatarChosen: !!(user.avatar&&user.avatar!=="a00"),
         learnDone: Object.keys(user.learned||{}).length,
         learnChapters: (typeof LEARN_CHAPTERS!=="undefined")?LEARN_CHAPTERS.filter(c=>{for(let i=c.from;i<=c.to;i++)if(!(user.learned&&user.learned[i]))return false;return true}).length:0,
         learnProfi: Object.values(user.learned||{}).filter(e=>e&&Array.isArray(e.stufen)&&e.stufen.includes("profi")).length
@@ -1813,21 +1843,20 @@ function showAchievements(){ /* Tipps: siehe learnTipFor */
     const list = $("achievementList");
     list.textContent = "";
 
-    ACHIEVEMENTS.forEach(a => {
+    const mkRow = a => {
         const unlocked = user.achievements.includes(a.id);
         const row = document.createElement("div");
 
         row.className = "achievement " + (unlocked ? "unlocked" : "locked");
         row.textContent =
             (unlocked ? "★ " : "🔒 ") + a.symbol + " " + a.name + " – " + a.text;
-        if(LEARN_TIPS[a.id]){
-            const tip = document.createElement("div");
-            tip.className = "learn-tip";
-            tip.textContent = "💡 MEDIEN-TIPP: " + LEARN_TIPS[a.id];
-            row.append(document.createElement("br"), tip);
-        }
-        list.append(row);
-    });
+        return row;
+    };
+    const done = ACHIEVEMENTS.filter(a => user.achievements.includes(a.id));
+    const open = ACHIEVEMENTS.filter(a => !user.achievements.includes(a.id));
+    const head = (t) => { const h = document.createElement("h3"); h.textContent = t; return h; };
+    if(done.length){ list.append(head("★ FREIGESCHALTET (" + done.length + ")")); done.forEach(a => list.append(mkRow(a))); }
+    if(open.length){ list.append(head("🔒 NOCH OFFEN (" + open.length + ")")); open.forEach(a => list.append(mkRow(a))); }
 
     $("achievementsView").classList.remove("hidden");
 }
@@ -2026,6 +2055,7 @@ async function showGame(){
 }
 function snakeReset(){
     clearInterval(SN.timer);SN.timer=null;
+    clearInterval(SN.cd);SN.cd=null;SN.count=0;$("gameView").classList.remove("over");
     SN.running=false;SN.paused=false;SN.over=false;SN.asking=false;SN.revived=false;
     SN.snake=[{x:5,y:8},{x:4,y:8},{x:3,y:8}];
     SN.dir={x:1,y:0};SN.queue=[];SN.walls=[];SN.bonus=null;
@@ -2065,8 +2095,16 @@ function snakeStart(){
     $("snakeMsg").textContent="LOS GEHT'S! FRISS BÜCHER 📖. STEUERUNG: PFEILTASTEN, WASD ODER WISCHEN. LEERTASTE = PAUSE.";
     snakeUpdateInfo();
     snakeDraw();
-    SN.asking=true;snakeUpdateInfo();
-    setTimeout(()=>{if(!SN.running||SN.over)return;SN.asking=false;snakeUpdateInfo();SN.timer=setInterval(snakeTick,snakeSpeed())},1500);
+    snakeCountdown(()=>{SN.timer=setInterval(snakeTick,snakeSpeed())});
+}
+function snakeCountdown(done){
+    clearInterval(SN.cd);SN.count=3;SN.asking=true;snakeUpdateInfo();snakeDraw();
+    SN.cd=setInterval(()=>{
+        if(!SN.running||SN.over){clearInterval(SN.cd);SN.cd=null;SN.count=0;return}
+        SN.count--;
+        if(SN.count<=0){clearInterval(SN.cd);SN.cd=null;SN.count=0;SN.asking=false;snakeUpdateInfo();snakeDraw();done();return}
+        snakeDraw();
+    },900);
 }
 function snakeRestartTimer(){clearInterval(SN.timer);SN.timer=setInterval(snakeTick,snakeSpeed())}
 function snakePause(){
@@ -2083,15 +2121,6 @@ function snakeDir(x,y){
     if(last.x===-x&&last.y===-y)return;
     if(last.x===x&&last.y===y)return;
     if(SN.queue.length<3)SN.queue.push({x,y});
-}
-function snakeFact(){
-    const st=user.learnStufe||"entdecker",pool=[];
-    Object.keys(LEARN||{}).forEach(k=>{
-        const u=LEARN[k],d=u&&(u[st]||u.entdecker);
-        if(d){(d.points||[]).forEach(p=>pool.push(p));if(d.motto)pool.push(d.motto)}
-    });
-    Object.values(LEARN_TIPS||{}).forEach(t=>pool.push(t));
-    return pool.length?pool[Math.floor(Math.random()*pool.length)]:null;
 }
 function snakeTick(){
     SN.ticks++;
@@ -2111,8 +2140,7 @@ function snakeTick(){
     }else if(SN.bonus&&h.x===SN.bonus.x&&h.y===SN.bonus.y){
         SN.score+=50;SN.bonus=null;user.gameBonusEaten=(Number(user.gameBonusEaten)||0)+1;
         snakeLog("⭐ Bonus-Stern gefressen (+50) → "+SN.score+" Punkte");
-        const f=snakeFact();
-        $("snakeMsg").textContent="BONUS! +50 PUNKTE ⭐"+(f?"  💡 MEDIEN-FAKT: "+f:"");
+        $("snakeMsg").textContent="BONUS! +50 PUNKTE ⭐";
     }
     if(!grew)SN.snake.pop();
     if(SN.bonus){SN.bonus.t--;if(SN.bonus.t<=0)SN.bonus=null}
@@ -2170,6 +2198,9 @@ function snakeDie(reason){
     SN.asking=true;
     snakeUpdateInfo();snakeDraw();
     const box=$("snakeRevive");box.textContent="";box.classList.remove("hidden");
+    {const bgOf=el=>{const s=getComputedStyle(el);return (s.backgroundColor&&s.backgroundColor!=="rgba(0, 0, 0, 0)")?{c:s.backgroundColor,i:s.backgroundImage}:null};
+     const b=bgOf($("gameView"))||bgOf($("winInner"))||bgOf(document.body)||{c:"#000",i:"none"};
+     box.style.backgroundColor=b.c;box.style.backgroundImage=b.i}
     const h=document.createElement("div");h.className="success";
     h.textContent="💥 AUS! BEANTWORTE EINE FRAGE UND SPIEL WEITER (EINMAL PRO SPIEL):";
     const qt=document.createElement("div");qt.textContent="📖 "+item.b.title+": "+item.q.q;
@@ -2198,15 +2229,11 @@ function snakeRevive(){
     if(!ok.length){$("snakeMsg").textContent="RICHTIG! ABER ES GIBT KEINEN PLATZ MEHR.";setTimeout(snakeEnd,1200);return}
     SN.revived=true;SN.dir=ok[0];SN.queue=[];
     user.gameRevives=(Number(user.gameRevives)||0)+1;
-    $("snakeMsg").textContent="RICHTIG! ✓ DU LEBST WEITER – GLEICH GEHT'S LOS …";
-    setTimeout(()=>{
-        if(!SN.running||SN.over)return;
-        SN.asking=false;snakeUpdateInfo();
-        SN.timer=setInterval(snakeTick,snakeSpeed());
-    },1000);
+    $("snakeMsg").textContent="RICHTIG! ✓ DU LEBST WEITER – GLEICH GEHT'S LOS!";
+    snakeCountdown(()=>{SN.timer=setInterval(snakeTick,snakeSpeed())});
 }
 function snakeEnd(){
-    clearInterval(SN.timer);SN.timer=null;SN.running=false;SN.over=true;SN.asking=false;
+    clearInterval(SN.timer);SN.timer=null;clearInterval(SN.cd);SN.cd=null;SN.count=0;SN.running=false;SN.over=true;SN.asking=false;$("gameView").classList.add("over");
     $("snakeRevive").classList.add("hidden");
     const rec=SN.score>(user.gameBest||0);
     if(rec)user.gameBest=SN.score;
@@ -2219,7 +2246,7 @@ function snakeEnd(){
     snakeHistAdd({d:new Date().toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}),score:SN.score,level:SN.level,books:SN.eaten,rec});
     snakeRenderLog();
     save();gameSync().then(renderSnakeRanking);
-    $("snakeMsg").textContent="GAME OVER! "+SN.score+" PUNKTE"+(rec?" – NEUER REKORD! 🏆":"")+(fresh.length?" | NEUER ERFOLG: "+fresh.join(", ")+" (URKUNDE UNTER ERFOLGE)":"")+" | FÜR EIN NEUES SPIEL BRAUCHST DU 1 MARKE.";
+    $("snakeMsg").textContent="GAME OVER!\n"+SN.score+" PUNKTE"+(rec?" – NEUER REKORD! 🏆":"")+(fresh.length?"\n🎖 NEUER ERFOLG: "+fresh.join(", ")+" (URKUNDE UNTER ERFOLGE)":"")+"\nFÜR EIN NEUES SPIEL BRAUCHST DU 1 MARKE.";
     snakeDraw();snakeUpdateInfo();
 }
 function snakePalette(){
@@ -2253,7 +2280,14 @@ function snakeDraw(){
         g.beginPath();g.moveTo(x+10,y+1);g.lineTo(x+19,y+10);g.lineTo(x+10,y+19);g.lineTo(x+1,y+10);g.closePath();g.fill();
         g.fillStyle=P.bg;g.font="bold 11px monospace";g.textAlign="center";g.fillText("?",x+10,y+14);
     }
-    if(SN.over||SN.paused||SN.asking){
+    if(SN.count>0){
+        g.globalAlpha=.55;g.fillStyle=P.bg;g.fillRect(0,0,c.width,c.height);g.globalAlpha=1;
+        const cx=c.width/2,cy=c.height/2;
+        g.fillStyle=P.bg;g.beginPath();g.arc(cx,cy,62,0,7);g.fill();
+        g.strokeStyle=P.line;g.lineWidth=4;g.stroke();
+        g.fillStyle=P.fg;g.font="bold 88px 'Courier New',monospace";g.textAlign="center";g.textBaseline="middle";
+        g.fillText(String(SN.count),cx,cy+5);g.textBaseline="alphabetic";
+    }else if(SN.over||SN.paused||SN.asking){
         g.globalAlpha=0.85;g.fillStyle=P.bg;g.fillRect(0,120,c.width,80);g.globalAlpha=1;
         g.strokeStyle=P.line;g.lineWidth=2;g.strokeRect(1,120,c.width-2,80);
         g.fillStyle=P.fg;g.font="bold 28px 'Courier New',monospace";g.textAlign="center";
@@ -2331,7 +2365,7 @@ async function rankTab(t){
 function winOpen(){if(typeof avatarRefresh==="function")avatarRefresh();const w=$("winLayer");w.classList.add("open");document.body.classList.add("win-open");w.scrollTop=0}
 function winClose(){$("winLayer").classList.remove("open");document.body.classList.remove("win-open")}
 function showMenu(){hideViews();winClose();updateDashboard();if(typeof avatarRefresh==='function')avatarRefresh();if(typeof rankSync==='function')rankSync();window.scrollTo(0,0)}
-function hideViews(){winOpen();if(typeof snakePlayOff==="function")snakePlayOff();if(typeof snakeAutoPause==="function")snakeAutoPause();["avatarView","booksView","bookDetailView","quizView","resultView","progressView","achievementsView","urkundeView","settingsPanel","learningView","gameView","rankingView","learnUnitView","learnLevelPanel","passwordPanel","designPanel","adminPanel","bookManagePanel"].forEach(id=>$(id).classList.add("hidden"))}
+function hideViews(){winOpen();if(typeof snakePlayOff==="function")snakePlayOff();if(typeof snakeAutoPause==="function")snakeAutoPause();["readerView","avatarView","booksView","bookDetailView","quizView","resultView","progressView","achievementsView","urkundeView","settingsPanel","learningView","gameView","rankingView","learnUnitView","learnLevelPanel","passwordPanel","designPanel","adminPanel","bookManagePanel"].forEach(id=>$(id).classList.add("hidden"))}
 async function logout(){
     await sb.auth.signOut();
 
@@ -2549,6 +2583,10 @@ function showBookDetails(id){
         done ? "[ QUIZ ERNEUT STARTEN ]" : "[ QUIZ STARTEN ]";
     $("detailQuizButton").onclick = () => startQuiz(id);
 
+    const tb = $("detailTextButton");
+    tb.classList.add("hidden");
+    bookTextMeta(id).then(m => { if(m && !$("bookDetailView").classList.contains("hidden")) { tb.classList.remove("hidden"); tb.onclick = () => openReader(id); } });
+
     $("detailEditButton").classList.toggle("hidden", user.role !== "admin");
     $("detailEditButton").onclick = () => editBook(id);
 
@@ -2585,7 +2623,7 @@ let entries = users.map(account => {
     a.name.localeCompare(b.name,"de")
 );     ;$("registeredUserSummary").textContent=entries.length+" REGISTRIERTE NUTZER.";let box=$("registeredUserOverview");box.textContent="";entries.forEach((entry,index)=>{let row=document.createElement("div");row.className="rank";row.textContent=(index+1)+". "+entry.name+" — "+entry.role+" | "+entry.done+" QUIZ | "+entry.pts+" PUNKTE";box.append(row)});if(!entries.length)box.textContent="NOCH KEINE REGISTRIERTEN NUTZER."}function showUserManagement(){if(user.role!=="admin")return;hideViews();renderRegisteredUserOverview();renderUsers();$("adminPanel").classList.remove("hidden")}
 
-     function showBookManagement(){if(!["admin","moderator"].includes(user.role))return;editingBookId=null;openBookEditor()}function openBookEditor(book){hideViews();$("newBookTitle").value=book?.title||"";$("newBookAuthor").value=book?.author||"";$("newBookIsbn").value=book?.isbn||"";$("newBookDifficulty").value=book?.difficulty||1;$("questionEditors").textContent="";(book?.questions||[]).forEach(q=>addQuestionEditor(q));if(!book)addQuestionEditor();$("bookManageHeading").textContent=book?"BUCH UND QUIZ BEARBEITEN":"NEUES BUCH UND QUIZ";$("bookSaveButton").textContent=book?"[ ÄNDERUNGEN SPEICHERN ]":"[ BUCH UND QUIZ SPEICHERN ]";$("bookManageStatus").textContent="";$("importExportPanel").classList.toggle("hidden",user.role!=="admin");$("bookManagePanel").classList.remove("hidden")}function editBook(id){if(user.role!=="admin")return;let b=books.find(x=>x.id===id);if(!b)return;editingBookId=id;openBookEditor(b)}function addQuestionEditor(data){let box=document.createElement("div");box.className="book";box.innerHTML='<h3>QUIZ-FRAGE</h3><input class="q-text" placeholder="Frage eingeben"><label>ANTWORT A</label><input class="q-answer" placeholder="Antwort A"><label>ANTWORT B</label><input class="q-answer" placeholder="Antwort B"><label>ANTWORT C</label><input class="q-answer" placeholder="Antwort C"><label>ANTWORT D</label><input class="q-answer" placeholder="Antwort D"><label>RICHTIGE ANTWORT</label><select class="q-correct"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select><button type="button">[ FRAGE ENTFERNEN ]</button>';box.querySelector("button").onclick=()=>box.remove();if(data){box.querySelector(".q-text").value=data.q;[...box.querySelectorAll(".q-answer")].forEach((x,i)=>x.value=data.a[i]||"");box.querySelector(".q-correct").value=data.c}$("questionEditors").append(box)}async function addBookAndQuiz(){
+     function showBookManagement(){if(!["admin","moderator"].includes(user.role))return;editingBookId=null;openBookEditor()}function openBookEditor(book){hideViews();$("newBookTitle").value=book?.title||"";$("newBookAuthor").value=book?.author||"";$("newBookIsbn").value=book?.isbn||"";$("newBookDifficulty").value=book?.difficulty||1;$("questionEditors").textContent="";(book?.questions||[]).forEach(q=>addQuestionEditor(q));if(!book)addQuestionEditor();$("bookManageHeading").textContent=book?"BUCH UND QUIZ BEARBEITEN":"NEUES BUCH UND QUIZ";$("bookSaveButton").textContent=book?"[ ÄNDERUNGEN SPEICHERN ]":"[ BUCH UND QUIZ SPEICHERN ]";$("bookManageStatus").textContent="";$("importExportPanel").classList.toggle("hidden",user.role!=="admin");$("bookManagePanel").classList.remove("hidden");if(typeof textEditorInit==="function")textEditorInit(book)}function editBook(id){if(user.role!=="admin")return;let b=books.find(x=>x.id===id);if(!b)return;editingBookId=id;openBookEditor(b)}function addQuestionEditor(data){let box=document.createElement("div");box.className="book";box.innerHTML='<h3>QUIZ-FRAGE</h3><input class="q-text" placeholder="Frage eingeben"><label>ANTWORT A</label><input class="q-answer" placeholder="Antwort A"><label>ANTWORT B</label><input class="q-answer" placeholder="Antwort B"><label>ANTWORT C</label><input class="q-answer" placeholder="Antwort C"><label>ANTWORT D</label><input class="q-answer" placeholder="Antwort D"><label>RICHTIGE ANTWORT</label><select class="q-correct"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select><button type="button">[ FRAGE ENTFERNEN ]</button>';box.querySelector("button").onclick=()=>box.remove();if(data){box.querySelector(".q-text").value=data.q;[...box.querySelectorAll(".q-answer")].forEach((x,i)=>x.value=data.a[i]||"");box.querySelector(".q-correct").value=data.c}$("questionEditors").append(box)}async function addBookAndQuiz(){
     const st=$("bookManageStatus");
     const fail=m=>{st.className="error";st.textContent=m};
     let title=$("newBookTitle").value.trim(),author=$("newBookAuthor").value.trim(),isbn=$("newBookIsbn").value.trim(),difficulty=Math.min(3,Math.max(1,Number($("newBookDifficulty").value)||1)),questions=[];
@@ -2938,13 +2976,14 @@ const AV={
     leaf:()=>`<path d="M20 98 Q16 70 40 62 Q36 90 20 98Z" fill="#5fa84a"/><path d="M22 94 Q28 80 38 66" stroke="#3f8a3a" fill="none"/>`
   },
   person(o){
-    o=Object.assign({bg:"#cfe3f1",skin:"#f6d2b0",hair:"#e8c066",style:"long",dress:"#8a8f98",collar:null,apron:false,hat:null,hatc:"#b8c4d6",acc:null,smudge:false,beard:null,fringe:true,eye:"#3b2412",cheek:true,patch:false,glasses:false},o);
+    o=Object.assign({bg:"#cfe3f1",skin:"#f6d2b0",hair:"#e8c066",style:"long",dress:"#8a8f98",collar:null,apron:false,hat:null,hatc:"#b8c4d6",acc:null,smudge:false,beard:null,fringe:true,eye:"#3b2412",cheek:true,patch:false,glasses:false,fangs:false,stache:null,goatee:null,freckles:false,grin:false,longnose:false},o);
     let s=`<rect width="100" height="100" fill="${o.bg}"/>`;
     if(o.bgdeco)s+=o.bgdeco;
     if(o.style==="long")s+=`<path d="M26 44 Q23 14 50 13 Q77 14 74 44 L78 84 Q62 77 50 80 Q38 77 22 84Z" fill="${o.hair}"/>`;
     else if(o.style==="braids")s+=`<ellipse cx="50" cy="40" rx="25" ry="27" fill="${o.hair}"/><path d="M27 52 Q19 68 27 86" stroke="${o.hair}" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M73 52 Q81 68 73 86" stroke="${o.hair}" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="27" cy="87" r="3.4" fill="#d63a4a"/><circle cx="73" cy="87" r="3.4" fill="#d63a4a"/>`;
     else if(o.style==="bun")s+=`<circle cx="50" cy="12" r="10" fill="${o.hair}"/><ellipse cx="50" cy="40" rx="25" ry="27" fill="${o.hair}"/>`;
     else if(o.style==="plait")s+=`<ellipse cx="50" cy="40" rx="25" ry="27" fill="${o.hair}"/><path d="M62 56 Q82 62 72 84 Q70 92 74 96" stroke="${o.hair}" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M64 62 l10 6M68 72 l10 4M70 82 l8 3" stroke="rgba(0,0,0,.18)" stroke-width="1.6"/><circle cx="74" cy="96" r="3.4" fill="#d63a4a"/>`;
+    else if(o.style==="wild")s+=`<path d="M50 2 L58 15 L73 6 L70 23 L88 22 L75 36 L91 47 L74 50 L82 67 L65 58 L57 72 L50 59 L43 72 L35 58 L18 67 L26 50 L9 47 L25 36 L12 22 L30 23 L27 6 L42 15Z" fill="${o.hair}"/>`;
     else s+=`<ellipse cx="50" cy="38" rx="25" ry="26" fill="${o.hair}"/>`;
     s+=`<rect x="43" y="56" width="14" height="16" rx="6" fill="${o.skin}"/>`;
     s+=`<path d="M12 100 Q14 72 36 67 L64 67 Q86 72 88 100Z" fill="${o.dress}"/>`;
@@ -2955,7 +2994,12 @@ const AV={
     if(o.fringe)s+=`<path d="M28 42 Q27 14 51 16 Q74 16 72 42 Q64 26 50 28 Q38 28 28 42Z" fill="${o.hair}"/>`;
     s+=`<circle cx="42" cy="45" r="2.7" fill="${o.eye}"/><circle cx="58" cy="45" r="2.7" fill="${o.eye}"/><circle cx="43" cy="44" r=".9" fill="#fff"/><circle cx="59" cy="44" r=".9" fill="#fff"/>`;
     if(o.cheek)s+=`<circle cx="36" cy="52" r="3.6" fill="#f4a6a0" opacity=".55"/><circle cx="64" cy="52" r="3.6" fill="#f4a6a0" opacity=".55"/>`;
-    s+=`<path d="M44 54 Q50 59.5 56 54" stroke="#a0453a" fill="none" stroke-width="2" stroke-linecap="round"/>`;
+    s+=o.grin?`<path d="M41 52 Q50 66 59 52Z" fill="#8a2a24"/><path d="M43 53 h14" stroke="#fff" stroke-width="2.4"/>`:`<path d="M44 54 Q50 59.5 56 54" stroke="#a0453a" fill="none" stroke-width="2" stroke-linecap="round"/>`;
+    if(o.freckles)s+=`<g fill="#b8683a"><circle cx="36" cy="49" r=".9"/><circle cx="39" cy="52" r=".9"/><circle cx="34" cy="52" r=".9"/><circle cx="64" cy="49" r=".9"/><circle cx="61" cy="52" r=".9"/><circle cx="66" cy="52" r=".9"/></g>`;
+    if(o.longnose)s+=`<path d="M47.5 47 L50 74 L52.5 47Z" fill="${o.skin}" stroke="#b9854a" stroke-width="1.2" stroke-linejoin="round"/>`;
+    if(o.stache)s+=`<path d="M38 55 Q44 48 50 53 Q56 48 62 55 Q56 58 50 56 Q44 58 38 55Z" fill="${o.stache}"/>`;
+    if(o.goatee)s+=`<path d="M45 59 Q50 73 55 59Z" fill="${o.goatee}"/>`;
+    if(o.fangs)s+=`<path d="M45.5 56.5 l2 5.5 2-5.5z M50.5 56.5 l2 5.5 2-5.5z" fill="#fff" stroke="#c9c2cf" stroke-width=".6"/>`;
     if(o.smudge)s+=`<path d="M62 56 q3-1.4 5 .4M60 59 q3-1 5 .3" stroke="#8a8f98" stroke-width="2" stroke-linecap="round" opacity=".7" fill="none"/>`;
     if(o.beard)s+=`<path d="M30 52 Q32 80 50 84 Q68 80 70 52 Q62 62 50 61 Q38 62 30 52Z" fill="${o.beard}"/><path d="M44 55 Q50 59 56 55" stroke="#a0453a" fill="none" stroke-width="2" stroke-linecap="round"/>`;
     if(o.glasses)s+=`<circle cx="42" cy="45" r="6.5" fill="rgba(255,255,255,.25)" stroke="#6b4423" stroke-width="1.8"/><circle cx="58" cy="45" r="6.5" fill="rgba(255,255,255,.25)" stroke="#6b4423" stroke-width="1.8"/><line x1="48.5" y1="45" x2="51.5" y2="45" stroke="#6b4423" stroke-width="1.8"/>`;
@@ -2965,37 +3009,217 @@ const AV={
     return s;
   }
 };
+Object.assign(AV.hat,{
+  shako:c=>`<rect x="33" y="3" width="34" height="25" rx="2" fill="${c}"/><rect x="31" y="26" width="38" height="4" fill="#1d1d1d"/><circle cx="50" cy="15" r="4.5" fill="#f2c230"/><path d="M50 3 Q57 -3 62 2" stroke="#f2c230" stroke-width="3" fill="none"/>`,
+  floppy:c=>`<path d="M26 32 Q28 10 52 10 Q74 10 74 32 Q50 24 26 32Z" fill="${c}"/><path d="M60 14 Q74 6 82 18" stroke="${c}" stroke-width="5" fill="none"/><circle cx="82" cy="19" r="4" fill="#f2c230"/><rect x="26" y="29" width="48" height="4" rx="2" fill="rgba(0,0,0,.2)"/>`,
+  tricorn:c=>`<path d="M18 30 L50 12 L82 30 L50 24Z" fill="${c}" stroke="#f2c230" stroke-width="2"/><path d="M30 28 Q50 4 70 28 Q50 20 30 28Z" fill="${c}"/><path d="M62 12 Q80 -2 86 12 Q74 8 66 20Z" fill="#fff" stroke="#ddd"/>`,
+  straw:c=>`<ellipse cx="50" cy="26" rx="34" ry="7" fill="#e8c860" stroke="#b89628"/><path d="M33 26 Q33 7 50 7 Q67 7 67 26Z" fill="#f0d676"/><rect x="33" y="20" width="34" height="5" fill="${c}"/>`,
+  robin:c=>`<path d="M26 38 Q28 12 52 12 Q76 14 74 38 Q60 22 40 24 Q30 26 26 38Z" fill="${c}"/><path d="M60 16 L88 8 L72 28Z" fill="${c}"/><path d="M70 14 Q90 -2 96 12 Q84 8 74 20Z" fill="#d63a3a"/>`,
+  deer:c=>`<path d="M27 34 Q29 9 50 9 Q71 9 73 34Z" fill="${c}" stroke="#4a3a2a"/><path d="M62 30 L92 34 Q86 41 64 39Z" fill="${c}" stroke="#4a3a2a"/><path d="M26 32 L10 34 Q14 40 28 38Z" fill="${c}" stroke="#4a3a2a"/><path d="M35 14 l6 9M45 10 l6 12M57 11 l6 10" stroke="#4a3a2a" stroke-width="1.4"/><circle cx="50" cy="9" r="2.6" fill="${c}" stroke="#4a3a2a"/>`,
+  basin:c=>`<path d="M24 28 Q26 6 50 6 Q74 6 76 28 Q50 36 24 28Z" fill="#d9dfe8" stroke="#8a96a6" stroke-width="2"/><path d="M30 24 Q50 30 70 24" stroke="#aab3bf" fill="none" stroke-width="2"/><path d="M50 6 L50 -3 L58 2Z" fill="#d63a3a"/>`,
+  papercap:c=>`<path d="M29 32 Q40 8 56 5 L73 32Z" fill="${c}" stroke="#b8862a"/><path d="M56 5 Q67 -2 74 8" stroke="${c}" stroke-width="4" fill="none"/>`
+});
+Object.assign(AV.acc,{
+  pea:()=>`<path d="M58 99 Q78 91 98 99" stroke="#d7c6f0" stroke-width="7" fill="none"/><circle cx="78" cy="82" r="9" fill="#7fd05a" stroke="#4f9a3a" stroke-width="1.5"/><circle cx="75" cy="79" r="2.6" fill="#fff" opacity=".6"/>`,
+  scissors:()=>`<g stroke="#8a96a6" stroke-width="3" fill="none" stroke-linecap="round"><path d="M66 94 L84 70"/><path d="M84 94 L66 70"/></g><circle cx="65" cy="97" r="4" fill="none" stroke="#d63a3a" stroke-width="2.4"/><circle cx="85" cy="97" r="4" fill="none" stroke="#d63a3a" stroke-width="2.4"/>`,
+  snow:()=>`<g fill="#fff" opacity=".92"><circle cx="16" cy="18" r="3"/><circle cx="84" cy="22" r="2.4"/><circle cx="24" cy="70" r="2.6"/><circle cx="88" cy="64" r="3"/><circle cx="50" cy="7" r="2"/><circle cx="10" cy="44" r="2"/></g>`,
+  nut:()=>`<ellipse cx="78" cy="84" rx="10" ry="8" fill="#b98a4a" stroke="#7a5230" stroke-width="2"/><path d="M68 84 Q78 78 88 84" stroke="#7a5230" fill="none" stroke-width="1.6"/>`,
+  palm:()=>`<path d="M12 98 Q16 70 24 50" stroke="#7a5230" stroke-width="4" fill="none"/><path d="M24 50 Q10 40 3 48 M24 50 Q20 34 8 31 M24 50 Q34 36 46 40 M24 50 Q38 50 45 58" stroke="#3f8a3a" stroke-width="4" fill="none" stroke-linecap="round"/>`,
+  ship:()=>`<path d="M62 92 L92 92 L86 100 L68 100Z" fill="#8a5a2b"/><line x1="78" y1="92" x2="78" y2="70" stroke="#6b4423" stroke-width="2"/><path d="M78 72 L90 88 L78 88Z" fill="#fff" stroke="#ccc"/>`,
+  cannon:()=>`<circle cx="76" cy="84" r="12" fill="#2a2a32"/><circle cx="72" cy="80" r="3.4" fill="#fff" opacity=".35"/><path d="M83 75 L90 67" stroke="#b8862a" stroke-width="2.4"/><path d="M91 60 l1.6 4 4 1.6-4 1.6-1.6 4-1.6-4-4-1.6 4-1.6z" fill="#ffb347"/>`,
+  brush:()=>`<line x1="88" y1="30" x2="72" y2="86" stroke="#8a5a2b" stroke-width="3.4" stroke-linecap="round"/><path d="M64 82 L80 86 L78 98 L60 94Z" fill="#fff" stroke="#c9c2b0"/>`,
+  pole:()=>`<line x1="92" y1="8" x2="68" y2="96" stroke="#8a5a2b" stroke-width="2.4"/><path d="M92 8 Q99 40 83 58" stroke="#999" fill="none"/><circle cx="83" cy="62" r="3.4" fill="#d63a3a"/>`,
+  archery:()=>`<path d="M84 22 Q98 60 84 98" stroke="#8a5a2b" stroke-width="3.4" fill="none"/><line x1="84" y1="22" x2="84" y2="98" stroke="#e8e0c8" stroke-width="1.2"/><line x1="62" y1="62" x2="94" y2="62" stroke="#6b4423" stroke-width="2"/><path d="M94 62 l-6-3 v6z" fill="#8a96a6"/>`,
+  pipe:()=>`<path d="M56 57 Q66 63 70 56" stroke="#5b3a1a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M68 56 l1-8 h7 l-1 8z" fill="#5b3a1a"/><path d="M72 44 q-3-6 2-10 q4-4 0-9" stroke="#bbb" stroke-width="2" fill="none"/>`,
+  bowl:()=>`<path d="M56 82 L92 82 Q90 98 74 98 Q58 98 56 82Z" fill="#8a6a4a" stroke="#5b3a1a" stroke-width="1.5"/><line x1="86" y1="70" x2="78" y2="84" stroke="#c9c2b0" stroke-width="3" stroke-linecap="round"/>`,
+  goose:()=>`<path d="M84 100 Q92 76 76 66" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="72" cy="64" r="7" fill="#fff" stroke="#d0d6e0"/><path d="M66 64 L56 67 L66 70Z" fill="#f0a030"/><circle cx="72" cy="62" r="1.4" fill="#222"/>`,
+  goat:()=>`<path d="M64 98 Q64 76 76 76 Q88 76 88 98Z" fill="#fff" stroke="#d0d0d0"/><circle cx="76" cy="78" r="9" fill="#fff" stroke="#d0d0d0"/><path d="M68 72 Q64 62 70 60M84 72 Q88 62 82 60" stroke="#8a7a60" stroke-width="2.4" fill="none"/><circle cx="73" cy="77" r="1.2" fill="#222"/><circle cx="79" cy="77" r="1.2" fill="#222"/><path d="M76 86 l0 7" stroke="#bbb" stroke-width="3"/>`,
+  owlmini:()=>`<ellipse cx="80" cy="82" rx="9" ry="11" fill="#a8733a"/><circle cx="76" cy="78" r="4" fill="#fff6dc"/><circle cx="84" cy="78" r="4" fill="#fff6dc"/><circle cx="76" cy="78" r="1.8" fill="#222"/><circle cx="84" cy="78" r="1.8" fill="#222"/><path d="M79 82 L81 82 L80 85Z" fill="#f0a030"/>`,
+  ghostmini:()=>`<path d="M64 98 L64 78 Q64 66 76 66 Q88 66 88 78 L88 98 L82 92 L76 98 L70 92Z" fill="#f4f6fb" stroke="#c9d0e0"/><ellipse cx="72" cy="78" rx="2.2" ry="3" fill="#222"/><ellipse cx="80" cy="78" rx="2.2" ry="3" fill="#222"/>`,
+  light:()=>`<path d="M62 88 L50 70 L80 70 L72 88Z" fill="#ffe27a" opacity=".8"/><rect x="62" y="86" width="10" height="14" rx="2" fill="#4a4a55"/>`,
+  honey:()=>`<path d="M62 84 Q60 98 76 98 Q92 98 90 84Z" fill="#c9852a" stroke="#8a5a1a" stroke-width="1.5"/><ellipse cx="76" cy="84" rx="14" ry="4" fill="#ffc83a"/><path d="M70 84 q-2 8 0 10" stroke="#ffc83a" stroke-width="3" fill="none"/>`
+});
+
+Object.assign(AV.hat,{
+  partyhat:c=>`<path d="M34 30 L50 2 L66 30Z" fill="${c}"/><path d="M38 22 L62 22M41 15 L59 15" stroke="#fff" stroke-width="2" stroke-dasharray="3 3"/><circle cx="50" cy="3" r="4.5" fill="#f2c230"/>`,
+  jester:c=>`<path d="M28 34 Q22 8 7 16 Q20 20 42 26Z" fill="${c}"/><path d="M72 34 Q78 8 93 16 Q80 20 58 26Z" fill="#f2c230"/><path d="M30 34 Q50 2 70 34 Q50 26 30 34Z" fill="#d63a3a"/><circle cx="7" cy="16" r="4" fill="#f2c230"/><circle cx="93" cy="16" r="4" fill="${c}"/><circle cx="50" cy="8" r="4" fill="#f2c230"/>`,
+  santa:c=>`<path d="M25 33 Q28 6 54 8 Q72 10 75 33Z" fill="#d63a3a"/><path d="M62 10 Q86 4 88 24" stroke="#d63a3a" stroke-width="9" fill="none" stroke-linecap="round"/><circle cx="88" cy="26" r="6.5" fill="#fff"/><rect x="23" y="29" width="54" height="10" rx="5" fill="#fff"/>`,
+  mitre:c=>`<path d="M29 34 L50 0 L71 34Z" fill="${c}" stroke="#e8bd45" stroke-width="2.4" stroke-linejoin="round"/><rect x="48.4" y="9" width="3.2" height="14" fill="#e8bd45"/><rect x="44" y="14" width="12" height="3.2" fill="#e8bd45"/><rect x="29" y="31" width="42" height="5" fill="#e8bd45"/>`,
+  goggles:c=>`<rect x="26" y="25" width="48" height="5" fill="#6b4423"/><circle cx="40" cy="26" r="7.5" fill="#9fd8ff" stroke="#b8862a" stroke-width="2.6"/><circle cx="60" cy="26" r="7.5" fill="#9fd8ff" stroke="#b8862a" stroke-width="2.6"/><circle cx="37.5" cy="23.5" r="2" fill="#fff" opacity=".8"/>`,
+  spacehelm:c=>`<circle cx="50" cy="40" r="35" fill="rgba(190,225,255,.28)" stroke="#e8eef6" stroke-width="5"/><path d="M30 18 Q38 10 48 9" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/><rect x="33" y="72" width="34" height="8" rx="3.5" fill="#e8eef6"/>`
+});
+Object.assign(AV.acc,{
+  fireworks:()=>`<g stroke-width="2.4" stroke-linecap="round" fill="none"><g stroke="#ffd84a"><path d="M84 8v8M84 28v8M74 22h8M86 22h8M77 15l5 5M91 15l-5 5M77 29l5-5M91 29l-5-5" transform="translate(0 0)"/></g><g stroke="#ff7ab0"><path d="M16 14v6M16 30v6M8 24h6M18 24h6M10 18l4 4M22 18l-4 4M10 30l4-4M22 30l-4-4"/></g></g>`,
+  confetti:()=>`<g><rect x="12" y="14" width="5" height="5" fill="#ff5a7a" transform="rotate(20 14 16)"/><rect x="82" y="20" width="5" height="5" fill="#3fa8ff" transform="rotate(-20 84 22)"/><rect x="20" y="70" width="5" height="5" fill="#ffd84a" transform="rotate(35 22 72)"/><rect x="86" y="66" width="5" height="5" fill="#5ad07a" transform="rotate(15 88 68)"/><circle cx="8" cy="46" r="2.6" fill="#b06aff"/><circle cx="92" cy="44" r="2.6" fill="#ff9a3a"/><circle cx="50" cy="6" r="2.4" fill="#3fa8ff"/><rect x="70" y="8" width="4" height="4" fill="#ff5a7a"/></g>`,
+  heart:()=>`<path d="M78 98 L63 84 Q57 74 67 70 Q76 68 78 76 Q80 68 89 70 Q99 74 93 84Z" fill="#e84a6a" stroke="#b82a4a" stroke-width="1.4"/><path d="M68 74 q3-2 5 1" stroke="#fff" stroke-width="2" fill="none" opacity=".6" stroke-linecap="round"/>`,
+  bulb:()=>`<circle cx="78" cy="78" r="10" fill="#ffe27a" stroke="#d9a800" stroke-width="1.6"/><rect x="73" y="87" width="10" height="7" rx="1.5" fill="#8a96a6"/><path d="M74 78 l4 5 4-5" stroke="#d9a800" stroke-width="1.6" fill="none"/><path d="M78 62 v-5M66 66 l-4-4M90 66 l4-4M62 78 h-5M94 78 h5" stroke="#ffd84a" stroke-width="2" stroke-linecap="round"/>`,
+  egg:()=>`<ellipse cx="72" cy="88" rx="8" ry="10" fill="#f48fb1" stroke="#c2587f"/><path d="M64 87 q4 3 8 0 t8 0" stroke="#fff" stroke-width="2" fill="none"/><ellipse cx="88" cy="91" rx="7" ry="9" fill="#7fc8f8" stroke="#3f88b8"/><path d="M81 91 l3-3 3 3 3-3 3 3" stroke="#fff" stroke-width="1.8" fill="none"/>`,
+  bookstack:()=>`<rect x="58" y="90" width="38" height="8" rx="1.5" fill="#2f6db5"/><rect x="62" y="82" width="32" height="8" rx="1.5" fill="#d63a3a"/><rect x="60" y="74" width="34" height="8" rx="1.5" fill="#3f9a5a"/><path d="M60 94h34M64 86h28M62 78h30" stroke="#fff" stroke-width="1" opacity=".5"/>`,
+  tulips:()=>`<g stroke="#3f8a3a" stroke-width="2.6" stroke-linecap="round"><path d="M70 98 L66 74M78 98 L78 70M86 98 L90 74"/></g><path d="M61 72 q5-12 10 0 q-5 5-10 0Z" fill="#ff6a8a"/><path d="M73 68 q5-12 10 0 q-5 5-10 0Z" fill="#ffd84a"/><path d="M85 72 q5-12 10 0 q-5 5-10 0Z" fill="#b06aff"/>`,
+  balloon:()=>`<g stroke="#999" stroke-width="1" fill="none"><path d="M80 98 L84 36M80 98 L70 40M80 98 L96 42"/></g><ellipse cx="84" cy="28" rx="8" ry="10" fill="#ff5a7a"/><ellipse cx="70" cy="32" rx="8" ry="10" fill="#3fa8ff"/><ellipse cx="95" cy="35" rx="7" ry="9" fill="#ffd84a"/><circle cx="81" cy="24" r="2" fill="#fff" opacity=".6"/>`,
+  lantern:()=>`<line x1="66" y1="98" x2="84" y2="52" stroke="#8a5a2b" stroke-width="2.6" stroke-linecap="round"/><path d="M84 52 q8-6 12 2" stroke="#8a5a2b" stroke-width="1.6" fill="none"/><rect x="88" y="54" width="12" height="16" rx="3" fill="#ffb347" stroke="#d9791a" stroke-width="1.6"/><circle cx="94" cy="62" r="3" fill="#fff6c0"/><circle cx="94" cy="62" r="9" fill="#ffd84a" opacity=".3"/>`,
+  crosier:()=>`<line x1="88" y1="30" x2="88" y2="100" stroke="#e8bd45" stroke-width="3.4" stroke-linecap="round"/><path d="M88 30 Q88 14 76 16 Q70 18 72 26" stroke="#e8bd45" stroke-width="3.4" fill="none" stroke-linecap="round"/>`,
+  gift:()=>`<rect x="62" y="80" width="30" height="18" rx="2" fill="#d63a3a"/><rect x="62" y="80" width="30" height="6" fill="#b82a2a"/><rect x="74" y="80" width="6" height="18" fill="#ffd84a"/><path d="M77 80 q-8-10-12-4 q4 6 12 4 q8 2 12-4 q-4-6-12 4Z" fill="#ffd84a"/>`
+});
+
+AV.eyes=(y,dx,r,c)=>{y=y||48;dx=dx||12;r=r||3.6;c=c||"#222";return `<circle cx="${50-dx}" cy="${y}" r="${r}" fill="${c}"/><circle cx="${50+dx}" cy="${y}" r="${r}" fill="${c}"/><circle cx="${50-dx+1.2}" cy="${y-1.2}" r="${r*.3}" fill="#fff"/><circle cx="${50+dx+1.2}" cy="${y-1.2}" r="${r*.3}" fill="#fff"/>`};
+Object.assign(AV.hat,{
+  turban:c=>`<path d="M26 36 Q24 8 50 8 Q76 8 74 36 Q50 26 26 36Z" fill="${c}"/><path d="M29 24 Q50 14 71 26M27 31 Q50 21 73 33" stroke="rgba(0,0,0,.2)" stroke-width="2" fill="none"/><circle cx="50" cy="17" r="4.4" fill="#d63a3a" stroke="#e8bd45" stroke-width="1.6"/><path d="M50 13 Q54 2 61 4" stroke="#f2c230" stroke-width="2.6" fill="none" stroke-linecap="round"/>`,
+  viking:c=>`<path d="M27 32 Q28 9 50 9 Q72 9 73 32Z" fill="#9aa3ae"/><rect x="27" y="27" width="46" height="6" fill="#6f7882"/><path d="M29 22 Q13 22 11 6 Q21 15 31 15Z" fill="#f4efe2" stroke="#cfc6ae"/><path d="M71 22 Q87 22 89 6 Q79 15 69 15Z" fill="#f4efe2" stroke="#cfc6ae"/>`,
+  captain:c=>`<path d="M26 31 Q28 10 50 10 Q72 10 74 31Z" fill="#fff" stroke="#ccd3dd"/><rect x="26" y="26" width="48" height="6" fill="${c}"/><path d="M30 32 Q50 40 70 32 L70 35 Q50 43 30 35Z" fill="#222"/><circle cx="50" cy="19" r="3.6" fill="#e8bd45"/>`,
+  beret:c=>`<ellipse cx="46" cy="19" rx="27" ry="11" transform="rotate(-6 46 19)" fill="${c}"/><circle cx="48" cy="9" r="2.8" fill="${c}"/><path d="M22 22 Q46 32 72 19" stroke="rgba(0,0,0,.2)" stroke-width="2" fill="none"/>`
+});
+Object.assign(AV.acc,{
+  lamp:()=>`<path d="M60 93 Q62 84 74 84 L86 84 Q97 82 97 75 Q91 77 89 82 L89 86 Q87 97 74 98 Q64 98 60 93Z" fill="#e8bd45" stroke="#b8862a" stroke-width="1.4"/><path d="M68 83 q-5-8 1-13 q5-4 0-9" stroke="#9fd8ff" stroke-width="2.4" fill="none" stroke-linecap="round"/>`,
+  flute:()=>`<line x1="56" y1="97" x2="97" y2="66" stroke="#8a5a2b" stroke-width="5" stroke-linecap="round"/><g fill="#2a1a0a"><circle cx="68" cy="88" r="1.3"/><circle cx="75" cy="83" r="1.3"/><circle cx="82" cy="78" r="1.3"/></g><path d="M92 54 q4-4 6 0M86 46 q4-4 6 0" stroke="#e8bd45" stroke-width="2" fill="none"/>`,
+  hammer:()=>`<line x1="66" y1="98" x2="86" y2="66" stroke="#8a5a2b" stroke-width="4" stroke-linecap="round"/><rect x="74" y="58" width="22" height="11" rx="2" transform="rotate(-20 85 63)" fill="#8a96a6" stroke="#5b6572"/>`,
+  quill:()=>`<path d="M64 98 L92 52 Q103 54 97 67 Q90 82 70 93Z" fill="#f4efe2" stroke="#c9c2b0"/><line x1="64" y1="98" x2="94" y2="54" stroke="#8a6a3a" stroke-width="1.4"/><circle cx="62" cy="99" r="2" fill="#222"/>`,
+  chest:()=>`<rect x="58" y="82" width="38" height="16" rx="2" fill="#8a5a2b" stroke="#5b3a1a" stroke-width="1.6"/><path d="M58 82 Q58 70 77 70 Q96 70 96 82Z" fill="#a8733a" stroke="#5b3a1a" stroke-width="1.6"/><rect x="73" y="78" width="8" height="9" rx="1.5" fill="#e8bd45"/><path d="M66 70 l-2-5M88 70 l2-5M77 68 v-6" stroke="#ffd84a" stroke-width="2" stroke-linecap="round"/>`,
+  wheel:()=>`<circle cx="78" cy="82" r="14" fill="none" stroke="#8a5a2b" stroke-width="4"/><circle cx="78" cy="82" r="4" fill="#8a5a2b"/><g stroke="#8a5a2b" stroke-width="3" stroke-linecap="round"><path d="M78 64v36M60 82h36M65 69l26 26M91 69L65 95"/></g>`,
+  telescope:()=>`<path d="M58 96 L88 62 L96 69 L66 103Z" fill="#c9852a" stroke="#8a5a1a"/><path d="M84 58 L94 50 L100 58 L90 66Z" fill="#e8bd45" stroke="#b8862a"/><path d="M12 22l1.6 4 4 1.6-4 1.6L12 33l-1.6-4-4-1.6 4-1.6z" fill="#ffe27a"/>`,
+  flask:()=>`<path d="M75 64 h8 v12 l11 20 q1 4-4 4 h-22 q-5 0-4-4 l11-20z" fill="#7fe0a8" fill-opacity=".85" stroke="#4a8a6a" stroke-width="1.6"/><path d="M72 64h14" stroke="#4a8a6a" stroke-width="2.4"/><circle cx="76" cy="90" r="2" fill="#fff" opacity=".7"/><circle cx="83" cy="86" r="1.5" fill="#fff" opacity=".7"/>`,
+  pickaxe:()=>`<line x1="64" y1="98" x2="88" y2="50" stroke="#8a5a2b" stroke-width="4" stroke-linecap="round"/><path d="M70 50 Q88 38 106 54 Q88 46 72 56Z" fill="#8a96a6" stroke="#5b6572" stroke-width="1.4"/>`
+});
+
 const AVATARS=[
- {id:"a00",name:"Aschenputtel",draw:()=>AV.person({bg:"#d5dde6",hair:"#e3b95a",style:"plait",dress:"#8d939c",apron:true,hat:"kerchief",hatc:"#6f7f93",smudge:true,acc:"broom"})},
- {id:"a01",name:"Aschenputtel und die Taube",draw:()=>AV.person({bg:"#e3e8ee",hair:"#e3b95a",style:"plait",dress:"#8d939c",apron:true,hat:"kerchief",hatc:"#6f7f93",smudge:true,acc:"dove"})},
- {id:"a02",name:"Aschenputtel am Haselbaum",draw:()=>AV.person({bg:"#d8e9d0",hair:"#e3b95a",style:"plait",dress:"#8d939c",apron:true,hat:"kerchief",hatc:"#6f7f93",acc:"twig"})},
- {id:"a03",name:"Aschenputtel im Goldkleid",draw:()=>AV.person({bg:"#3b2a5a",hair:"#e3b95a",style:"bun",dress:"#e8b93c",collar:"#fff0b8",hat:"tiara",acc:["sparkles","shoe"]})},
- {id:"a04",name:"Aschenputtel im Silberkleid",draw:()=>AV.person({bg:"#26365e",hair:"#e3b95a",style:"bun",dress:"#c7d0dc",collar:"#ffffff",hat:"tiara",acc:["sparkles","dove"]})},
- {id:"a05",name:"Der Prinz",draw:()=>AV.person({bg:"#d9e6f6",hair:"#7a4a24",style:"short",dress:"#2f5fa8",collar:"#f2c230",hat:"crown",acc:null})},
- {id:"a06",name:"Die gute Fee",draw:()=>AV.person({bg:"#ead9f5",hair:"#c58ad9",style:"long",dress:"#7fb7e8",collar:"#fff",hat:"tiara",acc:["wand","sparkles"]})},
- {id:"a07",name:"Hänsel",draw:()=>AV.person({bg:"#e2d3b8",hair:"#9b6a34",style:"short",dress:"#4f8a52",collar:"#f4efe2",hat:"cap",hatc:"#7a5230",acc:"leaf"})},
- {id:"a08",name:"Gretel",draw:()=>AV.person({bg:"#f1e0c5",hair:"#9b6a34",style:"braids",dress:"#c9575c",apron:true,hat:"bow",hatc:"#d63a4a"})},
- {id:"a09",name:"Rotkäppchen",draw:()=>AV.person({bg:"#cfe6c8",hair:"#7a4a24",style:"short",dress:"#d63a3a",collar:"#fff",hat:"hood",hatc:"#c62828",acc:"basket"})},
- {id:"a10",name:"Dornröschen",draw:()=>AV.person({bg:"#f6d6e4",hair:"#e3b95a",style:"long",dress:"#e88fb5",collar:"#fff",hat:"flowers",hatc:"#e0527a",acc:"rose"})},
- {id:"a11",name:"Schneewittchen",draw:()=>AV.person({bg:"#d7e8f4",skin:"#fbe3d2",hair:"#1f1a1a",style:"short",dress:"#2f6db5",collar:"#d63a3a",hat:"bow",hatc:"#d63a3a",acc:"apple"})},
- {id:"a12",name:"Der kleine Zwerg",draw:()=>AV.person({bg:"#cfe0c0",hair:"#e8e4de",style:"short",dress:"#5b8a4f",beard:"#eeeae4",hat:"pointy",hatc:"#d63a3a",fringe:false})},
- {id:"a13",name:"Rumpelstilzchen",draw:()=>AV.person({bg:"#f0d9b0",hair:"#b8501f",style:"short",dress:"#6b3f1d",beard:"#c9602a",hat:"pointy",hatc:"#b02a2a",fringe:false,acc:"key"})},
- {id:"a14",name:"Die Zauberin",draw:()=>AV.person({bg:"#2e1f4d",hair:"#7a4a8a",style:"long",dress:"#5a3a8f",collar:"#f2c230",hat:"witch",hatc:"#3a2670",acc:["wand","sparkles"]})},
- {id:"a15",name:"Die Ritterin",draw:()=>AV.person({bg:"#d9e1ea",hair:"#9b6a34",style:"braids",dress:"#8a96a6",collar:"#d63a3a",hat:"helmet",hatc:"#b8c2cf"})},
- {id:"a16",name:"Die Piratin",draw:()=>AV.person({bg:"#a9d3e8",hair:"#4a2a14",style:"long",dress:"#8b1a1a",collar:"#f4efe2",hat:"bandana",hatc:"#c62828",patch:true,fringe:true})},
- {id:"a17",name:"Die Meerjungfrau",draw:()=>AV.person({bg:"#8fd3e0",hair:"#2fb5a8",style:"long",dress:"#2f9aa8",collar:"#7fe0d0",hat:"flowers",hatc:"#f6b3c4",acc:"shell"})},
- {id:"a18",name:"Die Entdeckerin",draw:()=>AV.person({bg:"#e6d9b5",hair:"#7a4a24",style:"braids",dress:"#a5894e",collar:"#f4efe2",hat:"explorer",hatc:"#c9a25a",glasses:false,acc:"magnifier"})},
- {id:"a19",name:"Die Detektivin",draw:()=>AV.person({bg:"#c9d3e0",hair:"#3a2412",style:"short",dress:"#6b6f78",collar:"#f4efe2",hat:"cap",hatc:"#7a6a58",acc:"magnifier",glasses:false})},
- {id:"a20",name:"Die Königin",draw:()=>AV.person({bg:"#4a2a6a",hair:"#3a2412",style:"long",dress:"#8a2a8f",collar:"#f2c230",hat:"crown",acc:"sparkles"})},
- {id:"a21",name:"Die Leseratte",draw:()=>AV.person({bg:"#f0e4cf",hair:"#c0764a",style:"bun",dress:"#3f7f6f",collar:"#f4efe2",glasses:true,acc:"book"})},
- {id:"a22",name:"Der Medienprofi",draw:()=>AV.person({bg:"#c9e0ea",hair:"#2a2a3a",style:"short",dress:"#3a4a6a",collar:"#7fd0ff",hat:"phones",hatc:"#2a2a3a",glasses:true})},
- {id:"a23",name:"Der Froschkönig",draw:()=>`<rect width="100" height="100" fill="#cfe8c0"/><circle cx="30" cy="30" r="14" fill="#6cbf4a"/><circle cx="70" cy="30" r="14" fill="#6cbf4a"/><ellipse cx="50" cy="60" rx="38" ry="30" fill="#6cbf4a"/><circle cx="30" cy="30" r="8" fill="#fff"/><circle cx="70" cy="30" r="8" fill="#fff"/><circle cx="31" cy="31" r="4" fill="#222"/><circle cx="69" cy="31" r="4" fill="#222"/><path d="M26 66 Q50 86 74 66" stroke="#2f6a1f" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="43" cy="54" r="1.8" fill="#2f6a1f"/><circle cx="57" cy="54" r="1.8" fill="#2f6a1f"/><circle cx="24" cy="62" r="4" fill="#f4a6a0" opacity=".5"/><circle cx="76" cy="62" r="4" fill="#f4a6a0" opacity=".5"/>${AV.hat.crown()}`.replace('M32 24 L35 9','M32 24 L35 9')},
- {id:"a24",name:"Der gestiefelte Kater",draw:()=>`<rect width="100" height="100" fill="#f3dfb8"/><path d="M24 40 L22 12 L42 28Z" fill="#e8913a"/><path d="M76 40 L78 12 L58 28Z" fill="#e8913a"/><ellipse cx="50" cy="58" rx="32" ry="30" fill="#e8913a"/><ellipse cx="50" cy="68" rx="16" ry="11" fill="#fbe9d0"/><circle cx="38" cy="52" r="4" fill="#fff"/><circle cx="62" cy="52" r="4" fill="#fff"/><ellipse cx="38" cy="52" rx="1.6" ry="3.4" fill="#222"/><ellipse cx="62" cy="52" rx="1.6" ry="3.4" fill="#222"/><path d="M46 62 L54 62 L50 67Z" fill="#e0707a"/><path d="M50 67 Q44 74 40 70 M50 67 Q56 74 60 70" stroke="#6b4423" stroke-width="1.8" fill="none"/><path d="M24 62 L8 58M24 67 L8 70M76 62 L92 58M76 67 L92 70" stroke="#6b4423" stroke-width="1.4"/><ellipse cx="50" cy="30" rx="34" ry="6" fill="#6b3f1d"/><path d="M32 30 Q32 10 50 10 Q68 10 68 30Z" fill="#7a4a24"/><path d="M60 14 Q80 2 92 14 Q76 12 66 20Z" fill="#d63a3a"/>`},
- {id:"a25",name:"Der Bremer Esel",draw:()=>`<rect width="100" height="100" fill="#d8e3ee"/><path d="M26 44 L20 6 L40 30Z" fill="#8f98a3"/><path d="M74 44 L80 6 L60 30Z" fill="#8f98a3"/><path d="M26 38 L23 14 L36 30Z" fill="#e9b7b7"/><path d="M74 38 L77 14 L64 30Z" fill="#e9b7b7"/><ellipse cx="50" cy="50" rx="26" ry="32" fill="#9aa3ae"/><path d="M42 20 Q50 10 58 20 Q50 26 42 20Z" fill="#6f7882"/><ellipse cx="50" cy="74" rx="20" ry="16" fill="#e6dccb"/><circle cx="40" cy="46" r="3" fill="#222"/><circle cx="60" cy="46" r="3" fill="#222"/><ellipse cx="43" cy="76" rx="3" ry="4.4" fill="#6f6256"/><ellipse cx="57" cy="76" rx="3" ry="4.4" fill="#6f6256"/><path d="M44 86 Q50 91 56 86" stroke="#6f6256" stroke-width="2" fill="none" stroke-linecap="round"/>`},
- {id:"a26",name:"Die weise Eule",draw:()=>`<rect width="100" height="100" fill="#2e3d5c"/><circle cx="82" cy="18" r="9" fill="#f6efc2"/><path d="M22 36 L28 14 L42 26Z" fill="#8a5a2b"/><path d="M78 36 L72 14 L58 26Z" fill="#8a5a2b"/><ellipse cx="50" cy="60" rx="34" ry="36" fill="#a8733a"/><ellipse cx="50" cy="76" rx="20" ry="18" fill="#e8d2a6"/><path d="M40 70 q3 4 6 0M54 70 q3 4 6 0M44 80 q3 4 6 0M50 80 q3 4 6 0" stroke="#a8733a" fill="none" stroke-width="1.4"/><circle cx="37" cy="46" r="13" fill="#fff6dc" stroke="#6b4423" stroke-width="2"/><circle cx="63" cy="46" r="13" fill="#fff6dc" stroke="#6b4423" stroke-width="2"/><circle cx="37" cy="46" r="6" fill="#2a1a0a"/><circle cx="63" cy="46" r="6" fill="#2a1a0a"/><circle cx="39" cy="44" r="2" fill="#fff"/><circle cx="65" cy="44" r="2" fill="#fff"/><path d="M45 54 L55 54 L50 63Z" fill="#f0a030"/>`},
- {id:"a27",name:"Der Bücherwurm",draw:()=>`<rect width="100" height="100" fill="#f1e4c9"/><rect x="0" y="82" width="100" height="18" fill="#a8733a"/><circle cx="22" cy="72" r="13" fill="#8fd05a"/><circle cx="40" cy="74" r="13" fill="#7fc24a"/><circle cx="58" cy="72" r="13" fill="#8fd05a"/><circle cx="72" cy="52" r="20" fill="#9ee06a"/><circle cx="65" cy="49" r="6" fill="#fff" stroke="#6b4423" stroke-width="1.8"/><circle cx="82" cy="49" r="6" fill="#fff" stroke="#6b4423" stroke-width="1.8"/><circle cx="66" cy="50" r="2.4" fill="#222"/><circle cx="83" cy="50" r="2.4" fill="#222"/><line x1="71" y1="49" x2="76" y2="49" stroke="#6b4423" stroke-width="1.8"/><path d="M66 60 Q74 67 82 60" stroke="#3f7a1f" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M66 34 Q64 24 58 24M78 34 Q80 24 86 24" stroke="#3f7a1f" stroke-width="2" fill="none"/><circle cx="58" cy="24" r="2.4" fill="#3f7a1f"/><circle cx="86" cy="24" r="2.4" fill="#3f7a1f"/><rect x="26" y="40" width="26" height="18" rx="2" fill="#2f6db5"/><rect x="28" y="42" width="22" height="14" rx="1" fill="#f8f4e4"/><line x1="39" y1="42" x2="39" y2="56" stroke="#c2b98f"/>`},
- {id:"a28",name:"Der freundliche Drache",draw:()=>`<rect width="100" height="100" fill="#e9d9f2"/><path d="M30 34 L24 12 L42 26Z" fill="#f2c230"/><path d="M70 34 L76 12 L58 26Z" fill="#f2c230"/><path d="M44 16 L50 4 L56 16Z" fill="#e88a3a"/><ellipse cx="50" cy="56" rx="32" ry="30" fill="#6cbf6a"/><ellipse cx="50" cy="70" rx="24" ry="16" fill="#9ae08a"/><circle cx="38" cy="48" r="5" fill="#fff"/><circle cx="62" cy="48" r="5" fill="#fff"/><circle cx="39" cy="49" r="2.6" fill="#222"/><circle cx="61" cy="49" r="2.6" fill="#222"/><circle cx="43" cy="68" r="2" fill="#3f7a3a"/><circle cx="57" cy="68" r="2" fill="#3f7a3a"/><path d="M40 78 Q50 86 60 78" stroke="#3f7a3a" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M82 62 q6-3 8 2 q-4 1-8-2M86 52 q5-4 8 0 q-4 2-8 0" fill="#ffb347" opacity=".85"/>`},
- {id:"a29",name:"Das Einhorn",draw:()=>`<rect width="100" height="100" fill="#dff0fb"/><path d="M24 62 Q10 40 22 22 Q26 40 36 40Z" fill="#f08acb"/><path d="M22 70 Q6 56 14 38 Q20 52 30 54Z" fill="#7fc8f8"/><path d="M26 54 Q12 30 28 14 Q30 34 40 38Z" fill="#b48af0"/><path d="M40 36 L28 18 L52 28Z" fill="#fff"/><ellipse cx="54" cy="58" rx="26" ry="30" fill="#fff" stroke="#d8dde6"/><path d="M50 30 L56 4 L62 30Z" fill="#f2c230" stroke="#e0a800"/><path d="M52 24 l8-3M51 18 l9-3M53 12 l6-2" stroke="#e0a800" stroke-width="1.4"/><ellipse cx="54" cy="76" rx="18" ry="12" fill="#fbe3ee"/><circle cx="46" cy="52" r="3" fill="#222"/><circle cx="66" cy="52" r="3" fill="#222"/><circle cx="47" cy="51" r=".9" fill="#fff"/><circle cx="67" cy="51" r=".9" fill="#fff"/><circle cx="48" cy="76" r="1.6" fill="#d98aa8"/><circle cx="60" cy="76" r="1.6" fill="#d98aa8"/><circle cx="40" cy="62" r="3.6" fill="#f4a6a0" opacity=".55"/><circle cx="68" cy="62" r="3.6" fill="#f4a6a0" opacity=".55"/>`}
+ {id:"a00",pack:"start",name:"Aschenputtel",draw:()=>AV.person({bg:"#d5dde6",hair:"#e3b95a",style:"plait",dress:"#8d939c",apron:true,hat:"kerchief",hatc:"#6f7f93",smudge:true,acc:"broom"})},
+
+ {id:"m01",pack:"start",name:"Der Aschenbursche",draw:()=>AV.person({bg:"#d5dde6",hair:"#7a4a24",style:"short",dress:"#7c828b",apron:true,hat:"cap",hatc:"#5d6b7d",smudge:true,cheek:false,acc:"broom"})},
+ {id:"m02",pack:"start",name:"Der Leseheld",draw:()=>AV.person({bg:"#f0e4cf",hair:"#3a2412",style:"short",dress:"#3f7f9f",collar:"#f4efe2",glasses:true,cheek:false,acc:"book"})},
+ {id:"w01",pack:"maerchenwald",name:"Däumelinchen",draw:()=>AV.person({bg:"#dff0d0",hair:"#d8a84a",style:"long",dress:"#f4a6c8",collar:"#fff",hat:"flowers",hatc:"#f08fb0",acc:["leaf","sparkles"]})},
+ {id:"w02",pack:"maerchenwald",name:"Der standhafte Zinnsoldat",draw:()=>AV.person({bg:"#d9e1ea",hair:"#1d1d1d",style:"short",dress:"#c62828",collar:"#f2c230",hat:"shako",hatc:"#1d3a6a",cheek:true,eye:"#1d1d1d"})},
+ {id:"w03",pack:"maerchenwald",name:"Die Prinzessin auf der Erbse",draw:()=>AV.person({bg:"#e7dcf6",hair:"#c0764a",style:"long",dress:"#cfe3ff",collar:"#fff",hat:"tiara",acc:"pea"})},
+ {id:"w04",pack:"maerchenwald",name:"Der kleine Muck",draw:()=>AV.person({bg:"#f0dcc0",hair:"#cfcfcf",style:"short",dress:"#8a4fb0",beard:"#d6d6d6",hat:"floppy",hatc:"#2f9aa8",fringe:false,acc:"shoe"})},
+ {id:"w05",pack:"maerchenwald",name:"Das tapfere Schneiderlein",draw:()=>AV.person({bg:"#e9dcc0",hair:"#6b3f1d",style:"short",dress:"#4a6fa8",collar:"#f2c230",hat:"cap",hatc:"#8a4a3a",acc:"scissors"})},
+ {id:"w06",pack:"maerchenwald",name:"Frau Holle",draw:()=>AV.person({bg:"#bfd8f0",skin:"#efcfae",hair:"#eeeeee",style:"bun",dress:"#7fa8d8",collar:"#fff",hat:"kerchief",hatc:"#ffffff",acc:"snow"})},
+ {id:"w07",pack:"maerchenwald",name:"Der Nussknacker",draw:()=>AV.person({bg:"#3a2a4a",skin:"#f1d3a8",hair:"#f4f4f4",style:"short",dress:"#c62828",collar:"#f2c230",hat:"shako",hatc:"#c62828",stache:"#f4f4f4",grin:true,acc:"nut"})},
+ {id:"w08",pack:"maerchenwald",name:"Der Wolf und die Geißlein",draw:()=>`<rect width="100" height="100" fill="#dcebd0"/><path d="M22 46 L18 10 L42 28Z" fill="#6b717c"/><path d="M78 46 L82 10 L58 28Z" fill="#6b717c"/><ellipse cx="46" cy="52" rx="30" ry="32" fill="#8a909c"/><ellipse cx="46" cy="68" rx="17" ry="14" fill="#c9ced8"/><circle cx="34" cy="46" r="5" fill="#ffd84a"/><circle cx="58" cy="46" r="5" fill="#ffd84a"/><ellipse cx="34" cy="46" rx="1.6" ry="3.8" fill="#222"/><ellipse cx="58" cy="46" rx="1.6" ry="3.8" fill="#222"/><path d="M39 62 Q46 56 53 62 Q46 68 39 62Z" fill="#222"/><path d="M36 74 Q46 82 56 74" stroke="#222" stroke-width="2" fill="#7a1a24"/><path d="M39 76 l2 5 2-5M49 76 l2 5 2-5" fill="#fff"/>${AV.acc.goat()}`},
+ {id:"w09",pack:"maerchenwald",name:"Das Mädchen der Schneekönigin",draw:()=>AV.person({bg:"#a9cfe8",skin:"#fbe3d6",hair:"#dff3ff",style:"long",dress:"#e8f4ff",collar:"#bfe0f6",hat:"crown",hatc:"#cfeeff",cheek:false,acc:"snow"})},
+ {id:"a01",pack:"erfolg",name:"Aschenputtel und die Taube",draw:()=>AV.person({bg:"#e3e8ee",hair:"#e3b95a",style:"plait",dress:"#8d939c",apron:true,hat:"kerchief",hatc:"#6f7f93",smudge:true,acc:"dove"})},
+ {id:"a02",pack:"erfolg",name:"Aschenputtel am Haselbaum",draw:()=>AV.person({bg:"#d8e9d0",hair:"#e3b95a",style:"plait",dress:"#8d939c",apron:true,hat:"kerchief",hatc:"#6f7f93",acc:"twig"})},
+ {id:"a03",pack:"erfolg",name:"Aschenputtel im Goldkleid",draw:()=>AV.person({bg:"#3b2a5a",hair:"#e3b95a",style:"bun",dress:"#e8b93c",collar:"#fff0b8",hat:"tiara",acc:["sparkles","shoe"]})},
+ {id:"a04",pack:"erfolg",name:"Aschenputtel im Silberkleid",draw:()=>AV.person({bg:"#26365e",hair:"#e3b95a",style:"bun",dress:"#c7d0dc",collar:"#ffffff",hat:"tiara",acc:["sparkles","dove"]})},
+ {id:"a05",pack:"erfolg",name:"Der Prinz",draw:()=>AV.person({bg:"#d9e6f6",hair:"#7a4a24",style:"short",dress:"#2f5fa8",collar:"#f2c230",hat:"crown",acc:null})},
+ {id:"a06",pack:"erfolg",name:"Die gute Fee",draw:()=>AV.person({bg:"#ead9f5",hair:"#c58ad9",style:"long",dress:"#7fb7e8",collar:"#fff",hat:"tiara",acc:["wand","sparkles"]})},
+ {id:"a07",pack:"erfolg",name:"Hänsel",draw:()=>AV.person({bg:"#e2d3b8",hair:"#9b6a34",style:"short",dress:"#4f8a52",collar:"#f4efe2",hat:"cap",hatc:"#7a5230",acc:"leaf"})},
+ {id:"a08",pack:"erfolg",name:"Gretel",draw:()=>AV.person({bg:"#f1e0c5",hair:"#9b6a34",style:"braids",dress:"#c9575c",apron:true,hat:"bow",hatc:"#d63a4a"})},
+ {id:"a09",pack:"erfolg",name:"Rotkäppchen",draw:()=>AV.person({bg:"#cfe6c8",hair:"#7a4a24",style:"short",dress:"#d63a3a",collar:"#fff",hat:"hood",hatc:"#c62828",acc:"basket"})},
+ {id:"a10",pack:"erfolg",name:"Dornröschen",draw:()=>AV.person({bg:"#f6d6e4",hair:"#e3b95a",style:"long",dress:"#e88fb5",collar:"#fff",hat:"flowers",hatc:"#e0527a",acc:"rose"})},
+ {id:"a11",pack:"erfolg",name:"Schneewittchen",draw:()=>AV.person({bg:"#d7e8f4",skin:"#fbe3d2",hair:"#1f1a1a",style:"short",dress:"#2f6db5",collar:"#d63a3a",hat:"bow",hatc:"#d63a3a",acc:"apple"})},
+ {id:"a12",pack:"erfolg",name:"Der kleine Zwerg",draw:()=>AV.person({bg:"#cfe0c0",hair:"#e8e4de",style:"short",dress:"#5b8a4f",beard:"#eeeae4",hat:"pointy",hatc:"#d63a3a",fringe:false})},
+ {id:"a13",pack:"erfolg",name:"Rumpelstilzchen",draw:()=>AV.person({bg:"#f0d9b0",hair:"#b8501f",style:"short",dress:"#6b3f1d",beard:"#c9602a",hat:"pointy",hatc:"#b02a2a",fringe:false,acc:"key"})},
+ {id:"a14",pack:"erfolg",name:"Die Zauberin",draw:()=>AV.person({bg:"#2e1f4d",hair:"#7a4a8a",style:"long",dress:"#5a3a8f",collar:"#f2c230",hat:"witch",hatc:"#3a2670",acc:["wand","sparkles"]})},
+ {id:"a15",pack:"erfolg",name:"Die Ritterin",draw:()=>AV.person({bg:"#d9e1ea",hair:"#9b6a34",style:"braids",dress:"#8a96a6",collar:"#d63a3a",hat:"helmet",hatc:"#b8c2cf"})},
+ {id:"a16",pack:"erfolg",name:"Die Piratin",draw:()=>AV.person({bg:"#a9d3e8",hair:"#4a2a14",style:"long",dress:"#8b1a1a",collar:"#f4efe2",hat:"bandana",hatc:"#c62828",patch:true,fringe:true})},
+ {id:"a17",pack:"erfolg",name:"Die Meerjungfrau",draw:()=>AV.person({bg:"#8fd3e0",hair:"#2fb5a8",style:"long",dress:"#2f9aa8",collar:"#7fe0d0",hat:"flowers",hatc:"#f6b3c4",acc:"shell"})},
+ {id:"a18",pack:"erfolg",name:"Die Entdeckerin",draw:()=>AV.person({bg:"#e6d9b5",hair:"#7a4a24",style:"braids",dress:"#a5894e",collar:"#f4efe2",hat:"explorer",hatc:"#c9a25a",glasses:false,acc:"magnifier"})},
+ {id:"a19",pack:"erfolg",name:"Die Detektivin",draw:()=>AV.person({bg:"#c9d3e0",hair:"#3a2412",style:"short",dress:"#6b6f78",collar:"#f4efe2",hat:"cap",hatc:"#7a6a58",acc:"magnifier",glasses:false})},
+ {id:"a20",pack:"erfolg",name:"Die Königin",draw:()=>AV.person({bg:"#4a2a6a",hair:"#3a2412",style:"long",dress:"#8a2a8f",collar:"#f2c230",hat:"crown",acc:"sparkles"})},
+ {id:"a21",pack:"erfolg",name:"Die Leseratte",draw:()=>AV.person({bg:"#f0e4cf",hair:"#c0764a",style:"bun",dress:"#3f7f6f",collar:"#f4efe2",glasses:true,acc:"book"})},
+ {id:"a22",pack:"erfolg",name:"Der Medienprofi",draw:()=>AV.person({bg:"#c9e0ea",hair:"#2a2a3a",style:"short",dress:"#3a4a6a",collar:"#7fd0ff",hat:"phones",hatc:"#2a2a3a",glasses:true})},
+ {id:"a23",pack:"erfolg",name:"Der Froschkönig",draw:()=>`<rect width="100" height="100" fill="#cfe8c0"/><circle cx="30" cy="30" r="14" fill="#6cbf4a"/><circle cx="70" cy="30" r="14" fill="#6cbf4a"/><ellipse cx="50" cy="60" rx="38" ry="30" fill="#6cbf4a"/><circle cx="30" cy="30" r="8" fill="#fff"/><circle cx="70" cy="30" r="8" fill="#fff"/><circle cx="31" cy="31" r="4" fill="#222"/><circle cx="69" cy="31" r="4" fill="#222"/><path d="M26 66 Q50 86 74 66" stroke="#2f6a1f" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="43" cy="54" r="1.8" fill="#2f6a1f"/><circle cx="57" cy="54" r="1.8" fill="#2f6a1f"/><circle cx="24" cy="62" r="4" fill="#f4a6a0" opacity=".5"/><circle cx="76" cy="62" r="4" fill="#f4a6a0" opacity=".5"/>${AV.hat.crown()}`.replace('M32 24 L35 9','M32 24 L35 9')},
+ {id:"a24",pack:"erfolg",name:"Der gestiefelte Kater",draw:()=>`<rect width="100" height="100" fill="#f3dfb8"/><path d="M24 40 L22 12 L42 28Z" fill="#e8913a"/><path d="M76 40 L78 12 L58 28Z" fill="#e8913a"/><ellipse cx="50" cy="58" rx="32" ry="30" fill="#e8913a"/><ellipse cx="50" cy="68" rx="16" ry="11" fill="#fbe9d0"/><circle cx="38" cy="52" r="4" fill="#fff"/><circle cx="62" cy="52" r="4" fill="#fff"/><ellipse cx="38" cy="52" rx="1.6" ry="3.4" fill="#222"/><ellipse cx="62" cy="52" rx="1.6" ry="3.4" fill="#222"/><path d="M46 62 L54 62 L50 67Z" fill="#e0707a"/><path d="M50 67 Q44 74 40 70 M50 67 Q56 74 60 70" stroke="#6b4423" stroke-width="1.8" fill="none"/><path d="M24 62 L8 58M24 67 L8 70M76 62 L92 58M76 67 L92 70" stroke="#6b4423" stroke-width="1.4"/><ellipse cx="50" cy="30" rx="34" ry="6" fill="#6b3f1d"/><path d="M32 30 Q32 10 50 10 Q68 10 68 30Z" fill="#7a4a24"/><path d="M60 14 Q80 2 92 14 Q76 12 66 20Z" fill="#d63a3a"/>`},
+ {id:"a25",pack:"erfolg",name:"Der Bremer Esel",draw:()=>`<rect width="100" height="100" fill="#d8e3ee"/><path d="M26 44 L20 6 L40 30Z" fill="#8f98a3"/><path d="M74 44 L80 6 L60 30Z" fill="#8f98a3"/><path d="M26 38 L23 14 L36 30Z" fill="#e9b7b7"/><path d="M74 38 L77 14 L64 30Z" fill="#e9b7b7"/><ellipse cx="50" cy="50" rx="26" ry="32" fill="#9aa3ae"/><path d="M42 20 Q50 10 58 20 Q50 26 42 20Z" fill="#6f7882"/><ellipse cx="50" cy="74" rx="20" ry="16" fill="#e6dccb"/><circle cx="40" cy="46" r="3" fill="#222"/><circle cx="60" cy="46" r="3" fill="#222"/><ellipse cx="43" cy="76" rx="3" ry="4.4" fill="#6f6256"/><ellipse cx="57" cy="76" rx="3" ry="4.4" fill="#6f6256"/><path d="M44 86 Q50 91 56 86" stroke="#6f6256" stroke-width="2" fill="none" stroke-linecap="round"/>`},
+ {id:"a26",pack:"erfolg",name:"Die weise Eule",draw:()=>`<rect width="100" height="100" fill="#2e3d5c"/><circle cx="82" cy="18" r="9" fill="#f6efc2"/><path d="M22 36 L28 14 L42 26Z" fill="#8a5a2b"/><path d="M78 36 L72 14 L58 26Z" fill="#8a5a2b"/><ellipse cx="50" cy="60" rx="34" ry="36" fill="#a8733a"/><ellipse cx="50" cy="76" rx="20" ry="18" fill="#e8d2a6"/><path d="M40 70 q3 4 6 0M54 70 q3 4 6 0M44 80 q3 4 6 0M50 80 q3 4 6 0" stroke="#a8733a" fill="none" stroke-width="1.4"/><circle cx="37" cy="46" r="13" fill="#fff6dc" stroke="#6b4423" stroke-width="2"/><circle cx="63" cy="46" r="13" fill="#fff6dc" stroke="#6b4423" stroke-width="2"/><circle cx="37" cy="46" r="6" fill="#2a1a0a"/><circle cx="63" cy="46" r="6" fill="#2a1a0a"/><circle cx="39" cy="44" r="2" fill="#fff"/><circle cx="65" cy="44" r="2" fill="#fff"/><path d="M45 54 L55 54 L50 63Z" fill="#f0a030"/>`},
+ {id:"a27",pack:"erfolg",name:"Der Bücherwurm",draw:()=>`<rect width="100" height="100" fill="#f1e4c9"/><rect x="0" y="82" width="100" height="18" fill="#a8733a"/><circle cx="22" cy="72" r="13" fill="#8fd05a"/><circle cx="40" cy="74" r="13" fill="#7fc24a"/><circle cx="58" cy="72" r="13" fill="#8fd05a"/><circle cx="72" cy="52" r="20" fill="#9ee06a"/><circle cx="65" cy="49" r="6" fill="#fff" stroke="#6b4423" stroke-width="1.8"/><circle cx="82" cy="49" r="6" fill="#fff" stroke="#6b4423" stroke-width="1.8"/><circle cx="66" cy="50" r="2.4" fill="#222"/><circle cx="83" cy="50" r="2.4" fill="#222"/><line x1="71" y1="49" x2="76" y2="49" stroke="#6b4423" stroke-width="1.8"/><path d="M66 60 Q74 67 82 60" stroke="#3f7a1f" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M66 34 Q64 24 58 24M78 34 Q80 24 86 24" stroke="#3f7a1f" stroke-width="2" fill="none"/><circle cx="58" cy="24" r="2.4" fill="#3f7a1f"/><circle cx="86" cy="24" r="2.4" fill="#3f7a1f"/><rect x="26" y="40" width="26" height="18" rx="2" fill="#2f6db5"/><rect x="28" y="42" width="22" height="14" rx="1" fill="#f8f4e4"/><line x1="39" y1="42" x2="39" y2="56" stroke="#c2b98f"/>`},
+ {id:"a28",pack:"erfolg",name:"Der freundliche Drache",draw:()=>`<rect width="100" height="100" fill="#e9d9f2"/><path d="M30 34 L24 12 L42 26Z" fill="#f2c230"/><path d="M70 34 L76 12 L58 26Z" fill="#f2c230"/><path d="M44 16 L50 4 L56 16Z" fill="#e88a3a"/><ellipse cx="50" cy="56" rx="32" ry="30" fill="#6cbf6a"/><ellipse cx="50" cy="70" rx="24" ry="16" fill="#9ae08a"/><circle cx="38" cy="48" r="5" fill="#fff"/><circle cx="62" cy="48" r="5" fill="#fff"/><circle cx="39" cy="49" r="2.6" fill="#222"/><circle cx="61" cy="49" r="2.6" fill="#222"/><circle cx="43" cy="68" r="2" fill="#3f7a3a"/><circle cx="57" cy="68" r="2" fill="#3f7a3a"/><path d="M40 78 Q50 86 60 78" stroke="#3f7a3a" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M82 62 q6-3 8 2 q-4 1-8-2M86 52 q5-4 8 0 q-4 2-8 0" fill="#ffb347" opacity=".85"/>`},
+ {id:"a29",pack:"erfolg",name:"Das Einhorn",draw:()=>`<rect width="100" height="100" fill="#dff0fb"/><path d="M24 62 Q10 40 22 22 Q26 40 36 40Z" fill="#f08acb"/><path d="M22 70 Q6 56 14 38 Q20 52 30 54Z" fill="#7fc8f8"/><path d="M26 54 Q12 30 28 14 Q30 34 40 38Z" fill="#b48af0"/><path d="M40 36 L28 18 L52 28Z" fill="#fff"/><ellipse cx="54" cy="58" rx="26" ry="30" fill="#fff" stroke="#d8dde6"/><path d="M50 30 L56 4 L62 30Z" fill="#f2c230" stroke="#e0a800"/><path d="M52 24 l8-3M51 18 l9-3M53 12 l6-2" stroke="#e0a800" stroke-width="1.4"/><ellipse cx="54" cy="76" rx="18" ry="12" fill="#fbe3ee"/><circle cx="46" cy="52" r="3" fill="#222"/><circle cx="66" cy="52" r="3" fill="#222"/><circle cx="47" cy="51" r=".9" fill="#fff"/><circle cx="67" cy="51" r=".9" fill="#fff"/><circle cx="48" cy="76" r="1.6" fill="#d98aa8"/><circle cx="60" cy="76" r="1.6" fill="#d98aa8"/><circle cx="40" cy="62" r="3.6" fill="#f4a6a0" opacity=".55"/><circle cx="68" cy="62" r="3.6" fill="#f4a6a0" opacity=".55"/>`},
+ {id:"b01",pack:"erfolg",sub:"Abenteuer & Weltliteratur",name:"Robinson Crusoe",draw:()=>AV.person({bg:"#8fd3e0",bgdeco:'<rect y="82" width="100" height="18" fill="#e8d49a"/><circle cx="84" cy="18" r="9" fill="#ffe27a"/>',skin:"#e2b48a",hair:"#6b4a2a",style:"short",dress:"#8a6a3a",beard:"#6b4a2a",hat:"cap",hatc:"#8a6a3a",fringe:false,acc:"palm"})},
+ {id:"b02",pack:"erfolg",sub:"Abenteuer & Weltliteratur",name:"Gulliver",draw:()=>AV.person({bg:"#8fb8d8",hair:"#7a4a24",style:"short",dress:"#2f4f8a",collar:"#f2c230",hat:"tricorn",hatc:"#2a2f4a",acc:"ship"})},
+ {id:"b03",pack:"erfolg",sub:"Abenteuer & Weltliteratur",name:"Baron Münchhausen",draw:()=>AV.person({bg:"#e8dcc0",hair:"#cfcfcf",style:"short",dress:"#a82a2a",collar:"#f2c230",hat:"tricorn",hatc:"#2a2a32",stache:"#cfcfcf",grin:false,acc:"cannon"})},
+ {id:"b04",pack:"erfolg",sub:"Abenteuer & Weltliteratur",name:"Tom Sawyer",draw:()=>AV.person({bg:"#dfe9d0",bgdeco:'<g fill="#fff" stroke="#d8d2c0"><rect x="4" y="72" width="14" height="28"/><rect x="22" y="72" width="14" height="28"/><rect x="40" y="72" width="14" height="28"/></g>',hair:"#b8501f",style:"short",dress:"#4a6fa8",collar:"#f4efe2",hat:"straw",hatc:"#d63a3a",freckles:true,grin:true,acc:"brush"})},
+ {id:"b05",pack:"erfolg",sub:"Abenteuer & Weltliteratur",name:"Huckleberry Finn",draw:()=>AV.person({bg:"#b8dff0",hair:"#3a2412",style:"short",dress:"#9a8a6a",hat:"straw",hatc:"#8a6a3a",freckles:true,acc:"pole"})},
+ {id:"b06",pack:"erfolg",sub:"Abenteuer & Weltliteratur",name:"Robin Hood",draw:()=>AV.person({bg:"#6fa86a",hair:"#7a4a24",style:"short",dress:"#3f7a3a",collar:"#6b4423",hat:"robin",hatc:"#2f6a2a",stache:"#7a4a24",acc:"archery"})},
+ {id:"b07",pack:"erfolg",sub:"Abenteuer & Weltliteratur",name:"Sherlock Holmes",draw:()=>AV.person({bg:"#c9d0dc",hair:"#3a2a1a",style:"short",dress:"#5b5f6a",collar:"#f4efe2",hat:"deer",hatc:"#a89a7a",cheek:false,acc:["pipe","magnifier"]})},
+ {id:"b08",pack:"erfolg",sub:"Abenteuer & Weltliteratur",name:"Don Quijote",draw:()=>AV.person({bg:"#e8d8a8",bgdeco:'<g stroke="#8a6a3a" stroke-width="3"><line x1="82" y1="40" x2="82" y2="64"/><line x1="70" y1="52" x2="94" y2="52"/><line x1="73" y1="43" x2="91" y2="61"/><line x1="91" y1="43" x2="73" y2="61"/></g><rect x="78" y="62" width="8" height="38" fill="#f4efe2"/>',skin:"#ecc9a0",hair:"#8a8a8a",style:"short",dress:"#8a96a6",collar:"#d63a3a",hat:"basin",stache:"#8a8a8a",goatee:"#8a8a8a",cheek:false,fringe:false})},
+ {id:"b09",pack:"erfolg",sub:"Abenteuer & Weltliteratur",name:"Oliver Twist",draw:()=>AV.person({bg:"#b8c0cc",hair:"#7a5a3a",style:"short",dress:"#7a5a3a",hat:"cap",hatc:"#6b6f78",cheek:false,acc:"bowl"})},
+ {id:"t01",pack:"erfolg",sub:"Tiere & Natur",name:"Die Biene",draw:()=>`<rect width="100" height="100" fill="#fff3c4"/><ellipse cx="26" cy="38" rx="16" ry="10" transform="rotate(-30 26 38)" fill="#cfe8ff" stroke="#9ac4ea"/><ellipse cx="74" cy="38" rx="16" ry="10" transform="rotate(30 74 38)" fill="#cfe8ff" stroke="#9ac4ea"/><path d="M40 26 Q36 10 28 10M60 26 Q64 10 72 10" stroke="#2a2a2a" stroke-width="2.4" fill="none"/><circle cx="28" cy="10" r="3.6" fill="#2a2a2a"/><circle cx="72" cy="10" r="3.6" fill="#2a2a2a"/><circle cx="50" cy="56" r="30" fill="#ffd84a" stroke="#e0a800" stroke-width="2"/><path d="M22 80 Q50 98 78 80" stroke="#2a2a2a" stroke-width="7" fill="none"/><ellipse cx="38" cy="50" rx="9" ry="11" fill="#fff"/><ellipse cx="62" cy="50" rx="9" ry="11" fill="#fff"/><circle cx="39" cy="52" r="5" fill="#2a2a2a"/><circle cx="61" cy="52" r="5" fill="#2a2a2a"/><circle cx="41" cy="50" r="1.8" fill="#fff"/><circle cx="63" cy="50" r="1.8" fill="#fff"/><path d="M42 68 Q50 76 58 68" stroke="#a0453a" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="30" cy="66" r="4" fill="#f4a6a0" opacity=".6"/><circle cx="70" cy="66" r="4" fill="#f4a6a0" opacity=".6"/>`},
+ {id:"t02",pack:"erfolg",sub:"Tiere & Natur",name:"Nils Holgersson mit der Gans",draw:()=>AV.person({bg:"#a9d3f0",bgdeco:'<ellipse cx="22" cy="20" rx="14" ry="6" fill="#fff"/><ellipse cx="34" cy="24" rx="12" ry="5" fill="#fff"/>',hair:"#e3b95a",style:"short",dress:"#5b8a4f",collar:"#f4efe2",hat:"cap",hatc:"#2a2a32",acc:"goose"})},
+ {id:"t03",pack:"erfolg",sub:"Tiere & Natur",name:"Der Maulwurf",draw:()=>`<rect width="100" height="100" fill="#8a6a4a"/><circle cx="14" cy="88" r="6" fill="#6b4f35"/><circle cx="86" cy="84" r="8" fill="#6b4f35"/><ellipse cx="50" cy="88" rx="34" ry="20" fill="#4f4a55"/><ellipse cx="50" cy="52" rx="30" ry="30" fill="#5d5864"/><ellipse cx="50" cy="64" rx="15" ry="12" fill="#7a7480"/><circle cx="50" cy="60" r="7" fill="#f2a0b0"/><circle cx="48" cy="58" r="2" fill="#fff" opacity=".6"/><circle cx="38" cy="44" r="8" fill="#fff" fill-opacity=".35" stroke="#2a2a2a" stroke-width="2"/><circle cx="62" cy="44" r="8" fill="#fff" fill-opacity=".35" stroke="#2a2a2a" stroke-width="2"/><line x1="46" y1="44" x2="54" y2="44" stroke="#2a2a2a" stroke-width="2"/><circle cx="38" cy="45" r="2.4" fill="#111"/><circle cx="62" cy="45" r="2.4" fill="#111"/><path d="M44 72 Q50 77 56 72" stroke="#2a2a2a" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M40 84 L36 94 M46 84 L44 96 M54 84 L56 96 M60 84 L64 94" stroke="#f4efe2" stroke-width="2.4" stroke-linecap="round"/>`},
+ {id:"t04",pack:"erfolg",sub:"Tiere & Natur",name:"Die Wasserratte",draw:()=>`<rect width="100" height="100" fill="#8fc8e8"/><circle cx="82" cy="16" r="9" fill="#ffe27a"/><circle cx="26" cy="30" r="10" fill="#9a7a5a"/><circle cx="26" cy="30" r="5.5" fill="#f2b0b0"/><circle cx="74" cy="30" r="10" fill="#9a7a5a"/><circle cx="74" cy="30" r="5.5" fill="#f2b0b0"/><ellipse cx="50" cy="54" rx="26" ry="28" fill="#9a7a5a"/><path d="M30 60 Q50 98 70 60Q50 70 30 60Z" fill="#c9a880"/><circle cx="50" cy="70" r="5" fill="#222"/><circle cx="40" cy="48" r="3.4" fill="#222"/><circle cx="60" cy="48" r="3.4" fill="#222"/><circle cx="41" cy="47" r="1" fill="#fff"/><circle cx="61" cy="47" r="1" fill="#fff"/><path d="M26 66 L8 62M26 71 L8 74M74 66 L92 62M74 71 L92 74" stroke="#f4efe2" stroke-width="1.4"/><ellipse cx="50" cy="28" rx="26" ry="5" fill="#e8c860" stroke="#b89628"/><rect x="36" y="14" width="28" height="14" rx="3" fill="#f0d676"/><rect x="36" y="21" width="28" height="4" fill="#2f6db5"/><path d="M0 90 Q12 84 25 90 T50 90 T75 90 T100 90 V100 H0Z" fill="#5aa8d8"/>`},
+ {id:"t05",pack:"erfolg",sub:"Tiere & Natur",name:"Der Kröterich",draw:()=>`<rect width="100" height="100" fill="#d9e8b8"/><ellipse cx="50" cy="62" rx="38" ry="28" fill="#8a9a3a"/><circle cx="30" cy="36" r="13" fill="#8a9a3a"/><circle cx="70" cy="36" r="13" fill="#8a9a3a"/><circle cx="30" cy="36" r="10" fill="#9aa8b8" stroke="#5b6572" stroke-width="3"/><circle cx="70" cy="36" r="10" fill="#9aa8b8" stroke="#5b6572" stroke-width="3"/><circle cx="30" cy="36" r="6" fill="#fff"/><circle cx="70" cy="36" r="6" fill="#fff"/><circle cx="31" cy="37" r="3" fill="#222"/><circle cx="69" cy="37" r="3" fill="#222"/><path d="M40 36 L60 36" stroke="#5b6572" stroke-width="3"/><path d="M20 30 Q50 6 80 30Z" fill="#8a5a2b"/><path d="M20 30 Q10 34 12 38" stroke="#5b6572" stroke-width="3" fill="none"/><path d="M22 66 Q50 86 78 66" stroke="#3f4a1a" stroke-width="3" fill="none" stroke-linecap="round"/><g fill="#6f7d2a"><circle cx="30" cy="58" r="3"/><circle cx="70" cy="60" r="3.4"/><circle cx="50" cy="78" r="3"/><circle cx="38" cy="74" r="2.4"/></g>`},
+ {id:"t06",pack:"erfolg",sub:"Tiere & Natur",name:"Mowgli",draw:()=>AV.person({bg:"#5f9a58",bgdeco:'<path d="M0 30 Q18 10 40 20 Q20 28 0 40Z M100 40 Q80 20 60 30 Q80 38 100 52Z" fill="#3f7a3a"/>',skin:"#d9a066",hair:"#1d1410",style:"short",dress:"#c0392b",collar:"#8a2a1e",cheek:true,acc:"leaf"})},
+ {id:"t07",pack:"erfolg",sub:"Tiere & Natur",name:"Der Dschungelbär",draw:()=>`<rect width="100" height="100" fill="#cfe8c0"/><path d="M0 20 Q16 6 34 14 Q16 22 0 30Z M100 24 Q84 8 68 16 Q84 26 100 34Z" fill="#6fae60"/><circle cx="26" cy="28" r="11" fill="#7a4f2a"/><circle cx="26" cy="28" r="5.5" fill="#d9b88a"/><circle cx="74" cy="28" r="11" fill="#7a4f2a"/><circle cx="74" cy="28" r="5.5" fill="#d9b88a"/><ellipse cx="50" cy="54" rx="31" ry="30" fill="#8a5a2b"/><ellipse cx="50" cy="66" rx="17" ry="13" fill="#d9b88a"/><ellipse cx="50" cy="60" rx="7" ry="5" fill="#2a1a10"/><circle cx="38" cy="46" r="3.4" fill="#222"/><circle cx="62" cy="46" r="3.4" fill="#222"/><circle cx="39" cy="45" r="1" fill="#fff"/><circle cx="63" cy="45" r="1" fill="#fff"/><path d="M42 72 Q50 78 58 72" stroke="#2a1a10" stroke-width="2.2" fill="none" stroke-linecap="round"/>${AV.acc.honey()}`},
+ {id:"t08",pack:"erfolg",sub:"Tiere & Natur",name:"Max",draw:()=>AV.person({bg:"#f3e2c0",hair:"#161212",style:"short",dress:"#f4efe2",collar:"#1d1d1d",grin:true,cheek:true,acc:"sparkles"})},
+ {id:"t09",pack:"erfolg",sub:"Tiere & Natur",name:"Moritz",draw:()=>AV.person({bg:"#e6f0d6",hair:"#e8c066",style:"short",dress:"#4f8a52",collar:"#f4efe2",grin:true,cheek:true,acc:"sparkles"})},
+ {id:"t10",pack:"erfolg",sub:"Tiere & Natur",name:"Struwwelpeter",draw:()=>AV.person({bg:"#e2d6c0",hair:"#b8501f",style:"wild",dress:"#4a6fa8",collar:"#f4efe2",cheek:true})},
+ {id:"t11",pack:"erfolg",sub:"Tiere & Natur",name:"Heidi und die Ziege",draw:()=>AV.person({bg:"#bfe0f6",bgdeco:'<path d="M0 100 L30 60 L52 82 L74 54 L100 100Z" fill="#9ab88a"/><path d="M74 54 L82 66 L66 66Z" fill="#fff"/>',hair:"#7a4a24",style:"short",dress:"#c9575c",collar:"#f4efe2",acc:"goat"})},
+ {id:"x01",pack:"erfolg",sub:"Weitere Helden",name:"Die Holzpuppe mit der langen Nase",draw:()=>AV.person({bg:"#cfe3f1",skin:"#e0b070",hair:"#6b4423",style:"short",dress:"#d63a3a",collar:"#f4efe2",hat:"papercap",hatc:"#f4e8c8",longnose:true,cheek:true,eye:"#2a1a0a"})},
+ {id:"x02",pack:"erfolg",sub:"Weitere Helden",name:"Die Zauberschülerin",draw:()=>AV.person({bg:"#2a2f5a",hair:"#6b3f1d",style:"long",dress:"#2f3f8a",collar:"#f2c230",hat:"witch",hatc:"#3a4aa8",acc:["owlmini","sparkles"]})},
+ {id:"x03",pack:"erfolg",sub:"Weitere Helden",name:"Der Geisterjäger",draw:()=>AV.person({bg:"#26324a",hair:"#3a2412",style:"short",dress:"#3f5f7a",collar:"#ffe27a",hat:"cap",hatc:"#2f4f6f",freckles:true,acc:["ghostmini","light"]})},
+ {id:"x04",pack:"erfolg",sub:"Weitere Helden",name:"Der Fuchs mit Hut und Buch",draw:()=>`<rect width="100" height="100" fill="#d6e8c8"/><path d="M16 38 L22 8 L44 26Z" fill="#e8782a"/><path d="M84 38 L78 8 L56 26Z" fill="#e8782a"/><path d="M20 12 L24 22 L32 20Z" fill="#2a1a10"/><path d="M80 12 L76 22 L68 20Z" fill="#2a1a10"/><path d="M14 44 Q50 22 86 44 Q82 80 50 90 Q18 80 14 44Z" fill="#e8782a"/><path d="M14 56 Q30 70 50 76 Q34 84 24 72Z" fill="#fff"/><path d="M86 56 Q70 70 50 76 Q66 84 76 72Z" fill="#fff"/><ellipse cx="50" cy="76" rx="7" ry="5" fill="#222"/><circle cx="36" cy="54" r="3.6" fill="#222"/><circle cx="64" cy="54" r="3.6" fill="#222"/><circle cx="37" cy="53" r="1" fill="#fff"/><circle cx="65" cy="53" r="1" fill="#fff"/><path d="M26 34 Q28 12 52 12 Q74 12 74 34 Q50 26 26 34Z" fill="#2f6a2a"/><path d="M60 16 L86 8 L70 28Z" fill="#2f6a2a"/><path d="M70 14 Q90 -2 96 12 Q84 8 74 20Z" fill="#d63a3a"/>${AV.acc.book()}`},
+ {id:"n01",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Aladin",draw:()=>AV.person({bg:"#2e2a5a",hair:"#1d1410",style:"short",dress:"#2f9aa8",collar:"#e8bd45",hat:"turban",hatc:"#f4efe2",skin:"#e0b080",acc:["lamp","sparkles"]})},
+ {id:"n02",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Sindbad der Seefahrer",draw:()=>AV.person({bg:"#8fd3e0",hair:"#2a1a14",style:"short",dress:"#d63a3a",collar:"#f4efe2",hat:"turban",hatc:"#2f6db5",skin:"#e0b080",acc:"ship"})},
+ {id:"n03",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Der Rattenfänger von Hameln",draw:()=>AV.person({bg:"#e8dcc0",hair:"#7a4a24",style:"short",dress:"#c9a23a",collar:"#d63a3a",hat:"floppy",hatc:"#6b3f9a",stache:"#7a4a24",acc:"flute"})},
+ {id:"n04",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Till Eulenspiegel",draw:()=>AV.person({bg:"#f3e2c0",hair:"#7a4a24",style:"short",dress:"#3f7f6f",collar:"#e8bd45",hat:"jester",hatc:"#c9852a",grin:true,acc:"owlmini"})},
+ {id:"n05",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Rübezahl",draw:()=>AV.person({bg:"#7fa86a",hair:"#8a6a3a",style:"wild",dress:"#5b4a2a",beard:"#8a6a3a",fringe:false,acc:"leaf"})},
+ {id:"n06",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Rapunzel",draw:()=>AV.person({bg:"#bfd8f0",bgdeco:'<rect x="76" y="20" width="18" height="80" fill="#a8a09a"/><rect x="76" y="14" width="18" height="8" fill="#8a8078"/><rect x="82" y="40" width="6" height="10" fill="#3a3a4a"/>',hair:"#f0c850",style:"braids",dress:"#a878d8",collar:"#fff",hat:"flowers",hatc:"#f08fb0"})},
+ {id:"n07",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Schneeweißchen",draw:()=>AV.person({bg:"#e3eef8",hair:"#f2f2f2",style:"braids",dress:"#d7e4f4",collar:"#fff",hat:"bow",hatc:"#fff",acc:"rose"})},
+ {id:"n08",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Rosenrot",draw:()=>AV.person({bg:"#f9dfe4",hair:"#8a2a2a",style:"braids",dress:"#c9373f",collar:"#fff",hat:"bow",hatc:"#c9373f",acc:"rose"})},
+ {id:"n09",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Der Hase",draw:()=>`<rect width="100" height="100" fill="#e6f0cf"/><ellipse cx="35" cy="24" rx="8" ry="22" transform="rotate(-8 35 24)" fill="#a8825a"/><ellipse cx="35" cy="24" rx="4" ry="16" transform="rotate(-8 35 24)" fill="#e8b8a0"/><ellipse cx="65" cy="24" rx="8" ry="22" transform="rotate(8 65 24)" fill="#a8825a"/><ellipse cx="65" cy="24" rx="4" ry="16" transform="rotate(8 65 24)" fill="#e8b8a0"/><ellipse cx="50" cy="62" rx="30" ry="27" fill="#b8926a"/><ellipse cx="50" cy="72" rx="16" ry="12" fill="#f0e2cc"/>${AV.eyes(56,11)}<path d="M46 66 L54 66 L50 71Z" fill="#c9575c"/><path d="M50 71 Q45 77 41 74 M50 71 Q55 77 59 74" stroke="#7a4a2a" stroke-width="1.8" fill="none"/><path d="M26 68 L10 64M26 73 L10 76M74 68 L90 64M74 73 L90 76" stroke="#8a6a4a" stroke-width="1.4"/>`},
+ {id:"n10",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Der Igel",draw:()=>`<rect width="100" height="100" fill="#d9ecc4"/><path d="M10 64 L6 46 L19 49 L16 32 L30 40 L32 22 L43 35 L50 18 L57 35 L68 22 L70 40 L84 32 L81 49 L94 46 L90 64Z" fill="#6b4a2a"/><path d="M20 62 Q50 40 80 62 Q84 86 50 90 Q16 86 20 62Z" fill="#e8cfa6"/><ellipse cx="30" cy="48" rx="6" ry="5" fill="#8a6a4a"/><ellipse cx="70" cy="48" rx="6" ry="5" fill="#8a6a4a"/>${AV.eyes(64,13,3.4)}<circle cx="50" cy="76" r="5" fill="#222"/><circle cx="49" cy="74.5" r="1.4" fill="#fff" opacity=".6"/><path d="M44 83 Q50 88 56 83" stroke="#7a4a2a" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="30" cy="74" r="4" fill="#f4a6a0" opacity=".55"/><circle cx="70" cy="74" r="4" fill="#f4a6a0" opacity=".55"/>`},
+ {id:"n11",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Der Hahn",draw:()=>`<rect width="100" height="100" fill="#f3e6c0"/><g fill="#d63a3a"><circle cx="40" cy="16" r="8"/><circle cx="52" cy="11" r="9"/><circle cx="64" cy="17" r="8"/></g><circle cx="50" cy="52" r="32" fill="#f8f2e4" stroke="#e0d6bc" stroke-width="1.6"/><path d="M14 50 Q10 70 24 78 Q22 62 28 54Z" fill="#c9852a"/><path d="M86 50 Q90 70 76 78 Q78 62 72 54Z" fill="#c9852a"/>${AV.eyes(44,13,3.6)}<path d="M42 54 L58 54 L50 68Z" fill="#f0a030" stroke="#c9780a"/><path d="M45 72 Q50 90 55 72Z" fill="#d63a3a"/>`},
+ {id:"n12",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Der Hund",draw:()=>`<rect width="100" height="100" fill="#dbe8f4"/><path d="M26 30 Q6 34 8 66 Q24 70 30 48Z" fill="#6b4423"/><path d="M74 30 Q94 34 92 66 Q76 70 70 48Z" fill="#6b4423"/><ellipse cx="50" cy="54" rx="26" ry="29" fill="#c9a070"/><ellipse cx="50" cy="68" rx="16" ry="13" fill="#f0e2cc"/>${AV.eyes(48,12)}<ellipse cx="50" cy="63" rx="6" ry="4.4" fill="#222"/><path d="M50 67 L50 72 M42 72 Q50 78 58 72" stroke="#222" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M46 74 Q50 86 54 74Z" fill="#f08a9a"/>`},
+ {id:"n13",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Die Katze",draw:()=>`<rect width="100" height="100" fill="#ead9f5"/><path d="M24 42 L20 10 L44 28Z" fill="#8a909c"/><path d="M76 42 L80 10 L56 28Z" fill="#8a909c"/><path d="M26 34 L24 18 L36 28Z" fill="#f0b0c0"/><path d="M74 34 L76 18 L64 28Z" fill="#f0b0c0"/><ellipse cx="50" cy="58" rx="30" ry="28" fill="#9aa1ad"/><path d="M44 32 v8M50 31 v9M56 32 v8" stroke="#6f7682" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="50" cy="68" rx="14" ry="10" fill="#e6e9ee"/><circle cx="38" cy="52" r="4.4" fill="#9ad87a"/><circle cx="62" cy="52" r="4.4" fill="#9ad87a"/><ellipse cx="38" cy="52" rx="1.5" ry="3.6" fill="#222"/><ellipse cx="62" cy="52" rx="1.5" ry="3.6" fill="#222"/><path d="M46 62 L54 62 L50 66Z" fill="#e0707a"/><path d="M50 66 Q45 72 41 69 M50 66 Q55 72 59 69" stroke="#555" stroke-width="1.6" fill="none"/><path d="M24 62 L8 58M24 67 L8 70M76 62 L92 58M76 67 L92 70" stroke="#6f7682" stroke-width="1.4"/>`},
+ {id:"n14",pack:"erfolg",sub:"Mehr Märchen & Sagen",name:"Die Heinzelmännchen",draw:()=>AV.person({bg:"#e9dcc0",hair:"#b8501f",style:"short",dress:"#8a6a3a",beard:"#c9602a",fringe:false,hat:"pointy",hatc:"#3f7a3a",acc:"hammer"})},
+ {id:"n15",pack:"erfolg",sub:"Berufe & Entdecker",name:"Die Schreiberin",draw:()=>AV.person({bg:"#f0e4cf",hair:"#6b3f1d",style:"bun",dress:"#7a5a9a",collar:"#f4efe2",acc:"quill"})},
+ {id:"n16",pack:"erfolg",sub:"Berufe & Entdecker",name:"Der Dichter",draw:()=>AV.person({bg:"#d9dde8",hair:"#2a2a3a",style:"short",dress:"#3a3a5a",collar:"#d63a3a",hat:"beret",hatc:"#c9373f",stache:"#2a2a3a",acc:"quill"})},
+ {id:"n17",pack:"erfolg",sub:"Berufe & Entdecker",name:"Der Zauberer",draw:()=>AV.person({bg:"#251c4a",hair:"#e8e8f0",style:"short",dress:"#3a2670",collar:"#f2c230",beard:"#f2f2f8",fringe:false,hat:"witch",hatc:"#5a3a9f",acc:["wand","sparkles"]})},
+ {id:"n18",pack:"erfolg",sub:"Berufe & Entdecker",name:"Die Schatzsucherin",draw:()=>AV.person({bg:"#e8d49a",hair:"#7a4a24",style:"braids",dress:"#8a6a3a",collar:"#f4efe2",hat:"explorer",hatc:"#c9a25a",grin:true,acc:"chest"})},
+ {id:"n19",pack:"erfolg",sub:"Berufe & Entdecker",name:"Der Kapitän",draw:()=>AV.person({bg:"#8fb8d8",hair:"#cfcfcf",style:"short",dress:"#1f3a6a",collar:"#e8bd45",beard:"#d6d6d6",fringe:false,hat:"captain",hatc:"#1f3a6a",acc:"wheel"})},
+ {id:"n20",pack:"erfolg",sub:"Berufe & Entdecker",name:"Der Wikinger",draw:()=>AV.person({bg:"#9fc0d8",hair:"#c9852a",style:"short",dress:"#7a5a3a",collar:"#d9d2bf",beard:"#c9852a",fringe:false,hat:"viking"})},
+ {id:"n21",pack:"erfolg",sub:"Berufe & Entdecker",name:"Die Astronomin",draw:()=>AV.person({bg:"#1c2250",bgdeco:'<g fill="#fff"><circle cx="14" cy="50" r="1.4"/><circle cx="30" cy="12" r="1.4"/><circle cx="90" cy="30" r="1.6"/><circle cx="8" cy="80" r="1.2"/></g>',hair:"#2a1a14",style:"bun",dress:"#3f5f9a",collar:"#ffe27a",glasses:true,acc:"telescope"})},
+ {id:"n22",pack:"erfolg",sub:"Berufe & Entdecker",name:"Der Forscher",draw:()=>AV.person({bg:"#d6e8f2",hair:"#3a2412",style:"short",dress:"#f4f4f4",collar:"#7fb7e8",hat:"goggles",grin:true,acc:"flask"})},
+ {id:"n23",pack:"erfolg",sub:"Berufe & Entdecker",name:"Der Lese-Roboter",draw:()=>`<rect width="100" height="100" fill="#d9e4f2"/><line x1="50" y1="8" x2="50" y2="20" stroke="#6f7882" stroke-width="3"/><circle cx="50" cy="7" r="4.4" fill="#ff5a5a"/><rect x="20" y="20" width="60" height="50" rx="12" fill="#b8c4d6" stroke="#8a96a6" stroke-width="2"/><rect x="28" y="30" width="44" height="22" rx="7" fill="#1f2a3a"/><circle cx="40" cy="41" r="6" fill="#7fe0ff"/><circle cx="60" cy="41" r="6" fill="#7fe0ff"/><circle cx="41" cy="40" r="2" fill="#fff"/><circle cx="61" cy="40" r="2" fill="#fff"/><path d="M38 60 Q50 68 62 60" stroke="#4a5666" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="12" y="38" width="8" height="14" rx="3" fill="#8a96a6"/><rect x="80" y="38" width="8" height="14" rx="3" fill="#8a96a6"/><rect x="30" y="76" width="40" height="24" rx="6" fill="#8a96a6"/>${AV.acc.book()}`},
+ {id:"n24",pack:"erfolg",sub:"Berufe & Entdecker",name:"Die Bergsteigerin",draw:()=>AV.person({bg:"#bfd8f0",bgdeco:'<path d="M0 100 L28 52 L46 78 L68 40 L100 100Z" fill="#9aa8b8"/><path d="M68 40 L78 56 L58 56Z" fill="#fff"/>',hair:"#7a4a24",style:"short",dress:"#d6502a",collar:"#f4efe2",hat:"cap",hatc:"#2f6db5",acc:"pickaxe"})},
+ {id:"n25",pack:"erfolg",sub:"Berufe & Entdecker",name:"Der Ritter",draw:()=>AV.person({bg:"#d9e1ea",hair:"#7a4a24",style:"short",dress:"#8a96a6",collar:"#2f6db5",hat:"helmet",hatc:"#b8c2cf",stache:"#7a4a24"})},
+ {id:"n38",pack:"erfolg",sub:"Berufe & Entdecker",name:"Der Pirat",draw:()=>AV.person({bg:"#a9d3e8",hair:"#2a1a14",style:"short",dress:"#1f1f2a",collar:"#f4efe2",hat:"tricorn",hatc:"#1f1f2a",beard:"#2a1a14",patch:true,fringe:false,acc:"ship"})},
+ {id:"n26",pack:"erfolg",sub:"Tierische Freunde",name:"Der Pinguin",draw:()=>`<rect width="100" height="100" fill="#cfe9ff"/><path d="M0 90 Q25 84 50 90 T100 90 V100 H0Z" fill="#fff"/><ellipse cx="50" cy="56" rx="32" ry="38" fill="#2a3040"/><ellipse cx="50" cy="66" rx="22" ry="28" fill="#fff"/><circle cx="40" cy="42" r="8" fill="#fff"/><circle cx="60" cy="42" r="8" fill="#fff"/>${AV.eyes(43,10,3.8)}<path d="M42 52 L58 52 L50 62Z" fill="#f0a030" stroke="#c9780a"/><ellipse cx="38" cy="96" rx="9" ry="4" fill="#f0a030"/><ellipse cx="62" cy="96" rx="9" ry="4" fill="#f0a030"/>`},
+ {id:"n27",pack:"erfolg",sub:"Tierische Freunde",name:"Der Wal",draw:()=>`<rect width="100" height="100" fill="#cfe9ff"/><path d="M48 30 q-6-12 2-20M48 30 q8-12 0-22" stroke="#7fc8f8" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M70 66 Q92 58 92 38 Q82 44 78 54Z" fill="#3a6ab0"/><ellipse cx="44" cy="62" rx="40" ry="27" fill="#4a7fc0"/><path d="M8 68 Q44 96 80 68 Q44 80 8 68Z" fill="#cfe0f4"/><circle cx="26" cy="56" r="4.4" fill="#222"/><circle cx="27.2" cy="54.8" r="1.3" fill="#fff"/><path d="M12 66 Q24 74 38 68" stroke="#2a4a80" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="20" cy="64" r="4" fill="#f4a6a0" opacity=".55"/><path d="M0 84 Q12 78 25 84 T50 84 T75 84 T100 84 V100 H0Z" fill="#5aa8d8"/>`},
+ {id:"n28",pack:"erfolg",sub:"Tierische Freunde",name:"Das Faultier",draw:()=>`<rect width="100" height="100" fill="#cfe8b8"/><path d="M0 24 Q50 14 100 26" stroke="#6b4a2a" stroke-width="9" fill="none"/><g fill="#4f9a3a"><ellipse cx="14" cy="30" rx="9" ry="4" transform="rotate(30 14 30)"/><ellipse cx="86" cy="32" rx="9" ry="4" transform="rotate(-30 86 32)"/></g><ellipse cx="50" cy="56" rx="31" ry="29" fill="#b89870"/><ellipse cx="50" cy="60" rx="22" ry="20" fill="#e8d6b4"/><path d="M26 50 Q36 38 42 54 Q34 62 26 50Z" fill="#5b4430"/><path d="M74 50 Q64 38 58 54 Q66 62 74 50Z" fill="#5b4430"/>${AV.eyes(51,14,3)}<ellipse cx="50" cy="62" rx="5" ry="3.6" fill="#3a2a1a"/><path d="M42 69 Q50 76 58 69" stroke="#5b4430" stroke-width="2.2" fill="none" stroke-linecap="round"/>`},
+ {id:"n29",pack:"erfolg",sub:"Tierische Freunde",name:"Der Dinosaurier",draw:()=>`<rect width="100" height="100" fill="#ffe9c0"/><g fill="#e8782a"><path d="M30 28 L36 10 L42 26Z"/><path d="M44 24 L50 4 L56 24Z"/><path d="M58 26 L64 10 L70 28Z"/></g><ellipse cx="50" cy="56" rx="33" ry="30" fill="#5fb85a"/><ellipse cx="50" cy="72" rx="22" ry="14" fill="#a8e08a"/><circle cx="43" cy="68" r="2" fill="#3f7a3a"/><circle cx="57" cy="68" r="2" fill="#3f7a3a"/><circle cx="38" cy="46" r="6.4" fill="#fff"/><circle cx="62" cy="46" r="6.4" fill="#fff"/><circle cx="39" cy="47" r="3.2" fill="#222"/><circle cx="61" cy="47" r="3.2" fill="#222"/><path d="M38 80 Q50 88 62 80" stroke="#3f7a3a" stroke-width="2.4" fill="none" stroke-linecap="round"/><g fill="#3f9a3a" opacity=".5"><circle cx="26" cy="56" r="3"/><circle cx="74" cy="58" r="3.4"/><circle cx="34" cy="34" r="2.4"/></g>`},
+ {id:"n30",pack:"erfolg",sub:"Tierische Freunde",name:"Der Panda",draw:()=>`<rect width="100" height="100" fill="#d8f0d0"/><path d="M80 10 v80M88 6 v84" stroke="#7fb86a" stroke-width="3"/><circle cx="24" cy="26" r="12" fill="#222"/><circle cx="76" cy="26" r="12" fill="#222"/><ellipse cx="50" cy="56" rx="32" ry="30" fill="#fff" stroke="#e4e4e4"/><ellipse cx="36" cy="50" rx="8" ry="10" transform="rotate(20 36 50)" fill="#222"/><ellipse cx="64" cy="50" rx="8" ry="10" transform="rotate(-20 64 50)" fill="#222"/><circle cx="37" cy="50" r="3" fill="#fff"/><circle cx="63" cy="50" r="3" fill="#fff"/><circle cx="37.6" cy="50.4" r="1.4" fill="#222"/><circle cx="62.4" cy="50.4" r="1.4" fill="#222"/><ellipse cx="50" cy="64" rx="6" ry="4.4" fill="#222"/><path d="M42 72 Q50 79 58 72" stroke="#222" stroke-width="2.4" fill="none" stroke-linecap="round"/>`},
+ {id:"n31",pack:"erfolg",sub:"Tierische Freunde",name:"Der Löwe",draw:()=>`<rect width="100" height="100" fill="#f8e8b8"/><circle cx="50" cy="52" r="42" fill="#c9782a"/><circle cx="50" cy="52" r="34" fill="#e8a040"/><circle cx="24" cy="28" r="8" fill="#e8a040"/><circle cx="76" cy="28" r="8" fill="#e8a040"/><circle cx="24" cy="28" r="4" fill="#f0c090"/><circle cx="76" cy="28" r="4" fill="#f0c090"/><circle cx="50" cy="54" r="26" fill="#f6cf80"/><ellipse cx="50" cy="66" rx="13" ry="10" fill="#fbeccd"/>${AV.eyes(50,11)}<path d="M45 60 L55 60 L50 66Z" fill="#8a4a2a"/><path d="M50 66 Q44 72 40 69 M50 66 Q56 72 60 69" stroke="#8a4a2a" stroke-width="1.8" fill="none"/><path d="M26 64 L12 62M26 68 L12 72M74 64 L88 62M74 68 L88 72" stroke="#c9a060" stroke-width="1.4"/>`},
+ {id:"n32",pack:"erfolg",sub:"Tierische Freunde",name:"Der Elefant",draw:()=>`<rect width="100" height="100" fill="#fbe6c8"/><ellipse cx="18" cy="48" rx="15" ry="22" fill="#9aa3b0"/><ellipse cx="82" cy="48" rx="15" ry="22" fill="#9aa3b0"/><ellipse cx="18" cy="48" rx="8" ry="15" fill="#e0b4bc"/><ellipse cx="82" cy="48" rx="8" ry="15" fill="#e0b4bc"/><ellipse cx="50" cy="46" rx="28" ry="30" fill="#aab2bf"/><path d="M42 58 Q38 80 44 92 Q50 98 56 92 Q62 80 58 58Z" fill="#aab2bf" stroke="#8a93a1" stroke-width="1.6"/><path d="M42 74 h16M42 82 h16" stroke="#8a93a1" stroke-width="1.4"/>${AV.eyes(42,12,3.4)}<circle cx="32" cy="54" r="4" fill="#f4a6a0" opacity=".5"/><circle cx="68" cy="54" r="4" fill="#f4a6a0" opacity=".5"/>`},
+ {id:"n33",pack:"erfolg",sub:"Tierische Freunde",name:"Der Papagei",draw:()=>`<rect width="100" height="100" fill="#cdeccb"/><path d="M0 20 Q18 4 38 16 Q18 22 0 34Z" fill="#4f9a3a"/><path d="M40 20 Q46 2 54 10 Q60 0 66 14 Q56 12 50 24Z" fill="#2f6db5"/><path d="M60 14 Q70 6 74 16 Q66 16 62 24Z" fill="#f2c230"/><circle cx="50" cy="52" r="32" fill="#e83a3a"/><circle cx="38" cy="46" r="10" fill="#fff"/><circle cx="62" cy="46" r="10" fill="#fff"/><circle cx="40" cy="47" r="5" fill="#222"/><circle cx="60" cy="47" r="5" fill="#222"/><circle cx="41.4" cy="45.4" r="1.6" fill="#fff"/><circle cx="61.4" cy="45.4" r="1.6" fill="#fff"/><path d="M42 56 Q50 54 58 56 Q58 74 50 80 Q42 74 42 56Z" fill="#f2c230" stroke="#c9a000" stroke-width="1.6"/><path d="M44 66 Q50 69 56 66" stroke="#c9a000" stroke-width="1.6" fill="none"/>`},
+ {id:"n34",pack:"erfolg",sub:"Tierische Freunde",name:"Die Krake",draw:()=>`<rect width="100" height="100" fill="#8fd0e8"/><circle cx="20" cy="20" r="3" fill="#fff" opacity=".6"/><circle cx="82" cy="30" r="4" fill="#fff" opacity=".6"/><path d="M18 74 Q10 94 22 96 Q28 90 30 78M34 80 Q30 98 42 98 Q46 92 44 82M50 82 Q50 99 60 98 Q62 92 58 82M66 80 Q72 98 82 94 Q82 88 72 78M80 74 Q94 90 88 96 Q80 92 76 76" fill="#a85ad0" stroke="#a85ad0" stroke-width="5" stroke-linejoin="round"/><ellipse cx="50" cy="48" rx="32" ry="34" fill="#b86ae0"/><g fill="#d8a0f0"><circle cx="36" cy="26" r="3"/><circle cx="60" cy="22" r="2.4"/><circle cx="70" cy="34" r="2.8"/></g>${AV.eyes(52,12,5)}<path d="M42 66 Q50 74 58 66" stroke="#6a2a90" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="30" cy="62" r="4.4" fill="#f4a0c0" opacity=".6"/><circle cx="70" cy="62" r="4.4" fill="#f4a0c0" opacity=".6"/>`},
+ {id:"n35",pack:"erfolg",sub:"Tierische Freunde",name:"Der Eisbär",draw:()=>`<rect width="100" height="100" fill="#cfe6fa"/><path d="M0 92 Q20 84 40 92 T80 92 T100 88 V100 H0Z" fill="#fff"/><circle cx="24" cy="30" r="10" fill="#f6f6f2" stroke="#dfe6ee"/><circle cx="76" cy="30" r="10" fill="#f6f6f2" stroke="#dfe6ee"/><circle cx="24" cy="30" r="4.6" fill="#e0b4bc"/><circle cx="76" cy="30" r="4.6" fill="#e0b4bc"/><ellipse cx="50" cy="56" rx="31" ry="30" fill="#f8f8f4" stroke="#dfe6ee" stroke-width="1.6"/><ellipse cx="50" cy="68" rx="15" ry="12" fill="#fff" stroke="#e4e8ee"/>${AV.eyes(50,13,3.4)}<ellipse cx="50" cy="62" rx="6" ry="4.4" fill="#222"/><path d="M50 66 L50 70 M43 72 Q50 78 57 72" stroke="#222" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="31" cy="62" r="4" fill="#f4a6a0" opacity=".45"/><circle cx="69" cy="62" r="4" fill="#f4a6a0" opacity=".45"/>`},
+ {id:"n36",pack:"erfolg",sub:"Tierische Freunde",name:"Die Schildkröte",draw:()=>`<rect width="100" height="100" fill="#bfe6f0"/><path d="M0 88 Q25 80 50 88 T100 86 V100 H0Z" fill="#e8d49a"/><ellipse cx="50" cy="40" rx="38" ry="28" fill="#5a8a3a" stroke="#3f6a2a" stroke-width="2"/><g fill="#7fb85a" stroke="#3f6a2a" stroke-width="1.6"><path d="M50 22 L62 30 L58 44 L42 44 L38 30Z"/><path d="M18 40 L30 32 L36 44 L28 54Z" opacity=".8"/><path d="M82 40 L70 32 L64 44 L72 54Z" opacity=".8"/></g><ellipse cx="50" cy="70" rx="24" ry="22" fill="#9ccf6a"/>${AV.eyes(64,11,3.6)}<path d="M42 78 Q50 85 58 78" stroke="#3f6a2a" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="34" cy="74" r="3.8" fill="#f4a6a0" opacity=".55"/><circle cx="66" cy="74" r="3.8" fill="#f4a6a0" opacity=".55"/>`},
+ {id:"n37",pack:"erfolg",sub:"Tierische Freunde",name:"Der Hamster",draw:()=>`<rect width="100" height="100" fill="#f8ead0"/><circle cx="26" cy="28" r="9" fill="#d9a05a"/><circle cx="74" cy="28" r="9" fill="#d9a05a"/><circle cx="26" cy="28" r="4.4" fill="#f0b0b0"/><circle cx="74" cy="28" r="4.4" fill="#f0b0b0"/><ellipse cx="50" cy="58" rx="38" ry="30" fill="#e8b36a"/><ellipse cx="50" cy="64" rx="30" ry="22" fill="#fbe8c8"/><path d="M42 24 Q50 40 58 24Q50 18 42 24Z" fill="#c9843a"/>${AV.eyes(50,13,3.8)}<path d="M46 60 L54 60 L50 65Z" fill="#e0707a"/><path d="M50 65 Q45 71 41 68 M50 65 Q55 71 59 68" stroke="#7a4a2a" stroke-width="1.8" fill="none"/><rect x="47" y="70" width="3" height="5" fill="#fff" stroke="#d8d0c0" stroke-width=".6"/><rect x="50.5" y="70" width="3" height="5" fill="#fff" stroke="#d8d0c0" stroke-width=".6"/><circle cx="28" cy="62" r="5" fill="#f4a6a0" opacity=".5"/><circle cx="72" cy="62" r="5" fill="#f4a6a0" opacity=".5"/>`},
+ {id:"e01",pack:"event",ev:"silvester",name:"Der Silvester-Funke",draw:()=>AV.person({bg:"#1a1f4a",hair:"#3a2412",style:"short",dress:"#2f3f8a",collar:"#e8b93c",hat:"partyhat",hatc:"#e8b93c",grin:true,acc:"fireworks"})},
+ {id:"e02",pack:"event",ev:"silvester",name:"Das Glücksschwein",draw:()=>`<rect width="100" height="100" fill="#d9f0d0"/><path d="M22 40 L18 14 L42 28Z" fill="#f08aa0"/><path d="M78 40 L82 14 L58 28Z" fill="#f08aa0"/><circle cx="50" cy="58" r="32" fill="#f6a6b8"/><ellipse cx="50" cy="68" rx="15" ry="11" fill="#f08aa0"/><ellipse cx="44" cy="68" rx="2.6" ry="3.6" fill="#a8405a"/><ellipse cx="56" cy="68" rx="2.6" ry="3.6" fill="#a8405a"/><circle cx="38" cy="52" r="3.6" fill="#222"/><circle cx="62" cy="52" r="3.6" fill="#222"/><circle cx="39" cy="51" r="1" fill="#fff"/><circle cx="63" cy="51" r="1" fill="#fff"/><circle cx="30" cy="62" r="4.4" fill="#f4838f" opacity=".6"/><circle cx="70" cy="62" r="4.4" fill="#f4838f" opacity=".6"/><g fill="#3f9a3a"><circle cx="45" cy="16" r="6"/><circle cx="55" cy="16" r="6"/><circle cx="45" cy="26" r="6"/><circle cx="55" cy="26" r="6"/></g><path d="M50 21 L50 36" stroke="#2a7a2a" stroke-width="2"/>`},
+ {id:"e03",pack:"event",ev:"fasching",name:"Der lustige Narr",draw:()=>AV.person({bg:"#ffe9a8",hair:"#b8501f",style:"short",dress:"#d63a3a",collar:"#2f6db5",hat:"jester",hatc:"#2f9aa8",grin:true,acc:"confetti"})},
+ {id:"e04",pack:"event",ev:"fasching",name:"Die Faschingsprinzessin",draw:()=>AV.person({bg:"#f6d6e4",hair:"#e3b95a",style:"long",dress:"#e88fb5",collar:"#fff",hat:"tiara",grin:true,acc:"confetti"})},
+ {id:"e05",pack:"event",ev:"valentin",name:"Der Herzensfreund",draw:()=>AV.person({bg:"#f9d6dc",hair:"#5b3a1a",style:"short",dress:"#d63a5a",collar:"#fff",acc:"heart"})},
+ {id:"e06",pack:"event",ev:"valentin",name:"Die Herzensfreundin",draw:()=>AV.person({bg:"#fbe0e6",hair:"#c0764a",style:"braids",dress:"#f08fb0",hat:"bow",hatc:"#d63a4a",acc:"heart"})},
+ {id:"e07",pack:"event",ev:"frauentag",name:"Die Astronautin",draw:()=>AV.person({bg:"#1a1f3a",bgdeco:'<g fill="#fff"><circle cx="12" cy="14" r="1.6"/><circle cx="88" cy="20" r="1.6"/><circle cx="8" cy="60" r="1.4"/><circle cx="92" cy="58" r="1.8"/></g><circle cx="86" cy="84" r="9" fill="#c9d0dc"/>',hair:"#2a1a14",style:"bun",dress:"#e8eef6",collar:"#d63a3a",hat:"spacehelm"})},
+ {id:"e08",pack:"event",ev:"frauentag",name:"Die Erfinderin",draw:()=>AV.person({bg:"#d6e8f2",hair:"#c0764a",style:"bun",dress:"#5b8a9f",collar:"#f2c230",hat:"goggles",acc:"bulb"})},
+ {id:"e09",pack:"event",ev:"ostern",name:"Der Osterhase",draw:()=>`<rect width="100" height="100" fill="#dff0d0"/><ellipse cx="35" cy="24" rx="9" ry="22" transform="rotate(-8 35 24)" fill="#f4efe6" stroke="#d8d0c0"/><ellipse cx="35" cy="24" rx="4.4" ry="16" transform="rotate(-8 35 24)" fill="#f4b0c0"/><ellipse cx="65" cy="24" rx="9" ry="22" transform="rotate(8 65 24)" fill="#f4efe6" stroke="#d8d0c0"/><ellipse cx="65" cy="24" rx="4.4" ry="16" transform="rotate(8 65 24)" fill="#f4b0c0"/><ellipse cx="50" cy="62" rx="30" ry="27" fill="#f4efe6" stroke="#d8d0c0"/><circle cx="39" cy="56" r="3.4" fill="#222"/><circle cx="61" cy="56" r="3.4" fill="#222"/><circle cx="40" cy="55" r="1" fill="#fff"/><circle cx="62" cy="55" r="1" fill="#fff"/><path d="M46 64 L54 64 L50 69Z" fill="#e8708a"/><path d="M50 69 Q45 75 41 72 M50 69 Q55 75 59 72" stroke="#a0453a" stroke-width="1.8" fill="none"/><rect x="46.5" y="73" width="3" height="5" fill="#fff" stroke="#d8d0c0" stroke-width=".6"/><rect x="50.5" y="73" width="3" height="5" fill="#fff" stroke="#d8d0c0" stroke-width=".6"/><path d="M26 66 L10 62M26 71 L10 74M74 66 L90 62M74 71 L90 74" stroke="#b8b0a0" stroke-width="1.4"/><circle cx="32" cy="64" r="4.4" fill="#f4a6a0" opacity=".5"/><circle cx="68" cy="64" r="4.4" fill="#f4a6a0" opacity=".5"/>${AV.acc.egg()}`},
+ {id:"e10",pack:"event",ev:"ostern",name:"Das Osterküken",draw:()=>`<rect width="100" height="100" fill="#e3f1ff"/><path d="M46 24 Q44 10 38 8 M50 24 Q50 8 50 4 M54 24 Q58 10 64 9" stroke="#f2c230" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="50" cy="54" r="31" fill="#ffd84a" stroke="#e0b000" stroke-width="1.6"/><circle cx="38" cy="48" r="3.8" fill="#222"/><circle cx="62" cy="48" r="3.8" fill="#222"/><circle cx="39.4" cy="46.8" r="1.1" fill="#fff"/><circle cx="63.4" cy="46.8" r="1.1" fill="#fff"/><path d="M43 57 L57 57 L50 67Z" fill="#f08a2a"/><circle cx="31" cy="58" r="4.6" fill="#f4a070" opacity=".6"/><circle cx="69" cy="58" r="4.6" fill="#f4a070" opacity=".6"/><path d="M12 86 L22 74 L32 86 L42 74 L52 86 L62 74 L72 86 L82 74 L90 84 L90 100 L12 100Z" fill="#f6f1e4" stroke="#d8d0bc" stroke-width="1.6" stroke-linejoin="round"/>`},
+ {id:"e11",pack:"event",ev:"buchtag",name:"Die Bücherfee",draw:()=>AV.person({bg:"#e7dcf6",hair:"#7a4a8a",style:"long",dress:"#7fb7e8",collar:"#fff",hat:"tiara",acc:["book","sparkles"]})},
+ {id:"e12",pack:"event",ev:"buchtag",name:"Der Bibliothekar",draw:()=>AV.person({bg:"#f0e4cf",hair:"#cfcfcf",style:"short",dress:"#6b4a2a",collar:"#f4efe2",glasses:true,stache:"#cfcfcf",acc:"bookstack"})},
+ {id:"e13",pack:"event",ev:"muttertag",name:"Der Blumenbote",draw:()=>AV.person({bg:"#e0f0d0",hair:"#e8c066",style:"short",dress:"#4f8a52",collar:"#f4efe2",hat:"cap",hatc:"#f2c230",grin:true,acc:"tulips"})},
+ {id:"e14",pack:"event",ev:"muttertag",name:"Die Blumenkönigin",draw:()=>AV.person({bg:"#f9e0ea",hair:"#7a4a24",style:"long",dress:"#e88fb5",collar:"#fff",hat:"flowers",hatc:"#e0527a",acc:"rose"})},
+ {id:"e15",pack:"event",ev:"kindertag",name:"Der Ballonheld",draw:()=>AV.person({bg:"#cfe9ff",hair:"#3a2412",style:"short",dress:"#e8782a",collar:"#fff",hat:"partyhat",hatc:"#2f6db5",freckles:true,grin:true,acc:"balloon"})},
+ {id:"e16",pack:"event",ev:"kindertag",name:"Das Konfetti-Kind",draw:()=>AV.person({bg:"#fff3c4",hair:"#c0764a",style:"braids",dress:"#8a4fb0",collar:"#ffd84a",hat:"partyhat",hatc:"#f06aa0",grin:true,acc:"confetti"})},
+ {id:"e17",pack:"event",ev:"martin",name:"Sankt Martin",draw:()=>AV.person({bg:"#26324a",hair:"#7a4a24",style:"short",dress:"#c62828",collar:"#f2c230",hat:"helmet",hatc:"#b8c2cf",acc:"sparkles"})},
+ {id:"e18",pack:"event",ev:"martin",name:"Das Laternenkind",draw:()=>AV.person({bg:"#1f2a4a",hair:"#e8c066",style:"short",dress:"#4a6fa8",collar:"#f4efe2",hat:"cap",hatc:"#d63a3a",acc:"lantern"})},
+ {id:"e19",pack:"event",ev:"vorlese",name:"Der Vorlesebär",draw:()=>`<rect width="100" height="100" fill="#cfe8c0"/><circle cx="26" cy="28" r="11" fill="#7a4f2a"/><circle cx="26" cy="28" r="5.5" fill="#d9b88a"/><circle cx="74" cy="28" r="11" fill="#7a4f2a"/><circle cx="74" cy="28" r="5.5" fill="#d9b88a"/><ellipse cx="50" cy="54" rx="31" ry="30" fill="#8a5a2b"/><ellipse cx="50" cy="66" rx="17" ry="13" fill="#d9b88a"/><ellipse cx="50" cy="60" rx="7" ry="5" fill="#2a1a10"/><circle cx="38" cy="46" r="3.4" fill="#222"/><circle cx="62" cy="46" r="3.4" fill="#222"/><circle cx="39" cy="45" r="1" fill="#fff"/><circle cx="63" cy="45" r="1" fill="#fff"/><path d="M42 72 Q50 78 58 72" stroke="#2a1a10" stroke-width="2.2" fill="none" stroke-linecap="round"/><circle cx="50" cy="52" r="0"/><g fill="rgba(255,255,255,.3)" stroke="#6b4423" stroke-width="2"><circle cx="38" cy="46" r="8"/><circle cx="62" cy="46" r="8"/></g>${AV.acc.book()}`},
+ {id:"e20",pack:"event",ev:"vorlese",name:"Die Geschichtenerzählerin",draw:()=>AV.person({bg:"#f3e2c0",hair:"#5b3a1a",style:"bun",dress:"#c9575c",collar:"#f4efe2",glasses:true,acc:["book","sparkles"]})},
+ {id:"e21",pack:"event",ev:"nikolaus",name:"Der Nikolaus",draw:()=>AV.person({bg:"#cfe0f0",hair:"#eeeeee",style:"short",dress:"#c62828",collar:"#e8bd45",beard:"#f4f4f4",fringe:false,hat:"mitre",hatc:"#c62828",acc:"crosier"})},
+ {id:"e22",pack:"event",ev:"nikolaus",name:"Der Wichtel",draw:()=>AV.person({bg:"#dce8d0",hair:"#b8501f",style:"short",dress:"#4f8a52",beard:"#c9602a",fringe:false,hat:"pointy",hatc:"#2f6a2a",acc:"gift"})},
+ {id:"e23",pack:"event",ev:"weihnacht",name:"Der Weihnachtsmann",draw:()=>AV.person({bg:"#1f3a5f",hair:"#ffffff",style:"short",dress:"#c62828",collar:"#fff",beard:"#f4f4f4",fringe:false,hat:"santa",acc:"snow"})},
+ {id:"e24",pack:"event",ev:"weihnacht",name:"Das Rentier",draw:()=>`<rect width="100" height="100" fill="#cfe3f1"/><g stroke="#6b4423" stroke-width="4" fill="none" stroke-linecap="round"><path d="M32 30 Q22 18 24 4M26 20 Q14 18 10 8M68 30 Q78 18 76 4M74 20 Q86 18 90 8"/></g><ellipse cx="22" cy="40" rx="8" ry="5" transform="rotate(-25 22 40)" fill="#a8733a"/><ellipse cx="78" cy="40" rx="8" ry="5" transform="rotate(25 78 40)" fill="#a8733a"/><ellipse cx="50" cy="56" rx="26" ry="30" fill="#a8733a"/><ellipse cx="50" cy="72" rx="17" ry="14" fill="#e8d2a6"/><circle cx="50" cy="68" r="7.4" fill="#e03a3a"/><circle cx="48" cy="66" r="2" fill="#fff" opacity=".6"/><circle cx="38" cy="48" r="3.6" fill="#222"/><circle cx="62" cy="48" r="3.6" fill="#222"/><circle cx="39" cy="47" r="1" fill="#fff"/><circle cx="63" cy="47" r="1" fill="#fff"/><path d="M43 79 Q50 84 57 79" stroke="#6b4423" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="31" cy="60" r="4" fill="#f4a6a0" opacity=".5"/><circle cx="69" cy="60" r="4" fill="#f4a6a0" opacity=".5"/>`},
+ {id:"h01",pack:"event",ev:"halloween",name:"Kürbiskopf",draw:()=>`<rect width="100" height="100" fill="#2a1245"/><circle cx="80" cy="20" r="11" fill="#f6efc2"/><circle cx="85" cy="16" r="9" fill="#2a1245"/><path d="M50 14 Q56 4 62 8 Q56 12 54 20Z" fill="#4f8a3a"/><path d="M50 22 Q20 20 14 56 Q16 90 50 90 Q84 90 86 56 Q80 20 50 22Z" fill="#f08a1c"/><path d="M50 22 Q38 40 38 90 M50 22 Q62 40 62 90 M50 22 Q26 38 24 80 M50 22 Q74 38 76 80" stroke="#d26e0c" stroke-width="2.4" fill="none"/><path d="M28 50 L42 50 L35 38Z M58 50 L72 50 L65 38Z" fill="#ffe066"/><path d="M50 56 L45 64 L55 64Z" fill="#ffe066"/><path d="M28 70 L36 78 L42 70 L50 80 L58 70 L64 78 L72 70 L70 84 Q50 92 30 84Z" fill="#ffe066"/>`},
+ {id:"h02",pack:"event",ev:"halloween",name:"Das freundliche Gespenst",draw:()=>`<rect width="100" height="100" fill="#1b1b3a"/><circle cx="20" cy="20" r="2" fill="#fff"/><circle cx="80" cy="14" r="1.6" fill="#fff"/><circle cx="86" cy="40" r="2.2" fill="#fff"/><path d="M22 96 L22 46 Q22 12 50 12 Q78 12 78 46 L78 96 L68 86 L59 96 L50 86 L41 96 L32 86Z" fill="#f4f6fb" stroke="#c9d0e0" stroke-width="2"/><ellipse cx="40" cy="44" rx="5" ry="7" fill="#1b1b3a"/><ellipse cx="60" cy="44" rx="5" ry="7" fill="#1b1b3a"/><ellipse cx="50" cy="60" rx="5.5" ry="7" fill="#1b1b3a"/><circle cx="32" cy="54" r="4.4" fill="#f6a6b8" opacity=".6"/><circle cx="68" cy="54" r="4.4" fill="#f6a6b8" opacity=".6"/>`},
+ {id:"h03",pack:"event",ev:"halloween",name:"Die Hexe",draw:()=>AV.person({bg:"#3d1d5c",skin:"#9ad06a",hair:"#1f1a1a",style:"long",dress:"#2a2a38",collar:"#f08a1c",hat:"witch",hatc:"#2b1b4a",cheek:false,acc:["sparkles","wand"]})},
+ {id:"h04",pack:"event",ev:"halloween",name:"Der Vampir",draw:()=>AV.person({bg:"#2a0f1a",skin:"#e9e4ee",hair:"#141414",style:"short",dress:"#1a1a22",collar:"#b01830",cheek:false,fangs:true,eye:"#8a1020",acc:null})},
+ {id:"h05",pack:"event",ev:"halloween",name:"Das Skelett",draw:()=>`<rect width="100" height="100" fill="#1d1d2b"/><path d="M30 96 Q32 74 50 72 Q68 74 70 96Z" fill="#e9e6dc"/><path d="M38 84 h24 M40 90 h20" stroke="#1d1d2b" stroke-width="2"/><ellipse cx="50" cy="42" rx="26" ry="28" fill="#f2efe4" stroke="#cfcab8" stroke-width="2"/><rect x="36" y="64" width="28" height="12" rx="3" fill="#f2efe4" stroke="#cfcab8" stroke-width="2"/><path d="M42 64 v12 M50 64 v12 M58 64 v12" stroke="#b8b29c" stroke-width="1.6"/><ellipse cx="39" cy="42" rx="8" ry="9" fill="#14141c"/><ellipse cx="61" cy="42" rx="8" ry="9" fill="#14141c"/><circle cx="39" cy="43" r="2.4" fill="#ff9a2e"/><circle cx="61" cy="43" r="2.4" fill="#ff9a2e"/><path d="M50 52 L45 61 L55 61Z" fill="#14141c"/><path d="M62 18 l-4 8 5 4" stroke="#b8b29c" stroke-width="1.6" fill="none"/>`},
+ {id:"h06",pack:"event",ev:"halloween",name:"Die Mumie",draw:()=>`<rect width="100" height="100" fill="#26382c"/><path d="M26 96 Q28 74 50 72 Q72 74 74 96Z" fill="#e6dcc0"/><path d="M30 84 L70 80 M28 90 L72 86" stroke="#b9ad88" stroke-width="2"/><ellipse cx="50" cy="42" rx="26" ry="30" fill="#efe6c8"/><path d="M26 30 L74 22 M25 38 L75 32 M26 54 L74 58 M28 62 L72 68 M30 70 L70 74" stroke="#b9ad88" stroke-width="3" stroke-linecap="round"/><rect x="28" y="40" width="44" height="13" rx="6" fill="#1b1b1b"/><circle cx="40" cy="46" r="4.6" fill="#fff"/><circle cx="60" cy="46" r="4.6" fill="#fff"/><circle cx="41" cy="46" r="2.2" fill="#222"/><circle cx="61" cy="46" r="2.2" fill="#222"/><path d="M72 36 q10 -2 14 6 q-8 -2 -14 0Z" fill="#efe6c8" stroke="#b9ad88"/>`},
+ {id:"h07",pack:"event",ev:"halloween",name:"Der Werwolf",draw:()=>`<rect width="100" height="100" fill="#1a2748"/><circle cx="76" cy="24" r="16" fill="#f6efc2"/><path d="M22 46 L18 10 L42 28Z" fill="#6b717c"/><path d="M78 46 L82 10 L58 28Z" fill="#6b717c"/><ellipse cx="50" cy="52" rx="30" ry="32" fill="#8a909c"/><ellipse cx="50" cy="68" rx="17" ry="14" fill="#c9ced8"/><circle cx="38" cy="46" r="5" fill="#ffd84a"/><circle cx="62" cy="46" r="5" fill="#ffd84a"/><ellipse cx="38" cy="46" rx="1.6" ry="3.8" fill="#222"/><ellipse cx="62" cy="46" rx="1.6" ry="3.8" fill="#222"/><path d="M43 62 Q50 56 57 62 Q50 68 43 62Z" fill="#222"/><path d="M40 74 Q50 82 60 74" stroke="#222" stroke-width="2" fill="#7a1a24"/><path d="M43 76 l2 5 2-5M53 76 l2 5 2-5" fill="#fff" stroke="#ddd" stroke-width=".5"/>`},
+ {id:"h08",pack:"event",ev:"halloween",name:"Die schwarze Katze",draw:()=>`<rect width="100" height="100" fill="#e8913a"/><path d="M24 42 L22 12 L42 28Z" fill="#1d1d24"/><path d="M76 42 L78 12 L58 28Z" fill="#1d1d24"/><ellipse cx="50" cy="60" rx="32" ry="30" fill="#1d1d24"/><circle cx="38" cy="54" r="6" fill="#ffd13a"/><circle cx="62" cy="54" r="6" fill="#ffd13a"/><ellipse cx="38" cy="54" rx="1.8" ry="4.6" fill="#111"/><ellipse cx="62" cy="54" rx="1.8" ry="4.6" fill="#111"/><path d="M46 66 L54 66 L50 71Z" fill="#e0707a"/><path d="M50 71 Q44 78 40 74 M50 71 Q56 78 60 74" stroke="#9aa0b0" stroke-width="1.8" fill="none"/><path d="M24 66 L8 62M24 71 L8 74M76 66 L92 62M76 71 L92 74" stroke="#d7d7e0" stroke-width="1.4"/><path d="M34 30 L38 8 Q50 -2 62 8 L66 30Z" fill="#4a2a7a"/><ellipse cx="50" cy="30" rx="22" ry="4.5" fill="#4a2a7a"/><rect x="38" y="24" width="24" height="4" fill="#f2c230"/>`},
+ {id:"h09",pack:"event",ev:"halloween",name:"Die kleine Fledermaus",draw:()=>`<rect width="100" height="100" fill="#2a1a4a"/><circle cx="80" cy="18" r="11" fill="#f6efc2"/><path d="M50 50 Q36 20 4 28 Q14 40 10 56 Q22 50 30 62 Q36 50 50 62 Q64 50 70 62 Q78 50 90 56 Q86 40 96 28 Q64 20 50 50Z" fill="#4a3478" stroke="#2f2150" stroke-width="2"/><path d="M40 40 L36 22 L48 34Z M60 40 L64 22 L52 34Z" fill="#3a2766"/><ellipse cx="50" cy="52" rx="15" ry="17" fill="#3a2766"/><circle cx="44" cy="48" r="3.6" fill="#ffd84a"/><circle cx="56" cy="48" r="3.6" fill="#ffd84a"/><circle cx="44" cy="48" r="1.4" fill="#222"/><circle cx="56" cy="48" r="1.4" fill="#222"/><path d="M45 58 Q50 62 55 58" stroke="#e8d8ff" stroke-width="1.8" fill="none"/><path d="M46 58 l1.6 4 1.6-4M51 58 l1.6 4 1.6-4" fill="#fff"/>`},
+ {id:"h10",pack:"event",ev:"halloween",name:"Das Kuschelmonster",draw:()=>`<rect width="100" height="100" fill="#cfe8a8"/><path d="M26 34 L22 10 L40 26Z" fill="#f2c230"/><path d="M74 34 L78 10 L60 26Z" fill="#f2c230"/><path d="M50 12 L44 28 L56 28Z" fill="#f2c230"/><ellipse cx="50" cy="58" rx="36" ry="34" fill="#8a5ad8"/><path d="M16 50 q-6 4 0 10 M84 50 q6 4 0 10 M22 78 q-6 6 0 10 M78 78 q6 6 0 10" stroke="#6b3fb8" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="50" cy="46" r="15" fill="#fff"/><circle cx="50" cy="47" r="8" fill="#3a7a2a"/><circle cx="50" cy="47" r="4" fill="#111"/><circle cx="53" cy="44" r="1.8" fill="#fff"/><path d="M30 72 Q50 92 70 72 Q50 78 30 72Z" fill="#3a1a5a"/><path d="M36 74 l3 6 3-5M58 74 l3 5 3-6" fill="#fff"/><circle cx="24" cy="62" r="4.4" fill="#f4a6c8" opacity=".6"/><circle cx="76" cy="62" r="4.4" fill="#f4a6c8" opacity=".6"/>`}
 ];
 function avatarSvg(id,size){
   const a=AVATARS.find(x=>x.id===id)||AVATARS[0];
@@ -3006,10 +3230,206 @@ function avatarHtml(id,cls){
   return `<span class="av ${cls||""}" title="${a.name}">${avatarSvg(a.id)}</span>`;
 }
 
-function avatarUnlockedCount(){return Math.min(AVATARS.length,1+(((typeof user!=="undefined"&&user&&user.achievements)||[]).length))}
+const AV_PACKS=[
+ {k:"start",t:"👤 STARTER-PAKET",d:"Diese Avatare gehören dir von Anfang an."},
+ {k:"maerchenwald",t:"🌲 MÄRCHENWALD-PAKET",d:"Märchenfiguren aus alten Geschichten – für alle frei."},
+ {k:"erfolg",t:"🏅 ERFOLGS-AVATARE",d:"Für jeden Erfolg, den du freischaltest, kommt ein neuer Avatar dazu."}
+];
+
+
+/* ===== LESEBEREICH (gemeinfreie Bücher) ===== */
+const RD={id:null,pages:[],page:0,meta:null,fs:1.1,metaCache:{}};
+async function bookTextMeta(id){
+    const k=String(id);
+    if(k in RD.metaCache)return RD.metaCache[k];
+    try{
+        const {data,error}=await sb.from("book_texts").select("book_id,source,translator,license").eq("book_id",k).maybeSingle();
+        RD.metaCache[k]=(!error&&data)?data:null;
+    }catch{RD.metaCache[k]=null}
+    return RD.metaCache[k];
+}
+function readerClean(t){
+    t=String(t||"").replace(/^\uFEFF/,"").replace(/\r\n?/g,"\n");
+    const m=t.match(/\*\*\* ?START OF (?:THE|THIS) PROJECT GUTENBERG[^\n]*\n([\s\S]*?)\*\*\* ?END OF (?:THE|THIS) PROJECT GUTENBERG/i);
+    if(m)t=m[1];
+    return t.trim();
+}
+function readerParagraphs(text){
+    return text.split(/\n\s*\n/).map(p=>{
+        const lines=p.split("\n").map(l=>l.trim()).filter(Boolean);
+        if(!lines.length)return "";
+        const verse=lines.length>1&&lines.every(l=>l.length<70);
+        return verse?lines.join("\n"):lines.join(" ");
+    }).filter(Boolean);
+}
+function readerPaginate(text){
+    const pages=[];let cur=[],n=0;
+    readerParagraphs(text).forEach(p=>{
+        cur.push(p);n+=p.length;
+        if(n>=1800){pages.push(cur);cur=[];n=0}
+    });
+    if(cur.length)pages.push(cur);
+    return pages;
+}
+function readerKey(){return "lhc_read_"+norm(user.username)+"_"+RD.id}
+function readerLoadFont(){try{const v=parseFloat(window.localStorage.getItem("lhc_readfs"));if(v>=0.9&&v<=2)RD.fs=v}catch{}}
+function readerFont(d){
+    RD.fs=Math.min(2,Math.max(0.9,Math.round((RD.fs+d*0.15)*100)/100));
+    try{window.localStorage.setItem("lhc_readfs",String(RD.fs))}catch{}
+    readerRender(false);
+}
+function readerGo(d){
+    const n=Math.min(RD.pages.length-1,Math.max(0,RD.page+d));
+    if(n===RD.page)return;
+    RD.page=n;
+    try{window.localStorage.setItem(readerKey(),String(n))}catch{}
+    readerRender(true);
+}
+function readerRender(top){
+    const box=$("readerText");box.textContent="";
+    box.style.setProperty("--rd-fs",RD.fs+"em");
+    (RD.pages[RD.page]||[]).forEach(p=>{const e=document.createElement("p");e.textContent=p;box.append(e)});
+    const total=RD.pages.length,pct=total>1?Math.round(RD.page/(total-1)*100):100;
+    $("readerBar").style.width=pct+"%";
+    $("readerPos").textContent="SEITE "+(RD.page+1)+" VON "+total+" ("+pct+" %)";
+    const last=RD.page>=total-1;
+    $("readerEnd").classList.toggle("hidden",!last);
+    if(last){
+        const id=RD.id,rb=$("readerMarkBtn");
+        rb.textContent=isRead(id)?"[ ✓ ALS GELESEN MARKIERT ]":"[ ALS GELESEN MARKIEREN ]";
+        rb.disabled=isRead(id);
+        rb.onclick=()=>{if(!isRead(id))toggleRead(id);openReader(id,true)};
+        $("readerQuizBtn").onclick=()=>startQuiz(id);
+    }
+    if(top){window.scrollTo(0,0);const w=$("winLayer");if(w)w.scrollTop=0}
+}
+function readerClose(){showBookDetails(RD.id)}
+async function openReader(id,keep){
+    const b=books.find(x=>x.id===id);if(!b)return;
+    RD.id=id;readerLoadFont();
+    if(!keep){
+        hideViews();
+        $("readerTitle").textContent=b.title;
+        $("readerAuthor").textContent="VON "+b.author;
+        $("readerText").textContent="TEXT WIRD GELADEN …";
+        $("readerEnd").classList.add("hidden");$("readerSource").textContent="";
+        $("readerView").classList.remove("hidden");
+    }
+    let data=null;
+    try{
+        const r=await sb.from("book_texts").select("content,source,translator,license").eq("book_id",String(id)).maybeSingle();
+        data=r.data;if(r.error)console.error("LESETEXT",r.error);
+    }catch(e){console.error(e)}
+    if(!data){$("readerText").textContent="DER TEXT KONNTE NICHT GELADEN WERDEN.";return}
+    if(!keep){
+        RD.pages=readerPaginate(readerClean(data.content));
+        let p=0;try{p=parseInt(window.localStorage.getItem(readerKey()))||0}catch{}
+        RD.page=Math.min(Math.max(0,p),Math.max(0,RD.pages.length-1));
+    }
+    const parts=[];
+    if(data.source)parts.push("QUELLE: "+data.source);
+    if(data.translator)parts.push("ÜBERSETZUNG / AUSGABE: "+data.translator);
+    parts.push("LIZENZ: "+(data.license||"Gemeinfrei"));
+    $("readerSource").textContent=parts.join(" | ");
+    readerRender(!keep);
+}
+document.addEventListener("keydown",e=>{
+    if($("readerView").classList.contains("hidden")||/INPUT|TEXTAREA|SELECT/.test((e.target&&e.target.tagName)||""))return;
+    if(e.key==="ArrowRight"){e.preventDefault();readerGo(1)}
+    else if(e.key==="ArrowLeft"){e.preventDefault();readerGo(-1)}
+});
+/* --- Admin: Lesetext einspielen --- */
+async function textEditorInit(book){
+    const box=$("textEditor");
+    const show=!!(book&&user.role==="admin");
+    box.classList.toggle("hidden",!show);
+    if(!show)return;
+    $("textFile").value="";$("textCheck").checked=false;$("textStatus").textContent="";
+    $("textSource").value="";$("textTranslator").value="";$("textLicense").value="Gemeinfrei";
+    $("textEditorInfo").textContent="FÜR: "+book.title+" – DIE DATEI VON GUTENBERG ODER WIKISOURCE EINFACH HOCHLADEN.";
+    delete RD.metaCache[String(book.id)];
+    const m=await bookTextMeta(book.id);
+    if(m){
+        $("textEditorInfo").textContent="FÜR: "+book.title+" – ES IST SCHON EIN TEXT GESPEICHERT. EINE NEUE DATEI ERSETZT IHN.";
+        $("textSource").value=m.source||"";$("textTranslator").value=m.translator||"";$("textLicense").value=m.license||"Gemeinfrei";
+    }
+}
+async function saveBookText(){
+    const st=$("textStatus"),fail=m=>{st.className="error";st.textContent=m};
+    if(user.role!=="admin"||!editingBookId)return;
+    const f=$("textFile").files[0];
+    if(!f)return fail("BITTE ZUERST EINE .TXT-DATEI AUSWÄHLEN.");
+    if(!$("textCheck").checked)return fail("BITTE BESTÄTIGE, DASS DU DIE LIZENZ GEPRÜFT HAST.");
+    if(!$("textSource").value.trim())return fail("BITTE EINE QUELLE EINTRAGEN.");
+    if(!$("textLicense").value.trim())return fail("BITTE DIE LIZENZ EINTRAGEN.");
+    if(f.size>6*1024*1024)return fail("DIE DATEI IST ZU GROSS (MAX. 6 MB).");
+    st.className="";st.textContent="SPEICHERE …";
+    let text;try{text=readerClean(await f.text())}catch{return fail("DIE DATEI KONNTE NICHT GELESEN WERDEN.")}
+    if(text.length<500)return fail("DER TEXT IST ZU KURZ. IST DAS DIE RICHTIGE DATEI?");
+    const {error}=await sb.from("book_texts").upsert({book_id:String(editingBookId),content:text,source:$("textSource").value.trim(),translator:$("textTranslator").value.trim()||null,license:$("textLicense").value.trim(),updated_at:new Date().toISOString()});
+    if(error){console.error(error);return fail("FEHLER BEIM SPEICHERN: "+(error.message||"")+" (TABELLE „book_texts“ ANGELEGT?)")}
+    delete RD.metaCache[String(editingBookId)];
+    st.className="success";st.textContent="LESETEXT GESPEICHERT ("+Math.round(text.length/1000)+" TSD. ZEICHEN).";
+}
+async function deleteBookText(){
+    const st=$("textStatus");
+    if(user.role!=="admin"||!editingBookId)return;
+    if(!confirm("Lesetext wirklich löschen?"))return;
+    const {error}=await sb.from("book_texts").delete().eq("book_id",String(editingBookId));
+    delete RD.metaCache[String(editingBookId)];
+    st.className=error?"error":"success";st.textContent=error?"FEHLER BEIM LÖSCHEN.":"LESETEXT GELÖSCHT.";
+}
+
+/* ===== ZEITLICH BEGRENZTE SPEZIAL-PAKETE ===== */
+function avEaster(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return new Date(y,mo-1,da)}
+function avAdd(d,n){return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n)}
+function avSunday2May(y){const f=new Date(y,4,1);return new Date(y,4,1+(7-f.getDay())%7+7)}
+function avFriday3Nov(y){const f=new Date(y,10,1);return new Date(y,10,1+(5-f.getDay()+7)%7+14)}
+const AV_EVENTS=[
+ {k:"silvester",e:"🎆",t:"SILVESTER & NEUJAHR",win:y=>[new Date(y,11,28),new Date(y+1,0,2)]},
+ {k:"fasching",e:"🎭",t:"FASCHING & KARNEVAL",win:y=>{const o=avEaster(y);return [avAdd(o,-52),avAdd(o,-47)]}},
+ {k:"valentin",e:"💖",t:"VALENTINSTAG",win:y=>[new Date(y,1,12),new Date(y,1,15)]},
+ {k:"frauentag",e:"🌷",t:"INTERNATIONALER FRAUENTAG",win:y=>[new Date(y,2,6),new Date(y,2,9)]},
+ {k:"ostern",e:"🐰",t:"OSTERN",win:y=>{const o=avEaster(y);return [avAdd(o,-7),avAdd(o,1)]}},
+ {k:"buchtag",e:"📖",t:"WELTTAG DES BUCHES",win:y=>[new Date(y,3,21),new Date(y,3,24)]},
+ {k:"muttertag",e:"💐",t:"MUTTERTAG",win:y=>{const s=avSunday2May(y);return [avAdd(s,-3),s]}},
+ {k:"kindertag",e:"🎈",t:"WELTKINDERTAG",win:y=>[new Date(y,8,18),new Date(y,8,21)]},
+ {k:"halloween",e:"🎃",t:"HALLOWEEN-SPEZIAL",win:y=>[new Date(y,9,24),new Date(y,10,1)]},
+ {k:"martin",e:"🏮",t:"SANKT MARTIN",win:y=>[new Date(y,10,9),new Date(y,10,12)]},
+ {k:"vorlese",e:"📚",t:"VORLESETAG",win:y=>{const f=avFriday3Nov(y);return [avAdd(f,-2),avAdd(f,2)]}},
+ {k:"nikolaus",e:"🥾",t:"NIKOLAUS",win:y=>[new Date(y,11,4),new Date(y,11,7)]},
+ {k:"weihnacht",e:"🎄",t:"WEIHNACHTEN",win:y=>[new Date(y,11,22),new Date(y,11,26)]}
+];
+function avToday(){const d=window.AV_FAKE_TODAY?new Date(window.AV_FAKE_TODAY):new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate())}
+function avDays(a,b){return Math.round((b-a)/86400000)}
+function avEvInfo(k){
+    const ev=AV_EVENTS.find(x=>x.k===k);if(!ev)return null;
+    const t=avToday(),y=t.getFullYear();let next=null;
+    for(let yy=y-1;yy<=y+1;yy++){
+        const w=ev.win(yy);
+        if(t>=w[0]&&t<=w[1])return {ev,active:true,start:w[0],end:w[1],days:avDays(t,w[1])+1};
+        if(w[0]>t&&(!next||w[0]<next[0]))next=w;
+    }
+    return {ev,active:false,start:next[0],end:next[1],days:avDays(t,next[0])};
+}
+function avEvActive(k){const i=avEvInfo(k);return !!(i&&i.active)}
+function avatarIsAdmin(){return typeof user!=="undefined"&&user&&user.role==="admin"}
+function avatarEffective(id){
+    const a=AVATARS.find(x=>x.id===id);
+    return a?a.id:AVATARS[0].id;
+}
+function avTage(n){return n+" TAG"+(n===1?"":"E")}
+function avDatum(d){return d.toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit",year:"numeric"})}
+function avatarAchCount(){return ((typeof user!=="undefined"&&user&&user.achievements)||[]).length}
+function avatarNeed(a){
+    if(a.pack!=="erfolg")return 0;
+    return AVATARS.filter(x=>x.pack==="erfolg").indexOf(a)+1;
+}
+function avatarUnlocked(a){if(a.ev)return avEvActive(a.ev);return avatarAchCount()>=avatarNeed(a)}
+function avatarUnlockedCount(){return AVATARS.filter(avatarUnlocked).length}
 function avatarCurrent(){
-    const i=AVATARS.findIndex(a=>a.id===(user&&user.avatar));
-    return (i>=0&&i<avatarUnlockedCount())?AVATARS[i]:AVATARS[0];
+    const a=AVATARS.find(x=>x.id===(typeof user!=="undefined"&&user&&user.avatar));
+    return (a&&(a.ev||avatarUnlocked(a)))?a:AVATARS[0];
 }
 function avatarRefresh(){
     if(typeof user==="undefined"||!user||!user.username)return;
@@ -3019,31 +3439,76 @@ function avatarRefresh(){
     const n=$("winName");if(n)n.textContent=user.username;
 }
 function showAvatar(){hideViews();avatarRender();$("avatarStatus").textContent="";$("avatarView").classList.remove("hidden")}
-function avatarRender(){
-    const a=avatarCurrent(),cnt=avatarUnlockedCount();
-    $("avatarBig").innerHTML=avatarHtml(a.id,"big");
-    $("avatarName").textContent=a.name;
-    $("avatarCount").textContent=cnt+" VON "+AVATARS.length+" AVATAREN FREIGESCHALTET"+(cnt<AVATARS.length?" – NOCH 1 ERFOLG BIS ZUM NÄCHSTEN":"");
-    const g=$("avatarGrid");g.textContent="";
-    AVATARS.forEach((x,i)=>{
-        const locked=i>=cnt;
-        const b=document.createElement("button");
-        b.type="button";b.className="av-item"+(locked?" locked":"")+(x.id===a.id?" sel":"");
-        b.disabled=locked;
-        b.innerHTML=avatarHtml(x.id,"")+'<span class="av-n"></span>';
-        const miss=i-cnt+1;
-        b.querySelector(".av-n").textContent=locked?("🔒 NOCH "+miss+" ERFOLG"+(miss===1?"":"E")):x.name;
-        b.onclick=()=>avatarChoose(x.id);
-        g.append(b);
+function avatarSection(g,title,desc,list,cur,cls,wait){
+    const h=document.createElement("h3");h.className="av-pack "+(cls||"");h.textContent=title;
+    const d=document.createElement("p");d.className="av-sub";d.textContent=desc;
+    g.append(h,d);
+    let grid=null,lastSub=null;
+    list.forEach(x=>{
+        const sub=x.pack==="erfolg"?(x.sub||"Märchen & Fantasie"):"";
+        if(!grid||sub!==lastSub){
+            if(sub){const h4=document.createElement("h4");h4.className="av-sub2";h4.textContent=sub;g.append(h4)}
+            grid=document.createElement("div");grid.className="av-grid";g.append(grid);lastSub=sub;
+        }
+        const b=document.createElement("button");b.type="button";
+        if(wait){
+            const mine=x.id===cur.id,peek=avatarIsAdmin()||mine;
+            b.className="av-item locked"+(peek?" peek":"")+(mine?" sel":"");b.disabled=true;
+            b.innerHTML=(peek?avatarHtml(x.id,""):'<span class="av"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="48" height="48"><circle cx="50" cy="50" r="50" fill="#9aa0a8"/><text x="50" y="68" font-size="54" text-anchor="middle" fill="#fff" font-family="sans-serif" font-weight="700">?</text></svg></span>')+'<span class="av-n"></span>';
+            b.querySelector(".av-n").textContent=x.name;
+        }else{
+            const locked=!avatarUnlocked(x);
+            b.className="av-item"+(locked?" locked":"")+(x.id===cur.id?" sel":"");
+            b.disabled=locked;
+            b.innerHTML=avatarHtml(x.id,"")+'<span class="av-n"></span>';
+            const miss=avatarNeed(x)-avatarAchCount();
+            b.querySelector(".av-n").textContent=locked?("🔒 NOCH "+miss+" ERFOLG"+(miss===1?"":"E")):x.name;
+            b.onclick=()=>avatarChoose(x.id);
+        }
+        grid.append(b);
     });
 }
+function avatarRender(){
+    const cur=avatarCurrent();
+    const pool=AVATARS.filter(a=>!a.ev||avEvActive(a.ev));
+    const cnt=pool.filter(avatarUnlocked).length;
+    $("avatarBig").innerHTML=avatarHtml(cur.id,"big");
+    $("avatarName").textContent=cur.name;
+    const nextLocked=AVATARS.some(a=>a.pack==="erfolg"&&!avatarUnlocked(a));
+    $("avatarCount").textContent=cnt+" VON "+pool.length+" AVATAREN FREIGESCHALTET"+(nextLocked?" – NOCH 1 ERFOLG BIS ZUM NÄCHSTEN ERFOLGS-AVATAR":"");
+    const g=$("avatarGrid");g.textContent="";
+    const byPack=k=>AVATARS.filter(a=>a.pack===k);
+    const pk=k=>AV_PACKS.find(p=>p.k===k);
+    const sec=k=>{const p=pk(k),l=byPack(k);if(l.length)avatarSection(g,p.t,p.d,l,cur,"av-pack-"+k,false)};
+    sec("start");
+    // Jetzt aktive Spezial-Pakete
+    const infos=AV_EVENTS.map(e=>avEvInfo(e.k));
+    infos.filter(i=>i.active).sort((a,b)=>a.days-b.days).forEach(i=>{
+        const l=AVATARS.filter(a=>a.ev===i.ev.k);if(!l.length)return;
+        avatarSection(g,i.ev.e+" "+i.ev.t+" – NOCH "+avTage(i.days),"Nur bis zum "+avDatum(i.end)+" zum Auswählen. Danach ist das Paket weg – bis es nächstes Jahr wiederkommt!",l,cur,"av-pack-event",false);
+    });
+    sec("maerchenwald");
+    sec("erfolg");
+    // Noch nicht aktive Pakete ganz unten
+    const wait=infos.filter(i=>!i.active).sort((a,b)=>a.days-b.days);
+    if(wait.length){
+        const h=document.createElement("h3");h.className="av-pack av-wait-head";h.textContent="⏳ BALD ZU HABEN";
+        const d=document.createElement("p");d.className="av-sub";
+        d.textContent=avatarIsAdmin()?"ADMIN-ANSICHT: Nur du siehst hier die Bilder. Alle anderen sehen nur die Namen.":"Diese Spezial-Avatare gibt es nur kurz im Jahr. Wie sie aussehen, bleibt bis dahin geheim!";
+        g.append(h,d);
+        wait.forEach(i=>{
+            const l=AVATARS.filter(a=>a.ev===i.ev.k);if(!l.length)return;
+            avatarSection(g,i.ev.e+" "+i.ev.t+" – NOCH "+avTage(i.days),"Startet am "+avDatum(i.start)+".",l,cur,"av-pack-wait",true);
+        });
+    }
+}
 async function avatarChoose(id){
-    const i=AVATARS.findIndex(a=>a.id===id);
-    if(i<0||i>=avatarUnlockedCount())return;
+    const a=AVATARS.find(x=>x.id===id);
+    if(!a||!avatarUnlocked(a))return;
     user.avatar=id;
     try{window.localStorage.setItem("lhc_avatar_"+norm(user.username),id)}catch{}
     avatarRefresh();avatarRender();
-    const st=$("avatarStatus");st.className="success";st.textContent="AVATAR GEWÄHLT: "+AVATARS[i].name;
+    const st=$("avatarStatus");st.className="success";st.textContent="AVATAR GEWÄHLT: "+a.name;
     if(currentUserId){
         try{
             const {error}=await sb.from("user_progress").update({avatar:id}).eq("user_id",currentUserId);
@@ -3061,11 +3526,10 @@ function rankLine(d,prefix,name,rest,avatarId,me){
     d.textContent="";
     d.append(document.createTextNode(prefix));
     const sp=document.createElement("span");
-    sp.innerHTML=avatarHtml(me?avatarCurrent().id:avatarId,"sm");
+    sp.innerHTML=avatarHtml(me?avatarCurrent().id:avatarEffective(avatarId),"sm");
     d.append(sp.firstChild);
     d.append(document.createTextNode(name+(me?" (DU)":"")+rest));
 }
-
 </script>
 </body>
 </html>
