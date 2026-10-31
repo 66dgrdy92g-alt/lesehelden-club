@@ -684,6 +684,14 @@ body.win-open{overflow:hidden}
 
 
 
+
+#readLibView .rl-src{font-size:.9em;opacity:.9}
+#readLibView a{color:inherit;font-weight:bold;text-decoration:underline}
+#readLibView .rl-item{padding:12px 0;border-top:1px dashed currentColor;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+#readLibView .rl-t{font-weight:bold;font-size:1.05em}
+#readLibView .rl-a,#readLibView .rl-q{font-size:.85em;opacity:.85}
+#readLibView .rl-item button{margin:0;width:auto}
+@media(max-width:600px){#readLibView .rl-item button{width:100%}}
 /* ===== Lesebereich ===== */
 #readerView .rd-sub{opacity:.85;margin:4px 0}
 #readerView .rd-tools{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
@@ -958,6 +966,7 @@ body[class*="theme-"] .club-badge-dos{display:none}
 <h3 class="m-title">📚 LESEN &amp; LERNEN</h3>
 <div class="m-grid">
 <button class="m-btn" onclick="showBooks()"><span class="m-ico">📖</span>BIBLIOTHEK</button>
+<button class="m-btn" onclick="showReadLib()"><span class="m-ico">📜</span>JETZT LESEN</button>
 <button class="m-btn" onclick="showLearning()"><span class="m-ico">🎓</span>LERNEN</button>
 <button id="bookManageButton" class="m-btn hidden" onclick="showBookManagement()"><span class="m-ico">➕</span>BUCH UND QUIZ HINZUFÜGEN</button>
 </div>
@@ -1043,7 +1052,7 @@ body[class*="theme-"] .club-badge-dos{display:none}
 <div id="designPanel" class="box hidden"><h2>DESIGN AUSWAHL</h2><p>Dein Design wird in deinem Konto gespeichert und beim Anmelden automatisch geladen.</p><div id="themeSwitcher"><button onclick="chooseTheme('blatt')">COLLEGE BOOK</button> <button onclick="chooseTheme('maerchen')">MÄRCHENBUCH</button> <button onclick="chooseTheme('miami')">MIAMI</button> <button onclick="chooseTheme('kids')">KUNTERBUNT</button> <button onclick="chooseTheme('pirat')">PIRATEN</button> <button onclick="chooseTheme('dos')">DOS</button></div><p id="themeStatus"></p><button onclick="showSettings()">[ ZURÜCK ]</button></div>
 <div id="adminPanel" class="box hidden"><h2>BENUTZERVERWALTUNG</h2><h3>REGISTRIERTE NUTZER</h3><p id="registeredUserSummary"></p><div id="registeredUserOverview"></div><h3>ROLLEN UND PASSWÖRTER</h3><p>Rolle auswählen und bei Bedarf ein neues Passwort eintragen.</p><div id="adminUserList"></div><p id="adminStatus"></p><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
 <div id="bookManagePanel" class="box hidden"><h2 id="bookManageHeading">NEUES BUCH UND QUIZ</h2><div id="importExportPanel" class="import-export"><h3>IMPORT UND EXPORT</h3><p>Die gesamte Bibliothek mit allen Quizfragen als Excel-kompatible CSV-Datei sichern oder neue Bücher einlesen.</p><button type="button" onclick="downloadImportTemplate()">[ EXCEL-IMPORTVORLAGE HERUNTERLADEN ]</button><button type="button" onclick="exportBooksAndQuizzes()">[ GESAMTE BIBLIOTHEK EXPORTIEREN ]</button><button type="button" onclick="$('bookQuizImport').click()">[ EXCEL-CSV IMPORTIEREN ]</button><p>Eine Zeile entspricht einer Quizfrage. Die richtige Antwort wird mit A, B, C oder D angegeben.</p><input id="bookQuizImport" type="file" accept=".csv,text/csv" onchange="importBooksAndQuizzes(this)"><p id="bookImportStatus"></p></div><label>TITEL:</label><br><input id="newBookTitle" placeholder="Buchtitel"><br><label>AUTOR:</label><br><input id="newBookAuthor" placeholder="Autor"><br><label>ISBN:</label><br><input id="newBookIsbn" placeholder="z. B. 978-3-..."><br><label>SCHWIERIGKEITSGRAD:</label><br><select id="newBookDifficulty"><option value="1">1 – 1 Punkt pro richtige Antwort</option><option value="2">2 – 2 Punkte pro richtige Antwort</option><option value="3">3 – 3 Punkte pro richtige Antwort</option></select><br><h3>QUIZ-FRAGEN</h3><div id="questionEditors"></div><button onclick="addQuestionEditor()">[ FRAGE HINZUFÜGEN ]</button><br><button id="bookSaveButton" onclick="addBookAndQuiz()">[ BUCH UND QUIZ SPEICHERN ]</button><p id="bookManageStatus"></p><div id="textEditor" class="hidden"><h3>LESETEXT (NUR GEMEINFREI!)</h3><p id="textEditorInfo"></p><label>TEXTDATEI (.TXT, UTF-8):</label><input id="textFile" type="file" accept=".txt,text/plain"><label>QUELLE (WEBADRESSE ODER NAME):</label><input id="textSource" placeholder="z. B. gutenberg.org, Nr. 12345"><label>ÜBERSETZER / AUSGABE:</label><input id="textTranslator" placeholder="z. B. Originaltext oder Name und Jahr"><label>LIZENZ:</label><input id="textLicense" value="Gemeinfrei"><label style="display:flex;gap:8px;align-items:flex-start"><input id="textCheck" type="checkbox" style="width:auto;margin-top:6px"> ICH HABE GEPRÜFT: AUTOR UND ÜBERSETZER SIND SEIT MEHR ALS 70 JAHREN TOT.</label><button type="button" onclick="saveBookText()">[ LESETEXT SPEICHERN ]</button><button type="button" onclick="deleteBookText()">[ LESETEXT LÖSCHEN ]</button><p id="textStatus"></p></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div><div id="booksView" class="box hidden"><h2>VERFÜGBARE BÜCHER</h2><p>BÜCHER: <span id="bookCount"></span> | QUIZ: <span id="quizCount"></span> | FRAGEN: <span id="questionCount"></span></p><div class="lib-filters"><input id="bookSearch" type="search" placeholder="Titel oder Autor suchen" oninput="bookPage=1;renderBookList()"><div class="lib-group"><span class="lib-label">STATUS</span><div class="lib-row"><button id="newBooksFilter" type="button" onclick="toggleNewBooksFilter()" title="Bücher der letzten 30 Tage">[ NEU ]</button><button id="readBooksFilter" type="button" onclick="toggleReadBooksFilter()">[ GELESEN ]</button><button id="openQuizFilter" type="button" onclick="toggleOpenQuizFilter()">[ QUIZ OFFEN ]</button><button id="completedQuizFilter" type="button" onclick="toggleCompletedQuizFilter()">[ QUIZ FERTIG ]</button><button id="improveFilter" type="button" onclick="toggleFilter('improve')">[ VERBESSERBAR ]</button></div></div><div class="lib-selects"><div><label for="bookDifficulty" class="lib-label">SCHWIERIGKEIT</label><select id="bookDifficulty" onchange="bookPage=1;renderBookList()"><option value="0">ALLE</option><option value="1">LEICHT (1)</option><option value="2">MITTEL (2)</option><option value="3">SCHWER (3)</option></select></div><div><label for="bookSort" class="lib-label">SORTIERUNG</label><select id="bookSort" onchange="bookPage=1;renderBookList()"><option value="title">TITEL A–Z</option><option value="author">AUTOR A–Z</option><option value="easy">LEICHT ZUERST</option><option value="hard">SCHWER ZUERST</option></select></div><button type="button" onclick="resetBookFilters()">[ FILTER LÖSCHEN ]</button></div></div><p id="bookFilterStatus" class="hidden"></p><div id="bookAlphabet" class="book-alphabet" aria-label="Schnellauswahl nach Anfangsbuchstaben"></div><p id="bookSearchEmpty" class="hidden">KEINE PASSENDEN BÜCHER.</p><div id="bookList"></div><div id="bookPagination" class="book-pagination"></div></div>
-<div id="readerView" class="box hidden"><h2 id="readerTitle"></h2><p id="readerAuthor" class="rd-sub"></p><div class="rd-tools"><button type="button" onclick="readerFont(-1)" aria-label="Schrift kleiner">[ A− ]</button><button type="button" onclick="readerFont(1)" aria-label="Schrift größer">[ A+ ]</button><button type="button" onclick="readerGo(-1)">[ ◀ ZURÜCK ]</button><button type="button" onclick="readerGo(1)">[ WEITER ▶ ]</button></div><div class="progress"><div id="readerBar" class="progress-bar"></div></div><p id="readerPos" class="rd-sub"></p><div id="readerText"></div><div id="readerEnd" class="hidden"><p class="success">🎉 DU BIST AM ENDE! TOLL GELESEN.</p><button id="readerMarkBtn" type="button"></button><button id="readerQuizBtn" type="button">[ QUIZ STARTEN ]</button></div><div class="rd-tools"><button type="button" onclick="readerGo(-1)">[ ◀ ZURÜCK ]</button><button type="button" onclick="readerGo(1)">[ WEITER ▶ ]</button></div><p id="readerSource" class="rd-src"></p><button type="button" onclick="readerClose()">[ ZURÜCK ZUM BUCH ]</button></div><div id="bookDetailView" class="box hidden"><h2 id="detailBookTitle"></h2><p id="detailBookAuthor"></p><p id="detailBookIsbn"></p><p id="detailReadingStatus" class="status"></p><button id="detailTextButton" type="button" class="hidden">[ 📖 JETZT LESEN ]</button><button id="detailReadButton" type="button">[ ALS GELESEN MARKIEREN ]</button><button id="detailQuizButton">[ QUIZ STARTEN ]</button><button id="detailEditButton" class="hidden" type="button">[ BUCH UND QUIZ BEARBEITEN ]</button><button onclick="showBooks()">[ ZURÜCK ZUR BUCHLISTE ]</button></div>
+<div id="readLibView" class="box hidden"><h2>📜 JETZT LESEN</h2><p>Diese Bücher kannst du gleich hier lesen. Alle Texte sind <strong>gemeinfrei</strong>, das heißt: Jeder darf sie kostenlos lesen und weitergeben.</p><p class="rl-src">Die Texte stammen von <strong>Project Gutenberg</strong> (<a href="https://www.gutenberg.org" target="_blank" rel="noopener noreferrer">gutenberg.org</a>), einer Bibliothek mit freien Büchern. Bei jedem Buch steht die genaue Quelle.</p><div id="readLibList"></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div><div id="readerView" class="box hidden"><h2 id="readerTitle"></h2><p id="readerAuthor" class="rd-sub"></p><div class="rd-tools"><button type="button" onclick="readerFont(-1)" aria-label="Schrift kleiner">[ A− ]</button><button type="button" onclick="readerFont(1)" aria-label="Schrift größer">[ A+ ]</button><button type="button" onclick="readerGo(-1)">[ ◀ ZURÜCK ]</button><button type="button" onclick="readerGo(1)">[ WEITER ▶ ]</button></div><div class="progress"><div id="readerBar" class="progress-bar"></div></div><p id="readerPos" class="rd-sub"></p><div id="readerText"></div><div id="readerEnd" class="hidden"><p class="success">🎉 DU BIST AM ENDE! TOLL GELESEN.</p><button id="readerMarkBtn" type="button"></button><button id="readerQuizBtn" type="button">[ QUIZ STARTEN ]</button></div><div class="rd-tools"><button type="button" onclick="readerGo(-1)">[ ◀ ZURÜCK ]</button><button type="button" onclick="readerGo(1)">[ WEITER ▶ ]</button></div><p id="readerSource" class="rd-src"></p><button type="button" onclick="readerClose()">[ ZURÜCK ]</button></div><div id="bookDetailView" class="box hidden"><h2 id="detailBookTitle"></h2><p id="detailBookAuthor"></p><p id="detailBookIsbn"></p><p id="detailReadingStatus" class="status"></p><button id="detailTextButton" type="button" class="hidden">[ 📖 JETZT LESEN ]</button><button id="detailReadButton" type="button">[ ALS GELESEN MARKIEREN ]</button><button id="detailQuizButton">[ QUIZ STARTEN ]</button><button id="detailEditButton" class="hidden" type="button">[ BUCH UND QUIZ BEARBEITEN ]</button><button onclick="showBooks()">[ ZURÜCK ZUR BUCHLISTE ]</button></div>
 <div id="quizView" class="box hidden"><h2 id="bookTitle"></h2><div class="status">FRAGE <span id="questionNumber"></span> VON <span id="questionTotal"></span><br>QUIZ-PUNKTE: <span id="quizPoints">0</span></div><div class="progress"><div id="progressBar" class="progress-bar"></div></div><h3 id="questionText"></h3><div id="answers"></div><p id="answerResult"></p><button id="nextButton" class="hidden" onclick="nextQuestion()">[ WEITER ]</button><button onclick="cancelQuiz()">[ ABBRECHEN ]</button></div>
 <div id="resultView" class="box hidden"><h2>QUIZ ABGESCHLOSSEN</h2><p>BUCH: <span id="resultBook"></span><br>RICHTIG: <span id="correctAnswers"></span> VON <span id="resultQuestionTotal"></span><br>QUIZ-PUNKTE: <span id="earnedPoints"></span><br>GESAMTPUNKTE: <span id="resultTotal"></span></p><p id="resultMessage"></p><div id="newAchievements" class="hidden"><h3>NEUE ERFOLGE</h3><div id="newAchievementList"></div></div><button onclick="showBooks()">[ ZURÜCK ]</button></div>
 <div id="progressView" class="box hidden"><h2>MEIN FORTSCHRITT</h2><div id="progressContent"></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
@@ -2365,7 +2374,7 @@ async function rankTab(t){
 function winOpen(){if(typeof avatarRefresh==="function")avatarRefresh();const w=$("winLayer");w.classList.add("open");document.body.classList.add("win-open");w.scrollTop=0}
 function winClose(){$("winLayer").classList.remove("open");document.body.classList.remove("win-open")}
 function showMenu(){hideViews();winClose();updateDashboard();if(typeof avatarRefresh==='function')avatarRefresh();if(typeof rankSync==='function')rankSync();window.scrollTo(0,0)}
-function hideViews(){winOpen();if(typeof snakePlayOff==="function")snakePlayOff();if(typeof snakeAutoPause==="function")snakeAutoPause();["readerView","avatarView","booksView","bookDetailView","quizView","resultView","progressView","achievementsView","urkundeView","settingsPanel","learningView","gameView","rankingView","learnUnitView","learnLevelPanel","passwordPanel","designPanel","adminPanel","bookManagePanel"].forEach(id=>$(id).classList.add("hidden"))}
+function hideViews(){winOpen();if(typeof snakePlayOff==="function")snakePlayOff();if(typeof snakeAutoPause==="function")snakeAutoPause();["readLibView","readerView","avatarView","booksView","bookDetailView","quizView","resultView","progressView","achievementsView","urkundeView","settingsPanel","learningView","gameView","rankingView","learnUnitView","learnLevelPanel","passwordPanel","designPanel","adminPanel","bookManagePanel"].forEach(id=>$(id).classList.add("hidden"))}
 async function logout(){
     await sb.auth.signOut();
 
@@ -3303,11 +3312,12 @@ function readerRender(top){
     }
     if(top){window.scrollTo(0,0);const w=$("winLayer");if(w)w.scrollTop=0}
 }
-function readerClose(){showBookDetails(RD.id)}
-async function openReader(id,keep){
+function readerClose(){if(RD.from==="lib")showReadLib();else showBookDetails(RD.id)}
+async function openReader(id,keep,from){
     const b=books.find(x=>x.id===id);if(!b)return;
     RD.id=id;readerLoadFont();
     if(!keep){
+        RD.from=from||null;
         hideViews();
         $("readerTitle").textContent=b.title;
         $("readerAuthor").textContent="VON "+b.author;
@@ -3338,6 +3348,39 @@ document.addEventListener("keydown",e=>{
     if(e.key==="ArrowRight"){e.preventDefault();readerGo(1)}
     else if(e.key==="ArrowLeft"){e.preventDefault();readerGo(-1)}
 });
+
+async function showReadLib(){
+    hideViews();
+    $("readLibView").classList.remove("hidden");
+    const box=$("readLibList");box.textContent="LADE BÜCHER …";
+    let rows=[];
+    try{
+        const {data,error}=await sb.from("book_texts").select("book_id,source,translator,license");
+        if(error)console.error("LESEBÜCHER",error);
+        rows=data||[];
+    }catch(e){console.error(e)}
+    box.textContent="";
+    const list=rows.map(r=>({r,b:books.find(x=>String(x.id)===String(r.book_id))})).filter(x=>x.b)
+        .sort((a,b)=>a.b.title.localeCompare(b.b.title,"de"));
+    if(!list.length){
+        const p=document.createElement("p");
+        p.textContent="ZURZEIT GIBT ES NOCH KEINE BÜCHER ZUM LESEN. BALD KOMMEN NEUE DAZU!";
+        box.append(p);return;
+    }
+    list.forEach(({r,b})=>{
+        RD.metaCache[String(b.id)]=r;
+        const row=document.createElement("div");row.className="rl-item";
+        const info=document.createElement("div");
+        const t=document.createElement("div");t.className="rl-t";t.textContent=b.title+(isRead(b.id)?"  ✓":"");
+        const a=document.createElement("div");a.className="rl-a";a.textContent="VON "+b.author;
+        const q=document.createElement("div");q.className="rl-q";
+        q.textContent=(r.license||"Gemeinfrei")+(r.source?" · Quelle: "+r.source:"");
+        info.append(t,a,q);
+        const btn=document.createElement("button");btn.type="button";btn.textContent="[ 📖 LESEN ]";
+        btn.onclick=()=>openReader(b.id,false,"lib");
+        row.append(info,btn);box.append(row);
+    });
+}
 /* --- Admin: Lesetext einspielen --- */
 async function textEditorInit(book){
     const box=$("textEditor");
