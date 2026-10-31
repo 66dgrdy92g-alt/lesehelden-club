@@ -808,6 +808,59 @@ body.theme-pirat button.tab-on{background:#1d5a4a !important;color:#ffe9b0 !impo
 .av.big{width:110px;height:110px;border:3px solid currentColor}
 #portal .m-avatar{width:68px;height:68px;padding:0;overflow:hidden}
 #portal .m-avatar svg{width:100%;height:100%;display:block}
+
+/* ===== Avatar-Haustier ===== */
+#petRoom{position:relative;max-width:640px;margin:10px 0;border:3px solid currentColor;line-height:0;overflow:hidden;background:#222}
+#petRoomSvg svg{width:100%;height:auto;display:block}
+.pet-av{position:absolute;left:50%;bottom:6%;width:30%;transform:translateX(-50%);transition:transform .3s;pointer-events:none}
+.pet-av svg{width:100%;height:auto;display:block;clip-path:inset(0 0 0 0 round 0 0 22% 22%)}
+.pet-av::after{content:"";position:absolute;left:8%;right:8%;bottom:-4%;height:10%;border-radius:50%;background:rgba(0,0,0,.25);z-index:-1}
+.pet-av.happy{animation:petBob 1.6s ease-in-out infinite}
+.pet-av.ok{animation:petBob 2.6s ease-in-out infinite}
+.pet-av.sad svg{filter:saturate(.45) brightness(.9)}
+.pet-av.sad{animation:petBob 4s ease-in-out infinite;bottom:4%}
+.pet-av.sleep{width:26%;bottom:9%;left:44%;transform:translateX(-50%) rotate(-90deg);transform-origin:center}
+.pet-av.sleep svg{filter:brightness(.7)}
+.pet-av.act{animation:petJump .6s ease-out}
+#petZzz{position:absolute;left:55%;bottom:44%;font-size:1.6em;line-height:1;animation:petFloat 2.4s ease-in-out infinite;pointer-events:none}
+#petFx{position:absolute;inset:0;pointer-events:none}
+#petFx span{position:absolute;bottom:40%;font-size:2em;line-height:1;animation:petRise 1.3s ease-out forwards}
+@keyframes petBob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-5px)}}
+@keyframes petJump{0%{transform:translateX(-50%) translateY(0)}35%{transform:translateX(-50%) translateY(-18px)}100%{transform:translateX(-50%) translateY(0)}}
+@keyframes petFloat{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(-8px);opacity:1}}
+@keyframes petRise{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-70px);opacity:0}}
+.pet-bubble{max-width:640px;margin:10px 0;padding:10px 14px;border:2px solid currentColor;border-radius:14px;min-height:3em}
+.pet-answers{max-width:640px;margin:6px 0}
+.pet-answers button{display:block;width:100%;margin:6px 0;text-align:left}
+#petBars{max-width:640px;margin:10px 0}
+.pet-bar{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:.9em}
+.pet-bar span{flex:0 0 9.5em}
+.pet-bar b{flex:0 0 2.2em;text-align:right}
+.pet-track{flex:1;height:14px;border:2px solid currentColor;background:rgba(128,128,128,.25)}
+.pet-track div{height:100%}
+.pet-btns{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;max-width:640px;margin:10px 0}
+.pet-btns button{margin:0;width:100%}
+.pet-event{max-width:640px;margin:6px 0;padding:6px 10px;border:2px dashed currentColor;text-align:center;font-weight:bold}
+.pet-sub{max-width:640px;margin:4px 0;font-size:.85em;opacity:.9}
+.pet-lesson{max-width:640px;margin:8px 0;padding:8px 12px;border:2px dashed currentColor;font-size:.9em}
+.pet-lesson p{margin:4px 0}
+.pet-lesson .pl-h{font-weight:bold}
+.pet-lesson .pl-m{font-weight:bold;opacity:.9}
+#petHelp ul{margin:4px 0 8px 18px;padding:0}
+#petHelp li{margin:4px 0;font-size:.9em}
+@media(max-width:600px){.pet-bar span{flex-basis:8em}}
+
+.pet-deco{max-width:640px;margin:10px 0;padding:8px 12px;border:2px solid currentColor}
+.pet-deco h3{margin:4px 0}
+.pd-row{padding:10px 0;border-top:1px dashed currentColor}
+.pd-row.locked{opacity:.55}
+.pd-t{font-weight:bold;margin-bottom:6px}
+.pd-on{width:auto !important;margin:0 0 8px !important}
+.pd-designs{display:flex;gap:8px;flex-wrap:wrap}
+.pd-d{width:auto !important;margin:0 !important;padding:4px !important;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.7em}
+.pd-d svg{width:84px;height:56px;display:block}
+.pd-d.sel{outline:4px solid #f5a623}
+#petMeasure{position:absolute;left:-9999px;top:0;visibility:hidden;width:300px;height:200px;overflow:hidden}
 .av-hero{display:flex;align-items:center;gap:16px;margin:12px 0}
 .av-name{font-size:1.3em;font-weight:700}
 .av-sub{font-size:.9em;opacity:.85}
@@ -992,10 +1045,21 @@ body[class*="theme-"] .club-badge-dos{display:none}
 </div>
 </div>
 <div id="winLayer"><div id="winInner"><div class="win-bar"><div class="win-who"><span id="winAvatar"></span><span id="winName"></span></div><button id="winClose" type="button" onclick="showMenu()">[ ✕ ZUM HAUPTMENÜ ]</button></div>
+<div id="petView" class="box hidden"><h2>🐾 MEIN AVATAR-HAUSTIER</h2>
+<div id="petEvent" class="pet-event hidden"></div>
+<div id="petRoom"><div id="petRoomSvg"></div><div id="petAv" class="pet-av"></div><div id="petZzz"></div><div id="petFx"></div></div>
+<div id="petBubble" class="pet-bubble"></div><div id="petLesson" class="pet-lesson hidden"></div><div id="petAnswers" class="pet-answers"></div>
+<div id="petBars"></div>
+<div class="pet-btns"><button type="button" onclick="petAct('food')">🍎 FÜTTERN</button><button type="button" onclick="petAct('drink')">💧 TRINKEN GEBEN</button><button type="button" onclick="petAct('wash')">🫧 SAUBER MACHEN</button><button type="button" onclick="petAct('care')">❤️ PFLEGEN</button><button type="button" onclick="petPlay()">🎮 SPIELEN</button><button type="button" onclick="petAsk()">💬 FRAGE</button><button type="button" onclick="petTip()">💡 MEDIEN-TIPP</button><button type="button" onclick="petDecoToggle()">🛋️ ZIMMER EINRICHTEN</button><button type="button" onclick="petHelpToggle()">📖 ANLEITUNG</button></div>
+<div id="petHelp" class="pet-deco hidden"></div>
+<div id="petDeco" class="pet-deco hidden"></div><div id="petMeasure"></div>
+<p id="petPts" class="pet-sub"></p><p id="petNext" class="pet-sub"></p>
+<p class="pet-sub">Dein Avatar schläft jeden Tag von 22 Uhr bis 7 Uhr. Je höher dein Level, desto mehr Gegenstände stehen in seinem Zimmer. An Feiertagen wird das Zimmer geschmückt.</p>
+<button onclick="showAvatar()">ZURÜCK ZUM AVATAR</button> <button onclick="showMenu()">ZUM HAUPTMENÜ</button></div>
 <div id="avatarView" class="box hidden"><h2>MEIN AVATAR</h2>
 <div class="av-hero"><div id="avatarBig"></div><div><div id="avatarName" class="av-name"></div><div id="avatarCount" class="av-sub"></div></div></div>
 <p>Tippe auf einen Avatar, um ihn auszuwählen. Dein Avatar erscheint im Hauptmenü, in jedem Fenster und in der Rangliste.</p>
-<div id="avatarGrid"></div><p id="avatarStatus" class="success"></p>
+<button type="button" onclick="showPet()">🐾 MEIN AVATAR PFLEGEN</button><div id="avatarGrid"></div><p id="avatarStatus" class="success"></p>
 <button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
 <div id="urkundeView" class="box hidden"><h2>URKUNDE</h2><p>Wähle, wofür du eine Urkunde möchtest. Zur Auswahl stehen eine Gesamt-Urkunde und jeder Erfolg, den du freigeschaltet hast.</p><label for="urkundeChoice">URKUNDE FÜR:</label><br><select id="urkundeChoice" onchange="renderUrkunde()"></select><div id="urkundePreview" class="urkunde-wrap"></div><button type="button" onclick="printUrkunde()">[ DRUCKEN / ALS PDF SPEICHERN ]</button><p>Im Druckfenster „Als PDF speichern" wählen, wenn du eine Datei möchtest. Die Urkunde ist für A4 im Querformat gemacht.</p><button onclick="showAchievements()">[ ZURÜCK ZU DEN ERFOLGEN ]</button> <button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
 <div id="learningView" class="box hidden"><h2>LERNEN: MEDIENKOMPETENZ</h2><p>Alle Lerneinheiten sind frei. Such dir aus, was du lernen möchtest. Deine Lernstufe: <strong id="learnStufeLabel"></strong></p><div id="learningContent"></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
@@ -1046,7 +1110,7 @@ body[class*="theme-"] .club-badge-dos{display:none}
 <div class="g-rankbar"><button id="snakeTabWeek" onclick="snakeTab('week')">[ DIESE WOCHE ]</button><button id="snakeTabAll" onclick="snakeTab('all')">[ FÜR IMMER ]</button></div>
 <div id="snakeRanking"></div>
 <div class="g-sec"><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div></div>
-<div id="rankingView" class="box hidden"><h2>RANKING</h2><button id="rkTabQuiz" onclick="rankTab('quiz')">[ QUIZ-PUNKTE ]</button><button id="rkTabPerfect" onclick="rankTab('perfect')">[ PERFEKTE QUIZ ]</button><button id="rkTabGame" onclick="rankTab('game')">[ SPIEL ]</button><div id="rankSub" class="hidden"><button id="rkSubWeek" onclick="snakeTab('week')">[ DIESE WOCHE ]</button><button id="rkSubAll" onclick="snakeTab('all')">[ FÜR IMMER ]</button></div><div id="rankList"></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
+<div id="rankingView" class="box hidden"><h2>RANKING</h2><button id="rkTabQuiz" onclick="rankTab('quiz')">[ QUIZ-PUNKTE ]</button><button id="rkTabPerfect" onclick="rankTab('perfect')">[ PERFEKTE QUIZ ]</button><button id="rkTabGame" onclick="rankTab('game')">[ SPIEL ]</button><button id="rkTabPet" onclick="rankTab('pet')">AVATAR-PFLEGE</button><div id="rankSub" class="hidden"><button id="rkSubWeek" onclick="snakeTab('week')">[ DIESE WOCHE ]</button><button id="rkSubAll" onclick="snakeTab('all')">[ FÜR IMMER ]</button></div><div id="rankList"></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
 <div id="learnUnitView" class="box hidden"><h2 id="learnUnitTitle"></h2><div class="status" id="learnUnitInfo"></div><div id="learnStufeSwitch"></div><div id="learnUnitBody"></div><button onclick="showLearning()">[ ZURÜCK ZUM LERNEN ]</button></div>
 <div id="learnLevelPanel" class="box hidden"><h2>LERNSTUFE</h2><p>Wähle, wie ausführlich die Lerneinheiten für dich sein sollen. Du kannst das jederzeit ändern. Deine Wahl wird gespeichert.</p><div id="learnLevelButtons"></div><p id="learnLevelStatus" class="success"></p><button onclick="showSettings()">[ ZURÜCK ]</button></div>
 <div id="settingsPanel" class="box hidden"><h2>EINSTELLUNGEN</h2><button onclick="showPasswordSettings()">[ PASSWORT ÄNDERN ]</button><button onclick="showDesignSettings()">[ DESIGN AUSWAHL ]</button><button onclick="showLearnLevelSettings()">[ LERNSTUFE ]</button><br><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
@@ -2348,10 +2412,11 @@ async function showRanking(){
 }
 async function rankTab(t){
     SN.mainRank=t;
-    [["rkTabQuiz","quiz"],["rkTabPerfect","perfect"],["rkTabGame","game"]].forEach(([id,k])=>{const b=$(id);b.style.background=k===t?"#00ff00":"";b.style.color=k===t?"#000":""});
+    [["rkTabQuiz","quiz"],["rkTabPerfect","perfect"],["rkTabGame","game"],["rkTabPet","pet"]].forEach(([id,k])=>{const b=$(id);b.style.background=k===t?"#00ff00":"";b.style.color=k===t?"#000":""});
     const box=$("rankList");
     $("rankSub").classList.toggle("hidden",t!=="game");
     if(t==="game"){SN.rankBox="rankList";renderSnakeRanking();return}
+    if(t==="pet"){renderPetRanking(box);return}
     box.textContent="LADE …";
     try{
         const col=t==="quiz"?"points":"perfect";
@@ -2376,7 +2441,7 @@ async function rankTab(t){
 function winOpen(){if(typeof avatarRefresh==="function")avatarRefresh();const w=$("winLayer");w.classList.add("open");document.body.classList.add("win-open");w.scrollTop=0}
 function winClose(){$("winLayer").classList.remove("open");document.body.classList.remove("win-open")}
 function showMenu(){hideViews();winClose();updateDashboard();if(typeof avatarRefresh==='function')avatarRefresh();if(typeof rankSync==='function')rankSync();window.scrollTo(0,0)}
-function hideViews(){winOpen();if(typeof snakePlayOff==="function")snakePlayOff();if(typeof snakeAutoPause==="function")snakeAutoPause();["readLibView","readerView","avatarView","booksView","bookDetailView","quizView","resultView","progressView","achievementsView","urkundeView","settingsPanel","learningView","gameView","rankingView","learnUnitView","learnLevelPanel","passwordPanel","designPanel","adminPanel","bookManagePanel"].forEach(id=>$(id).classList.add("hidden"))}
+function hideViews(){winOpen();if(typeof snakePlayOff==="function")snakePlayOff();if(typeof snakeAutoPause==="function")snakeAutoPause();["petView","readLibView","readerView","avatarView","booksView","bookDetailView","quizView","resultView","progressView","achievementsView","urkundeView","settingsPanel","learningView","gameView","rankingView","learnUnitView","learnLevelPanel","passwordPanel","designPanel","adminPanel","bookManagePanel"].forEach(id=>$(id).classList.add("hidden"))}
 async function logout(){
     await sb.auth.signOut();
 
@@ -3602,6 +3667,464 @@ function rankLine(d,prefix,name,rest,avatarId,me){
     sp.innerHTML=avatarHtml(me?avatarCurrent().id:avatarEffective(avatarId),"sm");
     d.append(sp.firstChild);
     d.append(document.createTextNode(name+(me?" (DU)":"")+rest));
+}
+
+/* ===== AVATAR-HAUSTIER (TAMAGOTCHI) ===== */
+const PET_ITEMS=[
+ {lv:2,n:"Teppich",s:(c,v)=>{const [a,b]=[["#c0504d","#f3d27a"],["#4a90d9","#ffffff"],["#58a55c","#ffe082"]][v];
+  if(v===1)return `<rect x="70" y="164" width="160" height="28" rx="6" fill="${a}"/><rect x="77" y="169" width="146" height="18" rx="4" fill="none" stroke="${b}" stroke-width="2"/>`;
+  return `<ellipse cx="150" cy="178" rx="85" ry="14" fill="${a}"/><ellipse cx="150" cy="178" rx="68" ry="10" fill="none" stroke="${b}" stroke-width="2" ${v===2?'stroke-dasharray="6 4"':''}/>`}},
+ {lv:3,n:"Bild",s:(c,v)=>{const f=["#7a5230","#2b2b2b","#c9a227"][v];let m;
+  if(v===0)m=`<rect x="96" y="26" width="32" height="22" fill="#9fd3e6"/><polygon points="96,48 108,34 118,44 124,38 128,48" fill="#5fa34a"/>`;
+  else if(v===1)m=`<rect x="96" y="26" width="32" height="22" fill="#cfe9ff"/><circle cx="112" cy="37" r="6" fill="#ffd60a"/><path d="M112 43v5M106 37h-4M122 37h-4" stroke="#e6a800"/>`;
+  else m=`<rect x="96" y="26" width="32" height="22" fill="#ffe9c7"/><polygon points="104,40 112,31 120,40" fill="#d9534f"/><rect x="106" y="40" width="12" height="8" fill="#f0ad4e"/>`;
+  return `<rect x="92" y="22" width="40" height="30" fill="${f}"/>${m}`}},
+ {lv:4,n:"Pflanze",s:(c,v)=>{const pot=["#b5651d","#d9534f","#5bc0de"][v];let pl;
+  if(v===0)pl=`<path d="M89 140q-14-22-6-34M89 140q0-26 4-38M89 140q14-20 10-30" stroke="#3c9a3c" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+  else if(v===1)pl=`<rect x="84" y="108" width="10" height="34" rx="5" fill="#4caf50"/><rect x="76" y="118" width="8" height="5" rx="2" fill="#4caf50"/><rect x="76" y="118" width="5" height="14" rx="2" fill="#4caf50"/><rect x="94" y="122" width="10" height="5" rx="2" fill="#4caf50"/><rect x="99" y="112" width="5" height="15" rx="2" fill="#4caf50"/>`;
+  else pl=`<path d="M89 140v-34M80 140v-26M98 140v-22" stroke="#3c9a3c" stroke-width="3"/><circle cx="89" cy="104" r="6" fill="#ff6b81"/><circle cx="80" cy="112" r="5" fill="#ffd32a"/><circle cx="98" cy="116" r="5" fill="#a29bfe"/>`;
+  return `<path d="M80 140h18l-3 20h-12z" fill="${pot}"/>${pl}`}},
+ {lv:5,n:"Stehlampe",s:(c,v)=>{const col=["#ffd966","#ff9ecb","#8fd3ff"][v];const sh=v===1?`<path d="M250 95a12 12 0 0 1 24 0z" fill="${col}"/>`:v===2?`<rect x="252" y="76" width="20" height="19" fill="${col}"/>`:`<path d="M250 95h24l-6-22h-12z" fill="${col}"/>`;
+  return `<rect x="260" y="95" width="4" height="62" fill="#555"/>${sh}<ellipse cx="262" cy="158" rx="12" ry="4" fill="#555"/>${c.night?`<ellipse cx="262" cy="90" rx="34" ry="30" fill="#fff6b0" opacity=".25"/>`:""}`}},
+ {lv:6,n:"Bücherregal",s:(c,v)=>{const wood=["#8b5a2b","#f1ece0","#2f4f7f"][v],inner=["#5a3a1a","#cfc6b0","#1d3252"][v];const cols=[["#d9534f","#5bc0de","#f0ad4e","#5cb85c","#9b59b6","#e67e22","#3498db"],["#e74c3c","#e67e22","#f1c40f","#2ecc71","#1abc9c","#3498db","#9b59b6"],["#ffffff","#ffd166","#ef476f","#06d6a0","#118ab2","#ffd166","#ef476f"]][v];let b="";
+  for(let i=0;i<7;i++){b+=`<rect x="${21+i*7}" y="80" width="6" height="24" fill="${cols[i]}"/><rect x="${21+i*7}" y="110" width="6" height="${i%2?22:20}" fill="${cols[(i+3)%7]}"/>`}
+  return `<rect x="15" y="72" width="58" height="66" fill="${wood}"/><rect x="19" y="76" width="50" height="28" fill="${inner}"/><rect x="19" y="107" width="50" height="28" fill="${inner}"/>${b}`}},
+ {lv:7,n:"Wanduhr",s:(c,v)=>{const m=c.now.getMinutes(),h=c.now.getHours()%12,am=(m/60)*360,ah=((h+m/60)/12)*360;const face=["#fff","#fffbe6","#222"][v],ink=v===2?"#fff":"#222";
+  const body=v===1?`<rect x="146" y="22" width="28" height="28" rx="4" fill="${face}" stroke="#333" stroke-width="3"/>`:`<circle cx="160" cy="36" r="14" fill="${face}" stroke="${v===2?"#e74c3c":"#333"}" stroke-width="3"/>`;
+  return `${body}<line x1="160" y1="36" x2="160" y2="26" stroke="${ink}" stroke-width="2" transform="rotate(${am} 160 36)"/><line x1="160" y1="36" x2="160" y2="30" stroke="${ink}" stroke-width="3" transform="rotate(${ah} 160 36)"/>`}},
+ {lv:8,n:"Sessel",s:(c,v)=>{const [a,b]=[["#3b6fb6","#4a82d1"],["#b8403a","#d0524a"],["#3d8a58","#4fa56d"]][v];
+  return `<rect x="205" y="116" width="46" height="30" rx="8" fill="${a}"/><rect x="209" y="106" width="38" height="24" rx="${v===2?12:8}" fill="${b}"/><rect x="209" y="146" width="5" height="8" fill="#333"/><rect x="242" y="146" width="5" height="8" fill="#333"/>`}},
+ {lv:9,n:"Kuscheltier",s:(c,v)=>{
+  if(v===0)return `<circle cx="228" cy="114" r="9" fill="#a0693a"/><circle cx="221" cy="106" r="4" fill="#a0693a"/><circle cx="235" cy="106" r="4" fill="#a0693a"/><circle cx="225" cy="113" r="1.4" fill="#000"/><circle cx="231" cy="113" r="1.4" fill="#000"/><ellipse cx="228" cy="117" rx="3" ry="2" fill="#e0b080"/>`;
+  if(v===1)return `<circle cx="228" cy="114" r="9" fill="#f4f4f4" stroke="#ccc"/><circle cx="221" cy="106" r="4" fill="#222"/><circle cx="235" cy="106" r="4" fill="#222"/><circle cx="225" cy="113" r="2.4" fill="#222"/><circle cx="231" cy="113" r="2.4" fill="#222"/>`;
+  return `<circle cx="228" cy="114" r="9" fill="#fff"/><ellipse cx="223" cy="100" rx="3" ry="9" fill="#fff"/><ellipse cx="233" cy="100" rx="3" ry="9" fill="#fff"/><ellipse cx="223" cy="100" rx="1.5" ry="6" fill="#ffb3c6"/><ellipse cx="233" cy="100" rx="1.5" ry="6" fill="#ffb3c6"/><circle cx="225" cy="113" r="1.4" fill="#000"/><circle cx="231" cy="113" r="1.4" fill="#000"/><circle cx="228" cy="117" r="1.6" fill="#ff8fa3"/>`}},
+ {lv:10,n:"Aquarium",s:(c,v)=>{const w=["#7ec8e3","#9be7c4","#b39ddb"][v];
+  const fish=v===0?`<ellipse cx="226" cy="93" rx="5" ry="3" fill="#ff8c1a"/><polygon points="231,93 236,89 236,97" fill="#ff8c1a"/><ellipse cx="246" cy="96" rx="4" ry="2.5" fill="#f2c200"/>`:v===1?`<ellipse cx="236" cy="93" rx="9" ry="4.5" fill="#2e86de"/><polygon points="245,93 251,88 251,98" fill="#2e86de"/><path d="M216 102v-8M220 102v-5" stroke="#2e7d32" stroke-width="2"/>`:`<circle cx="236" cy="92" r="6" fill="#f8bbd0"/><path d="M231 96v6M236 98v6M241 96v6" stroke="#f8bbd0" stroke-width="1.5"/>`;
+  return `<rect x="208" y="84" width="52" height="18" fill="${w}" opacity=".8" stroke="#dfe9ee" stroke-width="2"/>${fish}<rect x="206" y="102" width="56" height="3" fill="#6b4423"/>`}},
+ {lv:11,n:"Ball",s:(c,v)=>{
+  if(v===0)return `<circle cx="55" cy="176" r="10" fill="#e84c3d"/><path d="M45 176h20M55 166v20" stroke="#fff" stroke-width="2"/>`;
+  if(v===1)return `<circle cx="55" cy="176" r="10" fill="#fff" stroke="#222"/><polygon points="55,171 60,175 58,181 52,181 50,175" fill="#222"/>`;
+  return `<circle cx="55" cy="176" r="10" fill="#ffd60a"/><path d="M46 172q9 4 18 0M46 180q9-4 18 0" stroke="#3498db" stroke-width="3" fill="none"/>`}},
+ {lv:12,n:"Globus",s:(c,v)=>{const [o,l]=[["#3d8fd1","#5fa34a"],["#c9a66b","#8b6b3d"],["#2ec4b6","#ffd166"]][v];
+  return `<circle cx="34" cy="62" r="9" fill="${o}"/><path d="M28 60q6-6 10 0q-2 6-8 6z" fill="${l}"/><rect x="31" y="70" width="6" height="2" fill="#333"/>`}},
+ {lv:13,n:"Poster",s:(c,v)=>{let m;
+  if(v===0)m=`<rect x="180" y="27" width="22" height="18" fill="#e8a33d"/><path d="M180 52h22M180 57h16" stroke="#666" stroke-width="2"/>`;
+  else if(v===1)m=`<rect x="180" y="27" width="22" height="30" fill="#0b1d4d"/><path d="M191 31l4 14h-8z" fill="#e8e8e8"/><circle cx="191" cy="38" r="1.6" fill="#4aa3ff"/><path d="M187 45l-3 5M195 45l3 5" stroke="#e74c3c" stroke-width="2"/>`;
+  else m=`<rect x="180" y="27" width="22" height="30" fill="#5b3c88"/><text x="191" y="40" font-size="10" fill="#ffe066" text-anchor="middle">★</text><text x="185" y="52" font-size="7" fill="#fff">★</text><text x="197" y="53" font-size="7" fill="#fff">★</text>`;
+  return `<rect x="176" y="22" width="30" height="40" fill="#f7f1e1" stroke="#444"/>${m}`}},
+ {lv:14,n:"Wimpelkette",s:(c,v)=>{const pal=[["#e74c3c","#f1c40f","#2ecc71","#3498db","#9b59b6"],["#ff9ecb","#ffd6e7","#fff","#b39ddb","#8fd3ff"],["#1b9aaa","#06d6a0","#ffc43d","#ef476f","#118ab2"]][v];let t="";
+  for(let i=0;i<14;i++){const u=(i+.5)/14,x=300*u,y=8+44*u*(1-u);t+=v===2?`<circle cx="${x}" cy="${y+6}" r="6" fill="${pal[i%5]}"/>`:`<polygon points="${x-7},${y} ${x+7},${y} ${x},${y+13}" fill="${pal[i%5]}"/>`}
+  return `<path d="M0 8Q150 52 300 8" stroke="#555" fill="none"/>${t}`}},
+ {lv:15,n:"Deckenschmuck",s:(c,v)=>{const sym=["★","☾","✦"][v],col=["#ffe066","#fff3b0","#ff9ecb"][v];const pts=c.thumb?[[12,18],[34,10],[56,20],[24,34],[46,36]]:[[30,40],[70,16],[190,12],[285,100],[12,100],[145,70]];return pts.map(([x,y])=>`<text x="${x}" y="${y}" font-size="${c.thumb?16:12}" fill="${col}" text-anchor="middle">${sym}</text>`).join("")}},
+ {lv:16,n:"Pokal",s:(c,v)=>{const [a,b]=[["#f2c200","#c99a00"],["#cfd8dc","#90a4ae"],["#cd7f32","#a05a1c"]][v];return `<path d="M56 52h14v8q0 7-7 7t-7-7z" fill="${a}"/><rect x="61" y="66" width="4" height="6" fill="${b}"/>`}},
+ {lv:17,n:"Lichterkette",s:(c,v)=>{const pal=[["#ff5252","#ffd740","#69f0ae","#40c4ff"],["#fff3b0","#ffe082","#fff8e1","#ffe082"],["#ff80ab","#ea80fc","#b388ff","#82b1ff"]][v];let t="";
+  for(let i=0;i<9;i++)t+=`<circle cx="${212+i*8}" cy="17" r="2.6" fill="${pal[i%4]}" opacity="${c.night?.95:.7}"/>`;return `<path d="M212 17h64" stroke="#333"/>${t}`}},
+ {lv:18,n:"Schaukelpferd",s:(c,v)=>{const col=["#c98b4b","#f4f1ea","#8d9db6"][v];return `<path d="M16 178q22 12 44 0" stroke="#7a4a1c" stroke-width="3" fill="none"/><ellipse cx="38" cy="166" rx="15" ry="8" fill="${col}"/><circle cx="53" cy="156" r="6" fill="${col}"/><rect x="26" y="170" width="3" height="8" fill="#7a4a1c"/><rect x="46" y="170" width="3" height="8" fill="#7a4a1c"/><circle cx="55" cy="154" r="1.2" fill="#000"/><path d="M48 150q-4 6-3 10" stroke="${v===1?"#999":"#6b4423"}" stroke-width="2" fill="none"/>`}},
+ {lv:19,n:"Teleskop",s:(c,v)=>{const col=["#8d99a6","#d9534f","#d4a017"][v];return `<rect x="278" y="106" width="22" height="6" fill="${col}" transform="rotate(-28 289 109)"/><path d="M289 112l-7 42M289 112l7 42" stroke="#444" stroke-width="2"/>`}},
+ {lv:20,n:"Kuscheldecke",s:(c,v)=>{const col=["#e07fb1","#6fa8dc","#8bc34a"][v];return `<path d="M205 126q22 9 46 0v10q-23 9-46 0z" fill="${col}"/>${v===1?`<path d="M215 129v10M225 131v10M235 131v10M245 129v9" stroke="#fff" stroke-width="2"/>`:""}`}},
+ {lv:21,n:"Vorhang",s:(c,v)=>{const col=["#c0392b","#2f6fb3","#2e8b57"][v];return `<rect x="208" y="17" width="68" height="2" fill="#555"/><path d="M210 18h8v62h-8zM273 18h8v62h-8z" fill="${col}"/>${v===2?`<path d="M213 20v58M277 20v58" stroke="#fff" stroke-width="1.5" opacity=".6"/>`:""}`}},
+ {lv:22,n:"Blumenkasten",s:(c,v)=>{const pal=[["#ff6b81","#ffd32a","#ffffff","#ff9f43","#a29bfe"],["#ff4d6d","#ff758f","#ff4d6d","#ff758f","#ffb3c1"],["#fff176","#ffee58","#fdd835","#fff59d","#fbc02d"]][v];return `<rect x="216" y="76" width="58" height="6" fill="#8b5a2b"/>${pal.map((c2,i)=>`<circle cx="${222+i*11}" cy="73" r="3.5" fill="${c2}"/>`).join("")}`}},
+ {lv:23,n:"Krone",s:(c,v)=>{const [a,b]=[["#f2c200","#c99a00"],["#cfd8dc","#90a4ae"],["#b39ddb","#7e57c2"]][v];return `<path d="M120 14l5 8 5-8 5 8 5-8v14h-20z" fill="${a}" stroke="${b}"/><circle cx="130" cy="24" r="2" fill="${v===2?"#fff":"#e74c3c"}"/>`}},
+ {lv:24,n:"Bücherstapel",s:(c,v)=>{const p=[["#d4a017","#b8860b","#e6b422"],["#2f6fb3","#1d4f86","#4a90d9"],["#c0392b","#962d22","#e0574a"]][v];return `<rect x="262" y="172" width="30" height="7" fill="${p[0]}"/><rect x="266" y="165" width="26" height="7" fill="${p[1]}"/><rect x="264" y="158" width="24" height="7" fill="${p[2]}"/>`}},
+ {lv:25,n:"Regenbogen",s:(c,v)=>{const pal=[["#ff4d4d","#ffa534","#ffe14d","#4cd964","#4d9bff"],["#ffb3ba","#ffdfba","#ffffba","#baffc9","#bae1ff"],["#0d47a1","#1565c0","#1e88e5","#42a5f5","#90caf9"]][v];return pal.map((c2,i)=>`<path d="M${20+i*4} 50a${30-i*4} ${30-i*4} 0 0 1 ${60-i*8} 0" stroke="${c2}" stroke-width="4" fill="none"/>`).join("")}},
+ {lv:26,n:"Discokugel",s:(c,v)=>{const [a,b]=[["#cfd8dc","#90a4ae"],["#ffe082","#d4a017"],["#f8bbd0","#e91e63"]][v];return `<line x1="118" y1="0" x2="118" y2="46" stroke="#888"/><circle cx="118" cy="54" r="9" fill="${a}" stroke="${b}"/><path d="M110 54h16M118 46v16M112 49l12 10M124 49l-12 10" stroke="${b}" stroke-width=".8"/>`}}
+];
+
+const PET_EV={
+ silvester:(c)=>{const b=(x,y,col)=>`<g stroke="${col}" stroke-width="2" stroke-linecap="round">${[0,45,90,135,180,225,270,315].map(a=>`<line x1="${x}" y1="${y}" x2="${(x+Math.cos(a*Math.PI/180)*12).toFixed(1)}" y2="${(y+Math.sin(a*Math.PI/180)*12).toFixed(1)}"/>`).join("")}</g>`;return b(245,44,"#ff5252")+b(30,28,"#ffd740")+b(280,120,"#40c4ff")+`<text x="28" y="188" font-size="18">🥂</text>`},
+ fasching:()=>`<path d="M0 0Q60 40 120 6M300 0Q240 40 180 6" stroke="#e91e63" stroke-width="3" fill="none"/><path d="M0 14Q70 56 130 16M300 14Q230 56 170 16" stroke="#2196f3" stroke-width="3" fill="none"/>${[[40,60,"#ff5252"],[110,100,"#ffd740"],[190,90,"#40c4ff"],[260,150,"#69f0ae"],[70,150,"#e040fb"],[150,130,"#ff9100"]].map(([x,y,c])=>`<rect x="${x}" y="${y}" width="5" height="5" fill="${c}" transform="rotate(30 ${x} ${y})"/>`).join("")}<text x="262" y="178" font-size="20">🎭</text>`,
+ valentin:()=>[[30,100],[110,70],[190,70],[250,150],[60,160],[270,60]].map(([x,y],i)=>`<text x="${x}" y="${y}" font-size="${14+i%3*4}" text-anchor="middle">${i%2?"💖":"❤️"}</text>`).join(""),
+ frauentag:()=>`<text x="40" y="190" font-size="20">🌷</text><text x="66" y="190" font-size="20">🌷</text><text x="92" y="190" font-size="20">🌷</text><text x="248" y="190" font-size="20">🌷</text><text x="274" y="190" font-size="20">🌷</text>`,
+ ostern:()=>[[60,190,"#ff8fab"],[90,194,"#7bdff2"],[210,192,"#ffe66d"],[240,190,"#b8f2a0"],[270,194,"#cdb4ff"]].map(([x,y,c])=>`<ellipse cx="${x}" cy="${y}" rx="7" ry="9" fill="${c}" stroke="#fff" stroke-width="1"/><path d="M${x-6} ${y}h12" stroke="#fff" stroke-width="2"/>`).join("")+`<text x="14" y="150" font-size="22">🐰</text>`,
+ buchtag:()=>`<text x="20" y="190" font-size="22">📖</text><text x="270" y="190" font-size="22">📚</text><text x="150" y="14" font-size="14" text-anchor="middle">📖 📖 📖</text>`,
+ muttertag:()=>`<text x="30" y="188" font-size="22">💐</text><text x="262" y="188" font-size="22">💐</text><text x="150" y="16" font-size="14" text-anchor="middle">💗 💗 💗</text>`,
+ kindertag:()=>[[20,60,"#ff5252"],[44,44,"#ffd740"],[270,60,"#40c4ff"],[250,40,"#69f0ae"],[30,120,"#e040fb"]].map(([x,y,c])=>`<ellipse cx="${x}" cy="${y}" rx="9" ry="11" fill="${c}"/><path d="M${x} ${y+11}q-3 14 2 28" stroke="#666" fill="none"/>`).join(""),
+ halloween:()=>`<circle cx="46" cy="186" r="13" fill="#ff8c00"/><path d="M40 178q6 4 12 0M46 173v-5" stroke="#3b2a00" stroke-width="2" fill="none"/><polygon points="40,184 44,180 46,186" fill="#222"/><polygon points="52,184 48,180 46,186" fill="#222"/><path d="M0 0q28 6 34 34M0 0q16 18 14 40" stroke="#ddd" fill="none"/><text x="150" y="30" font-size="16" text-anchor="middle">🦇</text><text x="86" y="60" font-size="12">🦇</text><text x="250" y="190" font-size="20">🎃</text>`,
+ martin:(c)=>[[40,40],[96,64],[190,64],[262,40]].map(([x,y])=>`<line x1="${x}" y1="0" x2="${x}" y2="${y-9}" stroke="#777"/><rect x="${x-7}" y="${y-9}" width="14" height="16" rx="5" fill="#ff9e1b" opacity=".92"/><ellipse cx="${x}" cy="${y}" rx="14" ry="12" fill="#ffd54f" opacity=".25"/>`).join(""),
+ vorlese:()=>`<text x="20" y="190" font-size="22">📚</text><text x="262" y="190" font-size="22">📚</text><text x="150" y="14" font-size="14" text-anchor="middle">📚 ⭐ 📚</text>`,
+ nikolaus:()=>`<text x="26" y="186" font-size="22">🥾</text><text x="54" y="190" font-size="14">🌰</text><text x="70" y="190" font-size="14">🍎</text><text x="266" y="186" font-size="22">🎅</text>`,
+ weihnacht:()=>`<polygon points="278,70 258,110 298,110" fill="#2e8b3d"/><polygon points="278,92 252,134 304,134" fill="#2e8b3d"/><polygon points="278,116 246,160 310,160" fill="#237a33"/><rect x="274" y="160" width="8" height="12" fill="#6b4423"/><text x="278" y="68" font-size="14" text-anchor="middle">⭐</text><circle cx="270" cy="118" r="3" fill="#ff5252"/><circle cx="288" cy="140" r="3" fill="#ffd740"/><circle cx="264" cy="148" r="3" fill="#40c4ff"/>${[[222,30],[240,52],[256,26],[230,66],[266,44]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.8" fill="#fff"/>`).join("")}`
+};
+const PET_TIPS_FALLBACK=["Mache beim Lesen am Bildschirm regelmäßig Pausen.","Gib dein Passwort niemals an andere weiter.","Frag eine erwachsene Person, wenn dir im Internet etwas komisch vorkommt.","Nicht alles, was im Internet steht, ist wahr."];
+const PET_Q_FALLBACK=[
+ {q:"Wem darfst du dein Passwort verraten?",right:"Nur deinen Eltern",wrong:["Deinen Mitschülern","Allen im Chat"],unit:{n:2,title:"Mein geheimes Passwort",points:["Ein Passwort ist ein Geheimwort für dein Konto.","Nur du und deine Eltern kennen es."],motto:"Mein Passwort bleibt geheim."}},
+ {q:"Was tust du, wenn dir im Internet etwas Unheimliches begegnet?",right:"Ich sage einer erwachsenen Vertrauensperson Bescheid",wrong:["Ich schaue es mir weiter an","Ich schicke es an alle Freunde"],unit:{n:0,title:"Sicher im Internet",points:["Wenn dir etwas komisch vorkommt, sprich mit einer erwachsenen Person, der du vertraust."],motto:"Bei Unsicherheit: Erwachsene fragen."}},
+ {q:"Ist alles im Internet wahr?",right:"Nein, man muss prüfen, woher es kommt",wrong:["Ja, alles","Nur wenn es lustig ist"],unit:{n:0,title:"Wahr oder falsch?",points:["Nicht alles, was im Internet steht, ist wahr. Prüfe, wer etwas geschrieben hat."],motto:"Erst prüfen, dann glauben."}}
+];
+const PET={st:null,timer:null,fxTimer:null,asked:null,saveT:null};
+const PET_MAX_DAY=40;
+const PET_RATE={h:0.12,t:0.17,c:0.08,p:0.10};/* Punkte pro Minute */
+const PET_MIN=5;
+function petNow(){return window.PET_FAKE_NOW?new Date(window.PET_FAKE_NOW):new Date()}
+function petSleeping(d){const h=(d||petNow()).getHours();return h>=22||h<7}
+function petDay(d){const n=d||petNow();return n.getFullYear()+"-"+(n.getMonth()+1)+"-"+n.getDate()}
+function petKey(){return "lhc_pet_"+norm(user.username)}
+function petDefault(){return {h:80,t:80,c:80,p:80,ts:Date.now(),pts:0,day:petDay(),dayPts:0,asked:[],lastAsk:0,upd:Date.now()}}
+function petLoadLocal(){try{const s=JSON.parse(window.localStorage.getItem(petKey()));if(s&&typeof s.h==="number")return s}catch{}return null}
+async function petLoad(){
+    let s=petLoadLocal();
+    if(typeof sb!=="undefined"&&currentUserId){
+        try{
+            const {data,error}=await sb.from("pet_players").select("state,pet_points").eq("user_id",currentUserId).maybeSingle();
+            if(!error&&data&&data.state&&typeof data.state.h==="number"){
+                if(!s||(data.state.upd||0)>(s.upd||0))s=data.state;
+                if(s&&(data.pet_points||0)>(s.pts||0))s.pts=data.pet_points;
+            }
+        }catch(e){console.error("PET LOAD",e)}
+    }
+    PET.st=s||petDefault();
+    petTick(true);
+}
+function petSave(now){
+    const s=PET.st;if(!s)return;
+    s.upd=Date.now();
+    try{window.localStorage.setItem(petKey(),JSON.stringify(s))}catch{}
+    clearTimeout(PET.saveT);
+    PET.saveT=setTimeout(petSync,now?0:1500);
+}
+async function petSync(){
+    if(typeof sb==="undefined"||!currentUserId||!PET.st)return;
+    try{
+        const row={user_id:currentUserId,username:user.username,state:PET.st,pet_points:PET.st.pts||0,updated_at:new Date().toISOString()};
+        let {error}=await sb.from("pet_players").upsert({...row,avatar:avatarCurrent().id});
+        if(error&&/avatar/i.test(error.message||""))({error}=await sb.from("pet_players").upsert(row));
+        if(error)console.error("PET SYNC",error);
+    }catch(e){console.error(e)}
+}
+function petClamp(v){return Math.max(PET_MIN,Math.min(100,v))}
+function petTick(silent){
+    const s=PET.st;if(!s)return;
+    const now=Date.now();let dt=(now-(s.ts||now))/60000;
+    if(window.PET_FAKE_NOW)dt=Math.min(dt,0);
+    if(dt>0){
+        dt=Math.min(dt,60*16);
+        const f=petSleeping()?0.25:1;
+        s.h=petClamp(s.h-dt*PET_RATE.h*f);s.t=petClamp(s.t-dt*PET_RATE.t*f);s.c=petClamp(s.c-dt*PET_RATE.c*f);s.p=petClamp(s.p-dt*PET_RATE.p*f);
+    }
+    s.ts=now;
+    if(s.day!==petDay()){s.day=petDay();s.dayPts=0}
+    if(!silent)petSave();
+}
+function petMood(){const s=PET.st,a=(s.h+s.t+s.c+s.p)/4;return a>=70?"happy":a>=40?"ok":"sad"}
+function petAddPts(n){
+    const s=PET.st;if(petSleeping())return 0;
+    const g=Math.max(0,Math.min(n,PET_MAX_DAY-(s.dayPts||0)));
+    s.pts=(s.pts||0)+g;s.dayPts=(s.dayPts||0)+g;return g;
+}
+function petDeco(){const s=PET.st;if(!s.deco||typeof s.deco!=="object")s.deco={};return s.deco}
+function petItemsFor(lv){const d=petDeco();return PET_ITEMS.filter(i=>i.lv<=lv&&d[i.lv]&&d[i.lv].on)}
+function petSky(h){
+    if(h>=22||h<6)return {c:"#14213d",night:true,moon:true};
+    if(h<7)return {c:"#f4a261",night:true};
+    if(h>=19)return {c:"#f4a261",night:false,dusk:true};
+    return {c:"#8ecae6",night:false,sun:true};
+}
+function petRoomSvg(){
+    const now=petNow(),hr=now.getHours(),sleeping=petSleeping(now),sky=petSky(hr);
+    const lv=(typeof level==="function"&&level().level)||1;
+    const night=sleeping||hr>=20||hr<6;
+    const ctx={now,night};
+    let g=`<rect width="300" height="200" fill="#efe1c4"/>`;
+    g+=`<rect y="130" width="300" height="70" fill="#b98b5a"/>`;
+    for(let x=0;x<300;x+=38)g+=`<line x1="${x}" y1="130" x2="${x-14}" y2="200" stroke="#a07848" stroke-width="1.5"/>`;
+    g+=`<rect y="127" width="300" height="5" fill="#8b6a3e"/>`;
+    // Fenster
+    g+=`<rect x="213" y="18" width="64" height="62" fill="#6b4423"/><rect x="217" y="22" width="56" height="54" fill="${sky.c}"/>`;
+    if(sky.sun)g+=`<circle cx="236" cy="38" r="9" fill="#ffd60a"/>`;
+    if(sky.moon||sleeping){g+=`<path d="M246 32a9 9 0 1 0 8 14a7 7 0 1 1-8-14z" fill="#fff3b0"/><circle cx="228" cy="34" r="1" fill="#fff"/><circle cx="262" cy="58" r="1" fill="#fff"/><circle cx="238" cy="62" r="1" fill="#fff"/>`}
+    g+=`<line x1="245" y1="22" x2="245" y2="76" stroke="#6b4423" stroke-width="3"/><line x1="217" y1="49" x2="273" y2="49" stroke="#6b4423" stroke-width="3"/>`;
+    // Gegenstände
+    petItemsFor(lv).forEach(i=>{g+=`<g>${i.s(ctx,Math.min(2,Math.max(0,(petDeco()[i.lv].d)|0)))}</g>`});
+    // Feiertag
+    const ev=petEvent();
+    if(ev&&PET_EV[ev.ev.k])g+=`<g>${PET_EV[ev.ev.k](ctx)}</g>`;
+    // Schlafplatz (immer, wenn schlafend)
+    if(sleeping)g+=`<rect x="98" y="152" width="104" height="26" rx="12" fill="#cdb4db"/><rect x="104" y="146" width="30" height="16" rx="7" fill="#fff"/>`;
+    // Nacht-Dunkel
+    if(night)g+=`<rect width="300" height="200" fill="#0b1026" opacity="${sleeping?.5:.28}"/>`;
+    return `<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Zimmer deines Avatars">${g}</svg>`;
+}
+function petEvent(){
+    for(const e of AV_EVENTS){const i=avEvInfo(e.k);if(i&&i.active)return i}
+    return null;
+}
+function petNextItem(){
+    const lv=level().level;const n=PET_ITEMS.find(i=>i.lv>lv);
+    return n?("LEVEL "+n.lv+": "+n.n.toUpperCase()):"ALLE GEGENSTÄNDE FREIGESCHALTET!";
+}
+function petBar(label,emoji,v){
+    const col=v>=60?"#2ecc71":v>=30?"#f1c40f":"#e74c3c";
+    return `<div class="pet-bar"><span>${emoji} ${label}</span><div class="pet-track"><div style="width:${Math.round(v)}%;background:${col}"></div></div><b>${Math.round(v)}</b></div>`;
+}
+function petLesson(u){
+    const b=$("petLesson");b.textContent="";
+    if(!u){b.classList.add("hidden");return}
+    const h=document.createElement("div");h.className="pl-h";h.textContent="📘 AUS DER LEKTION "+u.n+": "+String(u.title||"").toUpperCase();b.append(h);
+    (u.points||[]).forEach(p=>{const e=document.createElement("p");e.textContent="• "+p;b.append(e)});
+    if(u.motto){const m=document.createElement("p");m.className="pl-m";m.textContent="MERKSATZ: "+u.motto;b.append(m)}
+    b.classList.remove("hidden");
+}
+function petSay(txt,answers,keepLesson){
+    if(!keepLesson)petLesson(null);
+    $("petBubble").textContent=txt;
+    const box=$("petAnswers");box.textContent="";
+    (answers||[]).forEach(a=>{const b=document.createElement("button");b.type="button";b.textContent=a.t;b.onclick=a.f;box.append(b)});
+}
+function petStatusText(){
+    const s=PET.st,n=user.username;
+    if(petSleeping())return "Zzz … Ich schlafe. Komm ab 7 Uhr wieder, "+n+"!";
+    const low=[["h","Ich habe Hunger!"],["t","Ich habe Durst!"],["c","Ich bin schmutzig!"],["p","Ich möchte gestreichelt werden!"]].filter(x=>s[x[0]]<40);
+    if(low.length)return low[0][1];
+    const ev=petEvent();if(ev)return ev.ev.e+" Schöne "+ev.ev.t.toLowerCase().replace(/(^|\s)\S/g,m=>m.toUpperCase())+", "+n+"!";
+    return petMood()==="happy"?"Hallo "+n+"! Mir geht es richtig gut!":"Hallo "+n+"! Ein bisschen Pflege wäre schön.";
+}
+function petRender(keepSay){
+    if(!PET.st)return;
+    const s=PET.st,sl=petSleeping(),mood=petMood();
+    $("petRoomSvg").innerHTML=petRoomSvg();
+    const av=$("petAv");
+    av.innerHTML=avatarSvg(avatarCurrent().id,140).replace(/<rect width="100" height="100" fill="[^"]*"\/>/,"");
+    av.className="pet-av "+(sl?"sleep":mood);
+    $("petZzz").textContent=sl?"💤":(mood==="sad"?"😢":(mood==="happy"?"":"😐"));
+    $("petBars").innerHTML=petBar("HUNGER","🍎",s.h)+petBar("DURST","💧",s.t)+petBar("SAUBERKEIT","🫧",s.c)+petBar("PFLEGE","❤️",s.p);
+    const ev=petEvent();
+    $("petEvent").textContent=ev?(ev.ev.e+" "+ev.ev.t+" – NOCH "+avTage(ev.days)):"";
+    $("petEvent").classList.toggle("hidden",!ev);
+    $("petPts").textContent="PFLEGE-PUNKTE: "+(s.pts||0)+" (HEUTE "+(s.dayPts||0)+" VON "+PET_MAX_DAY+")";
+    $("petNext").textContent="DEIN ZIMMER: LEVEL "+level().level+" · NÄCHSTER GEGENSTAND BEI "+petNextItem()+" · NEUE GEGENSTÄNDE STELLST DU UNTER „ZIMMER EINRICHTEN“ AUF.";
+    if(!$("petDeco").classList.contains("hidden"))petDecoRender();
+    document.querySelectorAll("#petView .pet-btns button").forEach(b=>b.disabled=sl);
+    if(!keepSay)petSay(petStatusText());
+}
+function petFx(emoji){
+    const f=$("petFx");const e=document.createElement("span");e.textContent=emoji;e.style.left=(35+Math.random()*30)+"%";f.append(e);
+    setTimeout(()=>e.remove(),1400);
+    const av=$("petAv");av.classList.add("act");setTimeout(()=>av.classList.remove("act"),600);
+}
+function petAct(kind){
+    const s=PET.st;petTick(true);
+    if(petSleeping()){petRender();return}
+    const T={
+        food:{k:"h",e:["🍎","🍌","🥕","🍞","🍇","🍪"],ok:"Mmmh, lecker!",full:"Danke, ich bin schon satt!"},
+        drink:{k:"t",e:["💧","🥛","🧃","🫗"],ok:"Ahh, das tut gut!",full:"Danke, ich habe keinen Durst."},
+        wash:{k:"c",e:["🫧","🧼","🚿","🛁"],ok:"Jetzt bin ich wieder sauber!",full:"Ich bin schon blitzblank!"},
+        care:{k:"p",e:["❤️","🪮","🧸","🤗"],ok:"Das habe ich gebraucht, danke!",full:"Ich fühle mich schon richtig wohl!"}
+    }[kind];
+    if(s[T.k]>85){petSay(T.full);petRender(true);return}
+    s[T.k]=Math.min(100,s[T.k]+(kind==="drink"?30:kind==="wash"?35:25));
+    const g=petAddPts(1);
+    petFx(T.e[Math.floor(Math.random()*T.e.length)]);
+    petSave();petRender(true);
+    petSay(T.ok+(g?" (+1 PUNKT)":""));
+    if(typeof petSyncRank==="function")petSyncRank();
+}
+function petPool(){
+    const stufe=(user&&user.learnStufe)||"entdecker",pool=[];
+    Object.keys(LEARN||{}).forEach(lv=>{const u=LEARN[lv]&&LEARN[lv][stufe];if(u&&Array.isArray(u.quiz)){const unit={n:Number(lv),title:LEARN[lv].title||u.title,points:u.points,motto:u.motto};u.quiz.forEach(q=>{if(q&&q.q&&q.right&&Array.isArray(q.wrong))pool.push({...q,unit})})}});
+    return pool.length?pool:PET_Q_FALLBACK;
+}
+function petTipsPool(){
+    const stufe=(user&&user.learnStufe)||"entdecker",t=[];
+    Object.keys(LEARN||{}).forEach(lv=>{const u=LEARN[lv]&&LEARN[lv][stufe];if(!u)return;const title=LEARN[lv].title||u.title,n=Number(lv);if(Array.isArray(u.points))u.points.forEach(p=>t.push({t:p,from:"LEKTION "+n+": "+String(title).toUpperCase()}));if(u.motto)t.push({t:u.motto,from:"LEKTION "+n+": "+String(title).toUpperCase()})});
+    Object.values(LEARN_TIPS||{}).forEach(x=>{if(x)t.push({t:x,from:""})});
+    return t.length?t:PET_TIPS_FALLBACK.map(x=>({t:x,from:""}));
+}
+function petTip(){
+    if(petSleeping()){petRender();return}
+    const t=petTipsPool(),x=t[Math.floor(Math.random()*t.length)];
+    petSay("💡 Tipp von mir, "+user.username+": "+x.t+(x.from?"  (AUS "+x.from+")":""));
+}
+function petAsk(){
+    const s=PET.st;petTick(true);
+    if(petSleeping()){petRender();return}
+    const pool=petPool();
+    let cand=pool.filter(q=>!(s.asked||[]).includes(q.q));
+    if(!cand.length){s.asked=[];cand=pool}
+    const q=cand[Math.floor(Math.random()*cand.length)];
+    s.lastAsk=Date.now();
+    const opts=[q.right,...q.wrong.slice(0,3)].sort(()=>Math.random()-.5);
+    petLesson(q.unit||null);
+    petSay("Hallo "+user.username+"! Ich habe eine Frage an dich: "+q.q,opts.map(o=>({t:o,f:()=>petAnswer(q,o)})),true);
+}
+function petAnswer(q,o){
+    const s=PET.st;
+    s.asked=[...(s.asked||[]),q.q].slice(-60);
+    if(o===q.right){
+        const g=petAddPts(3);s.p=Math.min(100,s.p+10);
+        const lernMsg=petLessonProgress(q);
+        petFx("🎉");
+        petSave();petRender(true);
+        petSay("Richtig, "+user.username+"! "+(g?"Du bekommst +"+g+" PUNKTE.":"Für heute hast du schon alle Punkte gesammelt.")+lernMsg,[{t:"NÄCHSTE FRAGE",f:petAsk}],true);
+        if(typeof petSyncRank==="function")petSyncRank();
+    }else{
+        petSave();
+        petSay("Nicht ganz. Richtig wäre: „"+q.right+"“. Lies dazu noch einmal die Lektion. Das merken wir uns!",[{t:"NÄCHSTE FRAGE",f:petAsk}],true);
+    }
+}
+function petTimerOn(){
+    clearInterval(PET.timer);
+    PET.timer=setInterval(()=>{
+        if($("petView").classList.contains("hidden")){clearInterval(PET.timer);return}
+        petTick();petRender(!!$("petAnswers").childElementCount);
+    },30000);
+}
+async function showPet(){
+    hideViews();
+    $("petView").classList.remove("hidden");
+    $("petBubble").textContent="Einen Moment …";$("petAnswers").textContent="";
+    await petLoad();
+    petRender();
+    const s=PET.st;
+    if(!petSleeping()&&Date.now()-(s.lastAsk||0)>20*60000){
+        petSay("Hallo "+user.username+"! Ich habe eine Frage an dich.",[{t:"FRAG MICH!",f:petAsk},{t:"SPÄTER",f:()=>petSay(petStatusText())}]);
+    }
+    petTimerOn();
+    window.scrollTo(0,0);
+}
+function petPlay(){
+    PET.st&&petTick(true);
+    if(petSleeping()){petRender();return}
+    PET.play=true;
+    showGame();
+}
+(function(){
+    if(typeof snakeStart!=="function")return;
+    const orig=snakeStart;
+    window.snakeStart=function(){
+        const was=SN.running;
+        orig.apply(this,arguments);
+        if(!was&&SN.running&&PET.play){
+            PET.play=false;
+            (async()=>{
+                if(!PET.st)await petLoad();
+                petTick(true);
+                const g=petAddPts(1);PET.st.p=Math.min(100,PET.st.p+15);petSave();
+                const m=$("snakeMsg");if(m&&g)m.textContent+=" 🐾 +1 PUNKT FÜR DEINEN AVATAR!";
+            })();
+        }
+    };
+})();
+function petThumb(it,d){
+    const host=$("petMeasure");
+    host.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="300" height="200"><g id="pmG">${it.s({now:petNow(),night:false,thumb:true},d)}</g></svg>`;
+    let bb={x:0,y:0,width:300,height:200};
+    try{bb=host.querySelector("#pmG").getBBox()}catch{}
+    const pad=5,w=Math.max(bb.width,10)+2*pad,h=Math.max(bb.height,10)+2*pad;
+    const html=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${bb.x-pad} ${bb.y-pad} ${w} ${h}" preserveAspectRatio="xMidYMid meet"><rect x="${bb.x-pad}" y="${bb.y-pad}" width="${w}" height="${h}" fill="#efe1c4"/>${it.s({now:petNow(),night:false,thumb:true},d)}</svg>`;
+    host.innerHTML="";
+    return html;
+}
+function petDecoToggle(){
+    const p=$("petDeco");p.classList.toggle("hidden");
+    if(!p.classList.contains("hidden"))petDecoRender();
+}
+function petDecoRender(){
+    const p=$("petDeco"),lv=level().level,dec=petDeco();
+    p.textContent="";
+    const h=document.createElement("h3");h.textContent="ZIMMER EINRICHTEN";p.append(h);
+    const info=document.createElement("p");info.className="pet-sub";
+    info.textContent="Hier stehen alle Gegenstände. Freigeschaltete Gegenstände kannst du ins Zimmer stellen und aus 3 Designs wählen. Gesperrte Gegenstände schaltest du mit höherem Level frei.";p.append(info);
+    PET_ITEMS.forEach(it=>{
+        const row=document.createElement("div");row.className="pd-row";
+        const open=it.lv<=lv,cur=dec[it.lv]||{on:false,d:0};
+        const t=document.createElement("div");t.className="pd-t";
+        t.textContent=(open?"":"🔒 ")+it.n.toUpperCase()+(open?"":" – AB LEVEL "+it.lv);
+        row.append(t);
+        if(!open){row.classList.add("locked");p.append(row);return}
+        const tg=document.createElement("button");tg.type="button";tg.className="pd-on"+(cur.on?" on":"");
+        tg.textContent=cur.on?"✓ IM ZIMMER (ENTFERNEN)":"INS ZIMMER STELLEN";
+        tg.onclick=()=>{const d=petDeco();d[it.lv]={on:!cur.on,d:cur.d|0};petSave();petDecoRender();petRender(true)};
+        row.append(tg);
+        const ds=document.createElement("div");ds.className="pd-designs";
+        for(let d=0;d<3;d++){
+            const b=document.createElement("button");b.type="button";b.className="pd-d"+(cur.on&&(cur.d|0)===d?" sel":"");
+            b.title="Design "+(d+1);b.innerHTML=petThumb(it,d)+"<span>DESIGN "+(d+1)+"</span>";
+            b.onclick=()=>{const dd=petDeco();dd[it.lv]={on:true,d};petSave();petDecoRender();petRender(true)};
+            ds.append(b);
+        }
+        row.append(ds);p.append(row);
+    });
+}
+function petHelpToggle(){
+    const p=$("petHelp");p.classList.toggle("hidden");
+    if(!p.classList.contains("hidden"))petHelpRender();
+}
+function petHelpRender(){
+    const p=$("petHelp");p.textContent="";
+    const add=(tag,txt,cls)=>{const e=document.createElement(tag);e.textContent=txt;if(cls)e.className=cls;p.append(e);return e};
+    const h2=(r)=>{const x=95/(r*60);return x<1?"unter 1 Stunde":(Math.round(x*10)/10).toString().replace(".",",")+" Stunden"};
+    const sec=(t,lines)=>{add("h3",t);const ul=document.createElement("ul");lines.forEach(l=>{const li=document.createElement("li");li.textContent=l;ul.append(li)});p.append(ul)};
+    add("h3","ANLEITUNG: SO PFLEGST DU DEINEN AVATAR");
+    sec("DIE VIER BALKEN",[
+        "Jeder Balken geht von 0 bis 100. Voll ist gut, leer ist schlecht. Die Farbe zeigt es dir: Grün ab 60, Gelb von 30 bis 59, Rot unter 30.",
+        "🍎 HUNGER: sinkt etwas langsamer als der Durst. Ohne Füttern ist er nach etwa "+h2(PET_RATE.h)+" fast leer.",
+        "💧 DURST: sinkt am schnellsten. Ohne Trinken ist er nach etwa "+h2(PET_RATE.t)+" fast leer.",
+        "🫧 SAUBERKEIT: sinkt am langsamsten. Ohne Waschen ist sie nach etwa "+h2(PET_RATE.c)+" fast leer.",
+        "❤️ PFLEGE: sinkt langsam. Ohne Streicheln ist sie nach etwa "+h2(PET_RATE.p)+" fast leer.",
+        "Die Balken sinken auch, wenn du nicht in der App bist (höchstens 16 Stunden am Stück). Nachts, wenn dein Avatar schläft, sinken sie nur ein Viertel so schnell.",
+        "Kein Balken fällt unter "+PET_MIN+". Dein Avatar kann nicht sterben, er wird nur traurig: dann sieht er blass aus und zeigt 😢."
+    ]);
+    sec("DIE KNÖPFE",[
+        "🍎 FÜTTERN: Hunger +25. 💧 TRINKEN GEBEN: Durst +30. 🫧 SAUBER MACHEN: Sauberkeit +35. ❤️ PFLEGEN: Pflege +25.",
+        "Steht der Balken schon über 85, sagt dein Avatar „Ich bin schon satt“. Dann gibt es nichts und auch keinen Punkt.",
+        "🎮 SPIELEN: öffnet das Snake-Spiel. Startest du dort ein Spiel, bekommst du 1 Punkt und Pflege +15. Dafür brauchst du eine Spiel-Marke.",
+        "💬 FRAGE: Dein Avatar stellt dir eine Frage zur Medienkompetenz. Darüber steht die Lektion, aus der sie kommt, damit du den Zusammenhang kennst. Hast du alle Fragen einer Lektion beim Avatar richtig beantwortet, ist die Lektion im Lernen-Bereich abgehakt (in deiner aktuellen Lernstufe).",
+        "💡 MEDIEN-TIPP: Dein Avatar gibt dir einen Tipp aus einer Lektion."
+    ]);
+    sec("PUNKTE UND RANKING",[
+        "Pflegen, Füttern, Trinken geben und Sauber machen: je 1 Punkt. Eine richtige Antwort: 3 Punkte und Pflege +10. Ein Snake-Spiel starten: 1 Punkt.",
+        "Pro Tag gibt es höchstens "+PET_MAX_DAY+" Punkte. Um Mitternacht beginnt der Zähler neu. Zwischen 22 und 7 Uhr gibt es keine Punkte.",
+        "Deine Punkte stehen im Ranking unter „Avatar-Pflege“. Sie zählen nicht zu den Quiz-Punkten und nicht zu deinem Level."
+    ]);
+    sec("SCHLAFEN",[
+        "Von 22 Uhr bis 7 Uhr morgens schläft dein Avatar. Das Zimmer ist dunkel, im Fenster steht der Mond und die Knöpfe sind gesperrt. Ab 7 Uhr ist er wieder wach."
+    ]);
+    const lv=level().level;
+    sec("GEGENSTÄNDE UND LEVEL",[
+        "Dein Zimmer ist bei Level 1 leer. Mit jedem neuen Level schaltest du einen Gegenstand frei. Dein Level steigt mit deinen Quiz-Punkten. Du bist jetzt bei Level "+lv+".",
+        "Freigeschaltete Gegenstände stellst du unter „Zimmer einrichten“ selbst ins Zimmer. Jeder hat 3 Designs. Gesperrte stehen grau mit dem Level, ab dem sie freikommen.",
+        "Freischaltung: "+PET_ITEMS.map(i=>"Level "+i.lv+" "+i.n).join(" · ")
+    ]);
+    const y=avToday().getFullYear();
+    sec("FEIERTAGE",[
+        "An besonderen Tagen wird das Zimmer geschmückt. Die Zeiträume in diesem Jahr:",
+        ...AV_EVENTS.map(e=>{const w=e.win(y);return e.e+" "+e.t+": "+avDatum(w[0])+" bis "+avDatum(w[1])})
+    ]);
+}
+function petLessonProgress(q){
+    /* Richtige Antworten beim Avatar zählen für die Lektion im Lernen-Bereich */
+    try{
+        if(!q||!q.unit||!(q.unit.n>0)||!user)return "";
+        const n=q.unit.n,stufe=["starter","entdecker","profi"].includes(user.learnStufe)?user.learnStufe:"entdecker";
+        const unit=LEARN&&LEARN[n]&&LEARN[n][stufe];
+        if(!unit||!Array.isArray(unit.quiz)||!unit.quiz.length)return "";
+        const s=PET.st;s.lq=s.lq||{};
+        const key=n+"|"+stufe,got=new Set(s.lq[key]||[]);
+        got.add(q.q);s.lq[key]=[...got];
+        if(learnStufenDone(n).includes(stufe))return "";
+        const total=unit.quiz.length,have=unit.quiz.filter(x=>got.has(x.q)).length;
+        if(have<total)return "  LEKTION "+n+": "+have+" VON "+total+" FRAGEN RICHTIG.";
+        const out={textContent:""};
+        learnComplete(n,stufe,out);
+        return "  ✓ LEKTION "+n+" ("+String(unit.title||LEARN[n].title||"").toUpperCase()+") ABGESCHLOSSEN – IM LERNEN-BEREICH ABGEHAKT! "+(/ERFOLG|KAPITEL|MEDIENPROFI/.test(out.textContent)?out.textContent.replace(/^[^!]*!\s*/,""):"");
+    }catch(e){console.error("PET LEKTION",e);return ""}
+}
+async function renderPetRanking(box){
+    box.textContent="LADE …";
+    try{
+        const {data,error}=await qAv("pet_players","username,pet_points",q=>q.gt("pet_points",0).order("pet_points",{ascending:false}).limit(20));
+        box.textContent="";
+        const note=document.createElement("div");note.className="status";note.textContent="RANGLISTE: BESTE AVATAR-PFLEGE (PUNKTE FÜR FÜTTERN, TRINKEN, WASCHEN, PFLEGEN UND FRAGEN)";box.append(note);
+        if(error){const m=document.createElement("div");m.className="error";m.textContent="RANGLISTE NOCH NICHT VERFÜGBAR: "+(error.message||"");box.append(m);return}
+        if(!data||!data.length){const m=document.createElement("div");m.textContent="NOCH KEIN EINTRAG. SEI DER ERSTE!";box.append(m);return}
+        data.forEach((r,i)=>{
+            const d=document.createElement("div");d.className="rank";
+            const me=norm(r.username)===norm(user.username);
+            rankLine(d,(i+1)+". "+(i===0?"👑 ":""),r.username," – "+r.pet_points+" PUNKTE",r.avatar,me);
+            if(me)d.classList.add("success");
+            box.append(d);
+        });
+    }catch(e){box.textContent="RANGLISTE NICHT VERFÜGBAR."}
 }
 </script>
 </body>
