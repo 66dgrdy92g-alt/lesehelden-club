@@ -1443,6 +1443,7 @@ body.theme-space button.tab-on{background:#2a8aa6 !important;box-shadow:0 4px 0 
 .theme-space .box>button:nth-of-type(4n+3),.theme-space .box>div>button:nth-of-type(4n+3){background:#2a8aa6;color:#fff;box-shadow:0 4px 0 #1a6279}
 .theme-space .box>button:nth-of-type(4n),.theme-space .box>div>button:nth-of-type(4n){background:#4d5fa8;color:#fff;box-shadow:0 4px 0 #34437c}
 .theme-space button.answer:nth-of-type(4n+1){background:#16224f;border-color:#2f4a8a}
+body.theme-space #snakeRevive button.answer:nth-of-type(4n+1){background:#2f6fb5;color:#fff;border-color:#2f4a8a;box-shadow:0 4px 0 #1d4a82}
 .theme-space button.answer:nth-of-type(4n+2){background:#16224f;border-color:#2f4a8a}
 .theme-space button.answer:nth-of-type(4n+3){background:#16224f;border-color:#2f4a8a}
 .theme-space button.answer:nth-of-type(4n){background:#16224f;border-color:#2f4a8a}
@@ -2568,6 +2569,8 @@ const CHANGELOG=[
  {d:"01.11.2026",items:[
   "Lernen: Das Buch „Jessi und Dodo – Die Medien-Detektive“ (12 Fälle) steht oben im Lernbereich und kann in der App gelesen werden",
   "Hauptmenü: beide Fortschrittsbalken haben jetzt einen Namen; neu ist der Balken „Lern-Fortschritt“ unter dem Punkte-Balken",
+  "Spiel (Snake): Im Weltraum-Design war die erste Antwort bei der Wiederbelebungs-Frage kaum lesbar – jetzt gut lesbar",
+  "Lernen: 10 Punkte für jedes abgeschlossene Kapitel und 100 Punkte für den bestandenen Medienführerschein (zählen für Level und Quiz-Ranking)",
   "Update-Verlauf: Neu hinzugefügte Bücher erscheinen ab 02.11.2026 automatisch hier (mit Datum und Titel)",
   "Ranking: neuer Reiter „Medienführerschein“; wer den Abschlusstest besteht, bekommt eine Krone und steht oben. Wer zuerst besteht, bleibt auf Platz 1"
  ]},
@@ -2641,8 +2644,11 @@ function showStat(kind){
         rows.forEach(r=>{sumQ+=r.pts;add(r.title,"Quiz: "+r.ok+(r.total?" von "+r.total:"")+" richtig → "+r.pts+" Punkte")});
         const dp=d?(Number(d.points)||0):0;
         if(d)add("🌟 Quiz des Tages",(Number(d.correctAnswers)||0)+" richtige Antworten à 3 Punkte → "+dp+" Punkte");
-        if(!rows.length&&!d)empty("Noch keine Punkte. Lies ein Buch und mach das Quiz!");
-        sum.textContent="GESAMT: "+points()+" PUNKTE (Bücher-Quiz: "+sumQ+(d?" · Quiz des Tages: "+dp:"")+")";
+        LEARN_CHAPTERS.filter(c=>learnChapterDone(c.n)).forEach(c=>add("🎓 Lernen: Kapitel "+c.n+" – "+c.title,"Kapitel geschafft → "+LEARN_CH_POINTS+" Punkte"));
+        if(learnTestPassed())add("🎓 Medienführerschein","Abschlusstest bestanden → "+LEARN_TEST_POINTS+" Punkte");
+        const lb=learnBonus();
+        if(!rows.length&&!d&&!lb)empty("Noch keine Punkte. Lies ein Buch und mach das Quiz!");
+        sum.textContent="GESAMT: "+points()+" PUNKTE (Bücher-Quiz: "+sumQ+(d?" · Quiz des Tages: "+dp:"")+(lb?" · Lernen: "+lb:"")+")";
     }else if(kind==="read"){
         const rb=Object.entries(user.readBooks||{}).filter(([,v])=>v);
         const list=rb.map(([id])=>books.find(b=>b.id===id)).filter(Boolean).sort((a,b)=>a.title.localeCompare(b.title,"de"));
@@ -2920,7 +2926,7 @@ function learnComplete(n,stufe,out){
     }
     let msg=first?"SUPER! LEKTION ERLEDIGT ✓":"RICHTIG! WIEDERHOLUNG GESCHAFFT ✓";
     const ch=LEARN_CHAPTERS.find(c=>n>=c.from&&n<=c.to);
-    if(first&&learnChapterDone(ch.n))msg+=" KAPITEL \""+ch.title.toUpperCase()+"\" GESCHAFFT – URKUNDE IM HAUPTMENÜ!";
+    if(first&&learnChapterDone(ch.n))msg+=" KAPITEL \""+ch.title.toUpperCase()+"\" GESCHAFFT: +"+LEARN_CH_POINTS+" PUNKTE – URKUNDE IM HAUPTMENÜ!";
     if(first&&learnAllDone())msg+=" ALLE LEKTIONEN GESCHAFFT! JETZT WARTET DER ABSCHLUSSTEST.";
     if(newBadges.length)msg+=" NEUER ERFOLG: "+newBadges.map(a=>a.symbol+" "+a.name).join(", ")+" (SIEHE ERFOLGE)";
     out.textContent=msg;
@@ -2980,7 +2986,7 @@ function finishLearnTest(){
     const p=document.createElement("p");
     p.className=pass?"success":"error";
     if(score===total)p.textContent="FEHLERFREI! DAS IST EIN TOPERGEBNIS. DU BIST EIN ECHTER MEDIENPROFI!";
-    else if(pass)p.textContent="BESTANDEN! DU HAST "+score+" VON "+total+" FRAGEN RICHTIG BEANTWORTET.";
+    else if(pass)p.textContent="BESTANDEN! DU HAST "+score+" VON "+total+" FRAGEN RICHTIG BEANTWORTET."+(wasPassed?"":" DAFÜR GIBT ES "+LEARN_TEST_POINTS+" PUNKTE!");
     else p.textContent="NOCH NICHT BESTANDEN. DU BRAUCHST "+LEARN_PASS+" VON "+total+" RICHTIGEN ANTWORTEN. VERSUCH ES GLEICH NOCH EINMAL!";
     box.append(p);
     if(newBadges.length){const n=document.createElement("p");n.className="success";n.textContent="NEUER ERFOLG: "+newBadges.map(a=>a.symbol+" "+a.name).join(", ")+" (SIEHE ERFOLGE)";box.append(n)}
@@ -3366,9 +3372,17 @@ async function registerUser(){
     out.textContent = "REGISTRIERUNG ERFOLGREICH. DU KANNST DICH JETZT ANMELDEN.";
 }
 
+const LEARN_CH_POINTS=10,LEARN_TEST_POINTS=100;
+function learnBonus(){
+    if(!user||!user.learned)return 0;
+    let b=0;
+    LEARN_CHAPTERS.forEach(c=>{if(learnChapterDone(c.n))b+=LEARN_CH_POINTS});
+    if(learnTestPassed())b+=LEARN_TEST_POINTS;
+    return b;
+}
 function points(){
     return Object.values(user.completed || {})
-        .reduce((sum,item) => sum + (Number(item.points) || 0), 0);
+        .reduce((sum,item) => sum + (Number(item.points) || 0), 0) + learnBonus();
 }
 function stats(){
     const entries = Object.entries(user.completed || {}).filter(([k]) => k !== "daily");
