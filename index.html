@@ -2571,7 +2571,7 @@ const CHANGELOG=[
   "Hauptmenü: beide Fortschrittsbalken haben jetzt einen Namen; neu ist der Balken „Lern-Fortschritt“ unter dem Punkte-Balken",
   "Spiel (Snake): Im Weltraum-Design war die erste Antwort bei der Wiederbelebungs-Frage kaum lesbar – jetzt gut lesbar",
   "Ranking Medienführerschein: zeigt alle mit Lern-Punkten (nur Punkte aus dem Lernen); Krone und Platz oben nur dort, die Quiz-Rankings sind wieder wie vorher",
-  "Lernen: 10 Punkte für jedes abgeschlossene Kapitel und 100 Punkte für den bestandenen Medienführerschein (zählen für Level und Quiz-Ranking)",
+  "Lernen: 10 Punkte für jede abgeschlossene Lektion und 100 Punkte für den bestandenen Medienführerschein, zusammen höchstens 220 (zählen für Level und Quiz-Ranking)",
   "Update-Verlauf: Neu hinzugefügte Bücher erscheinen ab 02.11.2026 automatisch hier (mit Datum und Titel)",
   "Ranking: neuer Reiter „Medienführerschein“; wer den Abschlusstest besteht, bekommt eine Krone und steht oben. Wer zuerst besteht, bleibt auf Platz 1"
  ]},
@@ -2645,7 +2645,7 @@ function showStat(kind){
         rows.forEach(r=>{sumQ+=r.pts;add(r.title,"Quiz: "+r.ok+(r.total?" von "+r.total:"")+" richtig → "+r.pts+" Punkte")});
         const dp=d?(Number(d.points)||0):0;
         if(d)add("🌟 Quiz des Tages",(Number(d.correctAnswers)||0)+" richtige Antworten à 3 Punkte → "+dp+" Punkte");
-        LEARN_CHAPTERS.filter(c=>learnChapterDone(c.n)).forEach(c=>add("🎓 Lernen: Kapitel "+c.n+" – "+c.title,"Kapitel geschafft → "+LEARN_CH_POINTS+" Punkte"));
+        for(let i=1;i<=LEARN_COUNT;i++)if(learnUnitDone(i))add("🎓 Lernen: Lektion "+i+" – "+LEARN[i].title,"Lektion geschafft → "+LEARN_LESSON_POINTS+" Punkte");
         if(learnTestPassed())add("🎓 Medienführerschein","Abschlusstest bestanden → "+LEARN_TEST_POINTS+" Punkte");
         const lb=learnBonus();
         if(!rows.length&&!d&&!lb)empty("Noch keine Punkte. Lies ein Buch und mach das Quiz!");
@@ -2925,9 +2925,9 @@ function learnComplete(n,stufe,out){
         user.learned[learnKey(n)]={stufe:"entdecker",stufen:["entdecker"],date:new Date().toISOString()};
         checkBadges(true);
     }
-    let msg=first?"SUPER! LEKTION ERLEDIGT ✓":"RICHTIG! WIEDERHOLUNG GESCHAFFT ✓";
+    let msg=first?"SUPER! LEKTION ERLEDIGT ✓ +"+LEARN_LESSON_POINTS+" PUNKTE":"RICHTIG! WIEDERHOLUNG GESCHAFFT ✓";
     const ch=LEARN_CHAPTERS.find(c=>n>=c.from&&n<=c.to);
-    if(first&&learnChapterDone(ch.n))msg+=" KAPITEL \""+ch.title.toUpperCase()+"\" GESCHAFFT: +"+LEARN_CH_POINTS+" PUNKTE – URKUNDE IM HAUPTMENÜ!";
+    if(first&&learnChapterDone(ch.n))msg+=" KAPITEL \""+ch.title.toUpperCase()+"\" GESCHAFFT – URKUNDE IM HAUPTMENÜ!";
     if(first&&learnAllDone())msg+=" ALLE LEKTIONEN GESCHAFFT! JETZT WARTET DER ABSCHLUSSTEST.";
     if(newBadges.length)msg+=" NEUER ERFOLG: "+newBadges.map(a=>a.symbol+" "+a.name).join(", ")+" (SIEHE ERFOLGE)";
     out.textContent=msg;
@@ -3373,11 +3373,11 @@ async function registerUser(){
     out.textContent = "REGISTRIERUNG ERFOLGREICH. DU KANNST DICH JETZT ANMELDEN.";
 }
 
-const LEARN_CH_POINTS=10,LEARN_TEST_POINTS=100;
+const LEARN_LESSON_POINTS=10,LEARN_TEST_POINTS=100;
 function learnBonus(){
     if(!user||!user.learned)return 0;
     let b=0;
-    LEARN_CHAPTERS.forEach(c=>{if(learnChapterDone(c.n))b+=LEARN_CH_POINTS});
+    b+=learnDoneCount()*LEARN_LESSON_POINTS;
     if(learnTestPassed())b+=LEARN_TEST_POINTS;
     return b;
 }
