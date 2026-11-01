@@ -3428,8 +3428,10 @@ async function userlogin(){
     }
 
     loginError.textContent = "";
-    const userId = data.user.id;
-
+    await enterWithUser(data.user.id, name, loginError, true);
+}
+/* Nach erfolgreicher Anmeldung (Login oder automatischer Wiedereinstieg): Daten laden und ins Hauptmenü */
+async function enterWithUser(userId, fallbackName, loginError, signOutOnFail){
     // Profil und Fortschritt gleichzeitig laden, über die Nutzer-ID
     const [profileRes, progressRes] = await Promise.all([
         sb.from("profiles").select("*").eq("id", userId).maybeSingle(),
@@ -3439,13 +3441,14 @@ async function userlogin(){
     if(profileRes.error || progressRes.error){
         console.error("LOGIN LOAD ERROR", profileRes.error || progressRes.error);
         loginError.textContent = "DATEN KONNTEN NICHT GELADEN WERDEN. BITTE ERNEUT VERSUCHEN.";
-        await sb.auth.signOut();
-        return;
+        if(signOutOnFail)await sb.auth.signOut();
+        return false;
     }
 
     const profile = profileRes.data;
     const progress = progressRes.data;
-    const displayName = profile?.username || name;
+    if(!profile&&!signOutOnFail)return false;   // Wiedereinstieg: ohne Profil lieber normal anmelden lassen
+    const displayName = profile?.username || fallbackName;
     const key = norm(displayName);
 
     roles = {};
@@ -3460,12 +3463,26 @@ async function userlogin(){
     if(!(await loadBooks())){
         loginError.textContent = "BÜCHER KONNTEN NICHT GELADEN WERDEN. BITTE ERNEUT VERSUCHEN.";
         currentUserId = null;
-        await sb.auth.signOut();
-        return;
+        if(signOutOnFail)await sb.auth.signOut();
+        return false;
     }
 
     await loadLearning();   // Fehler hier blockieren die Anmeldung nicht
     openPortal(key, progress);
+    return true;
+}
+/* Automatischer Wiedereinstieg: Beim Öffnen der Seite die gespeicherte Anmeldung prüfen */
+async function resumeSession(){
+    try{
+        const { data } = await sb.auth.getSession();
+        const sess = data && data.session;
+        if(!sess || !sess.user)return;
+        const uid = sess.user.id;
+        const fallback = String((sess.user.email||"").split("@")[0]||"");
+        const err = $("loginError");
+        const ok = await enterWithUser(uid, fallback, err, false);
+        if(!ok){err.textContent = ""}   // kein Fehlertext: der normale Anmeldebildschirm bleibt einfach stehen
+    }catch(e){console.error("RESUME",e)}
 }
 async function registerUser(){
     const out = $("registerError");
@@ -4800,6 +4817,7 @@ async function changePassword(){
 }
 window.addEventListener("load", () => {
     renderCommunityStats(); 
+    resumeSession();
 });  
 </script>
 <footer class="site-footer"><a onclick="openLegal('impressum')" role="button" tabindex="0">IMPRESSUM</a><a onclick="openLegal('privacy')" role="button" tabindex="0">DATENSCHUTZ</a></footer>
