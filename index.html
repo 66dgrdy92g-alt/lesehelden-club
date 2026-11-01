@@ -2568,6 +2568,7 @@ const CHANGELOG=[
  {d:"01.11.2026",items:[
   "Lernen: Das Buch „Jessi und Dodo – Die Medien-Detektive“ (12 Fälle) steht oben im Lernbereich und kann in der App gelesen werden",
   "Hauptmenü: beide Fortschrittsbalken haben jetzt einen Namen; neu ist der Balken „Lern-Fortschritt“ unter dem Punkte-Balken",
+  "Update-Verlauf: Neu hinzugefügte Bücher erscheinen ab 02.11.2026 automatisch hier (mit Datum und Titel)",
   "Ranking: neuer Reiter „Medienführerschein“; wer den Abschlusstest besteht, bekommt eine Krone und steht oben. Wer zuerst besteht, bleibt auf Platz 1"
  ]},
  {d:"01.11.2026",items:[
@@ -2592,7 +2593,20 @@ const CHANGELOG=[
 function showChangelog(){
     hideViews();
     const box=$("changelogContent");box.textContent="";
-    CHANGELOG.forEach(e=>{
+    /* Neue Bücher kommen automatisch in den Verlauf (ab diesem Datum; Datum = Tag des Hinzufügens) */
+    const BOOK_LOG_FROM=new Date(2026,10,2).getTime();
+    const dk=ms=>{const d=new Date(ms);return String(d.getDate()).padStart(2,"0")+"."+String(d.getMonth()+1).padStart(2,"0")+"."+d.getFullYear()};
+    const pd=t=>{const m=/^(\d+)\.(\d+)\.(\d+)$/.exec(t);return m?new Date(+m[3],+m[2]-1,+m[1]).getTime():0};
+    const days={};
+    (typeof books!=="undefined"?books:[]).filter(x=>x.created&&x.created>=BOOK_LOG_FROM).sort((x,y)=>x.created-y.created).forEach(x=>{(days[dk(x.created)]=days[dk(x.created)]||[]).push(x.title)});
+    const LOG=CHANGELOG.map(e=>({d:e.d,items:e.items.slice()}));
+    Object.keys(days).forEach(d=>{
+        const t=days[d],line=(t.length===1?"Neues Buch: ":"Neue Bücher: ")+t.join(", ");
+        const e=LOG.find(x=>x.d===d);
+        if(e)e.items.unshift(line);else LOG.push({d,items:[line]});
+    });
+    LOG.sort((x,y)=>pd(y.d)-pd(x.d));
+    LOG.forEach(e=>{
         const h=document.createElement("h3");h.className="ach-cat";h.textContent=e.d;box.append(h);
         const ul=document.createElement("ul");
         e.items.forEach(t=>{const li=document.createElement("li");li.textContent=t;li.style.margin="6px 0";ul.append(li)});
