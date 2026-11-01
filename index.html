@@ -2573,6 +2573,7 @@ const CHANGELOG=[
   "Ranking Medienführerschein: zeigt alle mit Lern-Punkten (nur Punkte aus dem Lernen); Krone und Platz oben nur dort, die Quiz-Rankings sind wieder wie vorher",
   "Lernen: 10 Punkte für jede abgeschlossene Lektion und 100 Punkte für den bestandenen Medienführerschein, zusammen höchstens 220 (zählen für Level und Quiz-Ranking)",
   "Lernbuch: Admins können Kapitel in der App bearbeiten; das Buch liegt jetzt in der Datenbank (Tabelle lernbuch)",
+  "Snake: Der Spielstand wird vor dem ersten Speichern geladen, damit ein leerer Browser den Rekord in der Rangliste nicht mehr auf 0 setzt",
   "Update-Verlauf: Neu hinzugefügte Bücher erscheinen ab 02.11.2026 automatisch hier (mit Datum und Titel)",
   "Ranking: neuer Reiter „Medienführerschein“; wer den Abschlusstest besteht, bekommt eine Krone und steht oben. Wer zuerst besteht, bleibt auf Platz 1"
  ]},
@@ -3234,8 +3235,63 @@ async function insertBooksWithQuestions(list){
     return qErr||null;
 }
 
+/* Sichtbare Warnung, wenn das Speichern nicht klappt (höchstens alle 60 Sekunden) */
+let syncWarnAt=0;
+function syncWarn(msg){
+    const now=Date.now();if(now-syncWarnAt<60000)return;syncWarnAt=now;
+    try{
+        let d=document.getElementById("syncWarnBox");
+        if(!d){d=document.createElement("div");d.id="syncWarnBox";d.style.cssText="position:fixed;top:0;left:0;right:0;z-index:99999;background:#b00020;color:#fff;font-weight:bold;text-align:center;padding:10px;font-size:15px";document.body.appendChild(d)}
+        d.textContent="⚠️ "+msg;d.style.display="block";
+        clearTimeout(d._t);d._t=setTimeout(()=>{d.style.display="none"},9000);
+    }catch{}
+}
+/* Gespeicherten Stand und lokalen Stand zusammenführen: nichts geht verloren, der bessere Wert gewinnt */
+function mergeProgress(db){
+    if(!db||!user)return;
+    user.completed=user.completed||{};
+    const dc=(db.completed&&typeof db.completed==="object")?db.completed:{};
+    for(const [k,v] of Object.entries(dc)){
+        const l=user.completed[k];
+        if(!l){user.completed[k]=v;continue}
+        if(k==="daily"){
+            l.correctAnswers=Math.max(Number(l.correctAnswers)||0,Number(v.correctAnswers)||0);
+            l.points=Math.max(Number(l.points)||0,Number(v.points)||0);
+            l.days=Object.assign({},v.days||{},l.days||{});
+            l.played=Math.max(Number(l.played)||0,Number(v.played)||0);
+            l.best=Math.max(Number(l.best)||0,Number(v.best)||0);
+            if(!l.date)l.date=v.date||null;
+        }else if((Number(v.points)||0)>(Number(l.points)||0)||((Number(v.points)||0)===(Number(l.points)||0)&&(Number(v.correctAnswers)||0)>(Number(l.correctAnswers)||0))){
+            user.completed[k]=v;
+        }
+    }
+    user.learned=user.learned||{};
+    const dl=(db.learned&&typeof db.learned==="object")?db.learned:{};
+    for(const [k,v] of Object.entries(dl)){
+        if(!(k in user.learned)){user.learned[k]=v;continue}
+        if(k==="bk"){user.learned.bk=Object.assign({},v||{},user.learned.bk||{})}
+        else if(k==="mtest"&&v&&typeof v==="object"){
+            const l=user.learned.mtest||{};
+            user.learned.mtest=Object.assign({},l,{best:Math.max(Number(l.best)||0,Number(v.best)||0),passed:!!(l.passed||v.passed),tries:Math.max(Number(l.tries)||0,Number(v.tries)||0),date:l.date||v.date||null});
+        }
+    }
+    user.readBooks=Object.assign({},db.read_books||{},user.readBooks||{});
+    const ach=new Set([...(Array.isArray(user.achievements)?user.achievements:[]),...(Array.isArray(db.achievements)?db.achievements:[])]);
+    user.achievements=[...ach];
+}
 async function save(){
     try{
+        if(currentUserId){
+            /* Vor dem Schreiben den gespeicherten Stand holen und zusammenführen (z. B. zweites Gerät, alter Browser-Stand) */
+            const cur=await sb.from("user_progress").select("completed,learned,read_books,achievements").eq("user_id",currentUserId).maybeSingle();
+            if(cur.error){
+                console.error("SAVE LOAD ERROR",cur.error);
+                syncWarn("SPEICHERN NICHT MÖGLICH – bitte Internet prüfen. Deine Punkte sind noch nicht gesichert!");
+                window.localStorage.setItem("lhc_user_"+norm(user.username),JSON.stringify(user));
+                return;
+            }
+            if(cur.data)mergeProgress(cur.data);
+        }
         window.localStorage.setItem(
             "lhc_user_"+norm(user.username),
             JSON.stringify(user)
@@ -3254,9 +3310,9 @@ async function save(){
                 })
                 .eq("user_id", currentUserId);
 
-            if(error) console.error("SAVE ERROR", error);
+            if(error){console.error("SAVE ERROR", error);syncWarn("SPEICHERN FEHLGESCHLAGEN – bitte melde das dem Admin.")}
         }
-    }catch{}
+    }catch(e){console.error("SAVE EXC",e);syncWarn("SPEICHERN NICHT MÖGLICH – bitte Internet prüfen.")}
 }
 
 function openPortal(key, progress){
@@ -3854,9 +3910,16 @@ function gameTokensEarned(){
 function gameTokens(){return Math.max(0,gameTokensEarned()-(Number(user.gameSpent)||0))}
 function snakeWeekScore(){return user.gameWeekStart===snakeWeekStart()?(Number(user.gameWeek)||0):0}
 let snakeLastError="";
+let snakeLoadedFor=null;
 async function gameSync(){
     if(!currentUserId)return true;
     snakeLastError="";
+    /* Erst den gespeicherten Stand laden und mit dem lokalen zusammenführen. Sonst überschreibt ein leerer Browser den Rekord in der Datenbank. */
+    if(snakeLoadedFor!==currentUserId){
+        const ok=await gameLoadOwn();
+        if(!ok){snakeLastError="SPIELSTAND KONNTE NICHT GELADEN WERDEN";syncWarn("SNAKE-SPIELSTAND KONNTE NICHT GELADEN WERDEN – Punkte werden nicht überschrieben.");return false}
+        snakeLoadedFor=currentUserId;
+    }
     try{
         const basis={user_id:currentUserId,username:user.username,best_score:user.gameBest||0,spent:user.gameSpent||0,plays:user.gamePlays||0,updated_at:new Date().toISOString()};
         const fullRow={
@@ -3872,7 +3935,7 @@ async function gameSync(){
             snakeLastError=error.message||String(error);
             /* Notlösung: nur Grunddaten speichern, falls neue Spalten in Supabase fehlen */
             const r2=await sb.from("snake_players").upsert(basis);
-            if(r2.error){snakeLastError=r2.error.message||snakeLastError;return false}
+            if(r2.error){snakeLastError=r2.error.message||snakeLastError;syncWarn("SNAKE-PUNKTE KONNTEN NICHT GESPEICHERT WERDEN.");return false}
             const r3=await sb.from("snake_players").update({week_score:snakeWeekScore(),week_start:user.gameWeekStart||null}).eq("user_id",currentUserId);
             if(!r3.error)snakeLastError="";
             else snakeLastError="SPALTEN FEHLEN: "+snakeLastError;
@@ -3882,9 +3945,10 @@ async function gameSync(){
     return true;
 }
 async function gameLoadOwn(){
-    if(!currentUserId)return;
+    if(!currentUserId)return true;
     try{
-        const {data}=await sb.from("snake_players").select("best_score,spent,plays,week_score,week_start,bonus,bonus_day,revives,max_level,books_eaten,bonus_eaten").eq("user_id",currentUserId).maybeSingle();
+        let {data,error}=await sb.from("snake_players").select("best_score,spent,plays,week_score,week_start,bonus,bonus_day,revives,max_level,books_eaten,bonus_eaten").eq("user_id",currentUserId).maybeSingle();
+        if(error){const r=await sb.from("snake_players").select("best_score,spent,plays").eq("user_id",currentUserId).maybeSingle();data=r.data;error=r.error}
         if(data){
             user.gameBest=Math.max(user.gameBest||0,data.best_score||0);
             user.gameSpent=Math.max(user.gameSpent||0,data.spent||0);
@@ -3899,7 +3963,9 @@ async function gameLoadOwn(){
             if(data.week_start===ws&&user.gameWeekStart===ws)user.gameWeek=Math.max(user.gameWeek||0,data.week_score||0);
             else if(data.week_start===ws){user.gameWeekStart=ws;user.gameWeek=data.week_score||0}
         }
-    }catch(e){console.error(e)}
+        if(error){console.error("SNAKE LOAD",error);return false}
+        return true;
+    }catch(e){console.error(e);return false}
 }
 async function gameDailyBonus(){
     await gameLoadOwn();
@@ -4233,7 +4299,7 @@ async function rankSync(){
         let {error}=await sb.from("ranking_stats").upsert({...row,avatar:av,license_at:lic,learn_points:learnBonus()});
         if(error&&/license_at|learn_points/i.test(error.message||""))({error}=await sb.from("ranking_stats").upsert({...row,avatar:av}));
         if(error&&/avatar/i.test(error.message||""))({error}=await sb.from("ranking_stats").upsert(row));
-        if(error){console.error("RANK SYNC",error);rankLastError=error.message||String(error)}else{rankLastSync=key;rankLastError=""}
+        if(error){console.error("RANK SYNC",error);rankLastError=error.message||String(error);syncWarn("RANKING KONNTE NICHT AKTUALISIERT WERDEN.")}else{rankLastSync=key;rankLastError=""}
     }catch(e){console.error(e);rankLastError=String(e)}
 }
 async function showRanking(){
@@ -5661,7 +5727,7 @@ async function petSync(){
         const row={user_id:currentUserId,username:user.username,state:PET.st,pet_points:PET.st.pts||0,updated_at:new Date().toISOString()};
         let {error}=await sb.from("pet_players").upsert({...row,avatar:avatarCurrent().id});
         if(error&&/avatar/i.test(error.message||""))({error}=await sb.from("pet_players").upsert(row));
-        if(error)console.error("PET SYNC",error);
+        if(error){console.error("PET SYNC",error);syncWarn("HAUSTIER KONNTE NICHT GESPEICHERT WERDEN.")}
     }catch(e){console.error(e)}
 }
 function petClamp(v){return Math.max(PET_MIN,Math.min(100,v))}
