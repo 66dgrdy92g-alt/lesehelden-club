@@ -2570,6 +2570,7 @@ const CHANGELOG=[
   "Lernen: Das Buch „Jessi und Dodo – Die Medien-Detektive“ (12 Fälle) steht oben im Lernbereich und kann in der App gelesen werden",
   "Hauptmenü: beide Fortschrittsbalken haben jetzt einen Namen; neu ist der Balken „Lern-Fortschritt“ unter dem Punkte-Balken",
   "Spiel (Snake): Im Weltraum-Design war die erste Antwort bei der Wiederbelebungs-Frage kaum lesbar – jetzt gut lesbar",
+  "Ranking Medienführerschein: zeigt jetzt auch die Punkte",
   "Lernen: 10 Punkte für jedes abgeschlossene Kapitel und 100 Punkte für den bestandenen Medienführerschein (zählen für Level und Quiz-Ranking)",
   "Update-Verlauf: Neu hinzugefügte Bücher erscheinen ab 02.11.2026 automatisch hier (mit Datum und Titel)",
   "Ranking: neuer Reiter „Medienführerschein“; wer den Abschlusstest besteht, bekommt eine Krone und steht oben. Wer zuerst besteht, bleibt auf Platz 1"
@@ -4217,7 +4218,7 @@ async function rankTab(t){
             const d=document.createElement("div");d.className="rank";
             const me=norm(r.username)===norm(user.username);
             const crown=r.license_at?"👑 ":"";
-            const rest=t==="lic"?" – BESTANDEN AM "+new Date(r.license_at).toLocaleDateString("de-DE"):" – "+(t==="quiz"?r.points+" PUNKTE ("+r.done+" QUIZ)":r.perfect+" FEHLERFREIE QUIZ");
+            const rest=t==="lic"?" – BESTANDEN AM "+new Date(r.license_at).toLocaleDateString("de-DE")+" – "+r.points+" PUNKTE":" – "+(t==="quiz"?r.points+" PUNKTE ("+r.done+" QUIZ)":r.perfect+" FEHLERFREIE QUIZ");
             rankLine(d,(i+1)+". "+crown,r.username,rest,r.avatar,me);
             if(me)d.classList.add("success");
             box.append(d);
