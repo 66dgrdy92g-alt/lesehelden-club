@@ -2502,7 +2502,7 @@ body.theme-ev-weihnacht button.tab-on{background:#2f8f4b !important;box-shadow:0
 <div id="settingsPanel" class="box hidden"><h2>EINSTELLUNGEN</h2><button onclick="showPasswordSettings()">[ PASSWORT ÄNDERN ]</button><button onclick="showDesignSettings()">[ DESIGN AUSWAHL ]</button><button onclick="showChangelog()">[ UPDATEVERLAUF ]</button><br><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
 <div id="passwordPanel" class="box hidden"><h2>PASSWORT ÄNDERN</h2><label>AKTUELLES PASSWORT:</label><br><input id="currentPassword" type="password"><br><label>NEUES PASSWORT:</label><br><input id="newPassword" type="password"><br><label>NEUES PASSWORT WIEDERHOLEN:</label><br><input id="newPasswordRepeat" type="password"><br><small class="pw-hint">TIPP: DREI WÖRTER, MINDESTENS 8 ZEICHEN.</small><br><button type="button" onclick="togglePw(['newPassword','newPasswordRepeat'],this)">👁 PASSWORT ANZEIGEN</button><br><button onclick="changePassword()">[ PASSWORT SPEICHERN ]</button><p id="passwordStatus"></p><button onclick="showSettings()">[ ZURÜCK ]</button></div>
 <div id="designPanel" class="box hidden"><h2>DESIGN AUSWAHL</h2><p>Dein Design wird in deinem Konto gespeichert und beim Anmelden automatisch geladen. Zeitlich begrenzte Event-Designs findest du bei den Avataren.</p><div id="themeSwitcher"><button onclick="chooseTheme('blatt')">COLLEGE BOOK</button> <button onclick="chooseTheme('maerchen')">MÄRCHENBUCH</button> <button onclick="chooseTheme('miami')">MIAMI</button> <button onclick="chooseTheme('kids')">KUNTERBUNT</button> <button onclick="chooseTheme('pirat')">PIRATEN</button> <button onclick="chooseTheme('meer')">UNTERWASSER</button> <button onclick="chooseTheme('space')">WELTRAUM</button> <button onclick="chooseTheme('dos')">DOS</button></div><p id="themeStatus"></p><button onclick="showSettings()">[ ZURÜCK ]</button></div>
-<div id="adminPanel" class="box hidden"><h2>BENUTZERVERWALTUNG</h2><h3>REGISTRIERTE NUTZER</h3><p id="registeredUserSummary"></p><div id="registeredUserOverview"></div><h3>ROLLEN UND PASSWÖRTER</h3><p>Rolle auswählen und bei Bedarf ein neues Passwort eintragen.</p><div id="adminUserList"></div><p id="adminStatus"></p><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
+<div id="adminPanel" class="box hidden"><h2>BENUTZERVERWALTUNG</h2><h3>REGISTRIERTE NUTZER</h3><p id="registeredUserSummary"></p><div id="registeredUserOverview"></div><h3>ROLLEN UND PASSWÖRTER</h3><p>Rolle auswählen und bei Bedarf ein neues Passwort eintragen.</p><div id="adminUserList"></div><p id="adminStatus"></p><h3>PUNKTE PRÜFEN</h3><p>Vergleicht für jedes Kind die gespeicherten Ergebnisse mit den Punkten im Ranking und zeigt Abweichungen.</p><button type="button" onclick="adminCheckPoints()">[ PUNKTE PRÜFEN ]</button><p id="pcSummary"></p><div id="pcList"></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
 <div id="bookManagePanel" class="box hidden"><h2 id="bookManageHeading">NEUES BUCH UND QUIZ</h2><div id="importExportPanel" class="import-export"><h3>IMPORT UND EXPORT</h3><p>Die gesamte Bibliothek mit allen Quizfragen als Excel-kompatible CSV-Datei sichern oder neue Bücher einlesen.</p><button type="button" onclick="downloadImportTemplate()">[ EXCEL-IMPORTVORLAGE HERUNTERLADEN ]</button><button type="button" onclick="exportBooksAndQuizzes()">[ GESAMTE BIBLIOTHEK EXPORTIEREN ]</button><button type="button" onclick="$('bookQuizImport').click()">[ EXCEL-CSV IMPORTIEREN ]</button><p>Eine Zeile entspricht einer Quizfrage. Die richtige Antwort wird mit A, B, C oder D angegeben.</p><input id="bookQuizImport" type="file" accept=".csv,text/csv" onchange="importBooksAndQuizzes(this)"><p id="bookImportStatus"></p></div><label>TITEL:</label><br><input id="newBookTitle" placeholder="Buchtitel"><br><label>AUTOR:</label><br><input id="newBookAuthor" placeholder="Autor"><br><label>ISBN:</label><br><input id="newBookIsbn" placeholder="z. B. 978-3-..."><br><label>SCHWIERIGKEITSGRAD:</label><br><select id="newBookDifficulty"><option value="1">1 – 1 Punkt pro richtige Antwort</option><option value="2">2 – 2 Punkte pro richtige Antwort</option><option value="3">3 – 3 Punkte pro richtige Antwort</option></select><br><h3>QUIZ-FRAGEN</h3><div id="questionEditors"></div><button onclick="addQuestionEditor()">[ FRAGE HINZUFÜGEN ]</button><br><button id="bookSaveButton" onclick="addBookAndQuiz()">[ BUCH UND QUIZ SPEICHERN ]</button><p id="bookManageStatus"></p><div id="textEditor" class="hidden"><h3>LESETEXT (NUR GEMEINFREI!)</h3><p id="textEditorInfo"></p><label>TEXTDATEI (.TXT, UTF-8):</label><input id="textFile" type="file" accept=".txt,text/plain"><label>QUELLE (WEBADRESSE ODER NAME):</label><input id="textSource" placeholder="z. B. gutenberg.org, Nr. 12345"><label>ÜBERSETZER / AUSGABE:</label><input id="textTranslator" placeholder="z. B. Originaltext oder Name und Jahr"><label>LIZENZ:</label><input id="textLicense" value="Gemeinfrei"><label style="display:flex;gap:8px;align-items:flex-start"><input id="textCheck" type="checkbox" style="width:auto;margin-top:6px"> ICH HABE GEPRÜFT: AUTOR UND ÜBERSETZER SIND SEIT MEHR ALS 70 JAHREN TOT.</label><button type="button" onclick="saveBookText()">[ LESETEXT SPEICHERN ]</button><button type="button" onclick="deleteBookText()">[ LESETEXT LÖSCHEN ]</button><p id="textStatus"></p></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div><div id="booksView" class="box hidden"><h2>VERFÜGBARE BÜCHER</h2><p>BÜCHER: <span id="bookCount"></span> | QUIZ: <span id="quizCount"></span> | FRAGEN: <span id="questionCount"></span></p><div class="lib-filters"><input id="bookSearch" type="search" placeholder="Titel oder Autor suchen" oninput="bookPage=1;renderBookList()"><div class="lib-group"><span class="lib-label">STATUS</span><div class="lib-row"><button id="newBooksFilter" type="button" onclick="toggleNewBooksFilter()" title="Bücher der letzten 30 Tage">[ NEU ]</button><button id="readBooksFilter" type="button" onclick="toggleReadBooksFilter()">[ GELESEN ]</button><button id="openQuizFilter" type="button" onclick="toggleOpenQuizFilter()">[ QUIZ OFFEN ]</button><button id="completedQuizFilter" type="button" onclick="toggleCompletedQuizFilter()">[ QUIZ FERTIG ]</button><button id="improveFilter" type="button" onclick="toggleFilter('improve')">[ VERBESSERBAR ]</button></div></div><div class="lib-selects"><div><label for="bookDifficulty" class="lib-label">SCHWIERIGKEIT</label><select id="bookDifficulty" onchange="bookPage=1;renderBookList()"><option value="0">ALLE</option><option value="1">LEICHT (1)</option><option value="2">MITTEL (2)</option><option value="3">SCHWER (3)</option></select></div><div><label for="bookSort" class="lib-label">SORTIERUNG</label><select id="bookSort" onchange="bookPage=1;renderBookList()"><option value="title">TITEL A–Z</option><option value="author">AUTOR A–Z</option><option value="easy">LEICHT ZUERST</option><option value="hard">SCHWER ZUERST</option></select></div><button type="button" onclick="resetBookFilters()">[ FILTER LÖSCHEN ]</button></div></div><p id="bookFilterStatus" class="hidden"></p><div id="bookAlphabet" class="book-alphabet" aria-label="Schnellauswahl nach Anfangsbuchstaben"></div><p id="bookSearchEmpty" class="hidden">KEINE PASSENDEN BÜCHER.</p><div id="bookList"></div><div id="bookPagination" class="book-pagination"></div></div>
 <div id="readLibView" class="box hidden"><h2>📜 JETZT LESEN</h2><p>Diese Bücher kannst du gleich hier lesen. Alle Texte sind <strong>gemeinfrei</strong>, das heißt: Jeder darf sie kostenlos lesen und weitergeben.</p><p class="rl-src">Die Texte stammen von <strong>Project Gutenberg</strong> (<a href="https://www.gutenberg.org" target="_blank" rel="noopener noreferrer">gutenberg.org</a>), einer Bibliothek mit freien Büchern. Bei jedem Buch steht die genaue Quelle.</p><div id="readLibList"></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div><div id="readerView" class="box hidden"><h2 id="readerTitle"></h2><p id="readerAuthor" class="rd-sub"></p><div class="rd-tools"><button type="button" onclick="readerFont(-1)" aria-label="Schrift kleiner">[ A− ]</button><button type="button" onclick="readerFont(1)" aria-label="Schrift größer">[ A+ ]</button><button type="button" onclick="readerGo(-1)">[ ◀ ZURÜCK ]</button><button type="button" onclick="readerGo(1)">[ WEITER ▶ ]</button></div><div class="progress"><div id="readerBar" class="progress-bar"></div></div><p id="readerPos" class="rd-sub"></p><div id="readerText"></div><div id="readerEnd" class="hidden"><p class="success">🎉 DU BIST AM ENDE! TOLL GELESEN.</p><button id="readerMarkBtn" type="button"></button><button id="readerQuizBtn" type="button">[ QUIZ STARTEN ]</button></div><div class="rd-tools"><button type="button" onclick="readerGo(-1)">[ ◀ ZURÜCK ]</button><button type="button" onclick="readerGo(1)">[ WEITER ▶ ]</button></div><p id="readerSource" class="rd-src"></p><button type="button" onclick="readerClose()">[ ZURÜCK ]</button></div><div id="bookDetailView" class="box hidden"><h2 id="detailBookTitle"></h2><p id="detailBookAuthor"></p><p id="detailBookIsbn"></p><p id="detailReadingStatus" class="status"></p><button id="detailTextButton" type="button" class="hidden">[ 📖 JETZT LESEN ]</button><button id="detailReadButton" type="button">[ ALS GELESEN MARKIEREN ]</button><button id="detailQuizButton">[ QUIZ STARTEN ]</button><button id="detailEditButton" class="hidden" type="button">[ BUCH UND QUIZ BEARBEITEN ]</button><button onclick="showBooks()">[ ZURÜCK ZUR BUCHLISTE ]</button></div>
 <div id="quizView" class="box hidden"><h2 id="bookTitle"></h2><div class="status">FRAGE <span id="questionNumber"></span> VON <span id="questionTotal"></span><br>QUIZ-PUNKTE: <span id="quizPoints">0</span></div><div class="progress"><div id="progressBar" class="progress-bar"></div></div><h3 id="questionText"></h3><div id="answers"></div><p id="answerResult"></p><button id="nextButton" class="hidden" onclick="nextQuestion()">[ WEITER ]</button><button onclick="cancelQuiz()">[ ABBRECHEN ]</button></div>
@@ -3233,6 +3233,63 @@ async function insertBooksWithQuestions(list){
     if(!rows.length)return null;
     const {error:qErr}=await sb.from("questions").insert(rows);
     return qErr||null;
+}
+
+
+/* Admin: Punkte aller Kinder prüfen (gespeicherte Ergebnisse gegen Ranking) */
+async function adminCheckPoints(){
+    if(!user||user.role!=="admin")return;
+    const sum=$("pcSummary"),box=$("pcList");box.textContent="";sum.textContent="PRÜFE …";
+    try{
+        const [pr,up,rk,sn]=await Promise.all([
+            sb.from("profiles").select("id,username").range(0,4999),
+            sb.from("user_progress").select("user_id,completed,learned").range(0,4999),
+            sb.from("ranking_stats").select("user_id,points,learn_points").range(0,4999),
+            sb.from("snake_players").select("user_id,best_score").range(0,4999)
+        ]);
+        const err=[pr,up,rk,sn].find(r=>r.error);
+        if(err&&(pr.error||up.error)){sum.textContent="FEHLER: "+(err.error.message||err.error);return}
+        const byUp={},byRk={},bySn={};
+        (up.data||[]).forEach(r=>byUp[r.user_id]=r);(rk.data||[]).forEach(r=>byRk[r.user_id]=r);(sn.data||[]).forEach(r=>bySn[r.user_id]=r);
+        const rows=[];
+        (pr.data||[]).forEach(p=>{
+            const u=byUp[p.id],r=byRk[p.id],g=bySn[p.id],issues=[],notes=[];
+            const comp=(u&&u.completed&&typeof u.completed==="object")?u.completed:{};
+            const lrn=(u&&u.learned&&typeof u.learned==="object")?u.learned:{};
+            let quiz=0,daily=0;
+            Object.entries(comp).forEach(([k,v])=>{
+                const pts=Number(v.points)||0,ca=Number(v.correctAnswers)||0;
+                if(k==="daily"){daily=pts;if(pts>ca*3)issues.push("Tagesquiz: mehr Punkte als möglich");return}
+                quiz+=pts;
+                const b=books.find(x=>x.id===k);
+                if(!b){notes.push("Altes Ergebnis für ein Buch, das es nicht mehr gibt ("+k+")");return}
+                if(ca>b.questions.length)notes.push(b.title+": früher mehr Fragen als heute ("+ca+" richtig, jetzt "+b.questions.length+" Fragen)");
+                if(pts>ca*(Number(b.difficulty)||1))issues.push(b.title+": mehr Punkte als möglich");
+            });
+            let lessons=0;for(let i=1;i<=LEARN_COUNT;i++)if(lrn["m"+i])lessons++;
+            const lic=!!(lrn.mtest&&lrn.mtest.passed);
+            if(lic&&lessons<LEARN_COUNT)issues.push("Medienführerschein bestanden, aber nicht alle Lektionen erledigt");
+            const learn=lessons*LEARN_LESSON_POINTS+(lic?LEARN_TEST_POINTS:0);
+            const total=quiz+daily+learn;
+            if(!u&&r&&(Number(r.points)||0)>0)issues.push("Ranking hat Punkte, aber kein Fortschritt ist gespeichert");
+            if(!r){if(total>0)issues.push("Fehlt im Ranking")}
+            else{
+                if((Number(r.points)||0)!==total)issues.push("Ranking zeigt "+(Number(r.points)||0)+" statt "+total);
+                if((Number(r.learn_points)||0)!==learn)issues.push("Lern-Punkte im Ranking: "+(Number(r.learn_points)||0)+" statt "+learn);
+            }
+            rows.push({name:p.username,quiz,daily,learn,total,snake:g?(Number(g.best_score)||0):0,rank:r?(Number(r.points)||0):null,issues,notes});
+        });
+        rows.sort((a,b)=>(b.issues.length-a.issues.length)||a.name.localeCompare(b.name,"de"));
+        const bad=rows.filter(r=>r.issues.length).length;
+        sum.textContent=rows.length+" KINDER GEPRÜFT – "+(bad?bad+" MIT ABWEICHUNG":"ALLES IN ORDNUNG");
+        rows.forEach(r=>{
+            const d=document.createElement("div");d.className="rank";
+            d.textContent=(r.issues.length?"⚠️ ":"✅ ")+r.name+" — Quiz "+r.quiz+" · Tagesquiz "+r.daily+" · Lernen "+r.learn+" = "+r.total+" · Ranking "+(r.rank===null?"–":r.rank)+" · Snake "+r.snake;
+            if(r.issues.length){const ul=document.createElement("div");ul.style.cssText="font-size:90%;margin-top:4px";ul.textContent=r.issues.join(" | ");d.append(ul)}
+            if(r.notes.length){const nt=document.createElement("div");nt.style.cssText="font-size:80%;margin-top:4px;opacity:.75";nt.textContent="ℹ️ Hinweis (kein Fehler, die Punkte zählen weiter): "+r.notes.join(" | ");d.append(nt)}
+            box.append(d);
+        });
+    }catch(e){console.error(e);sum.textContent="FEHLER: "+(e.message||e)}
 }
 
 /* Sichtbare Warnung, wenn das Speichern nicht klappt (höchstens alle 60 Sekunden) */
@@ -5724,6 +5781,10 @@ function petSave(now){
 async function petSync(){
     if(typeof sb==="undefined"||!currentUserId||!PET.st)return;
     try{
+        /* Erst den gespeicherten Stand prüfen: Haustier-Punkte dürfen nie kleiner werden */
+        const cur=await sb.from("pet_players").select("pet_points").eq("user_id",currentUserId).maybeSingle();
+        if(cur.error){console.error("PET SYNC LOAD",cur.error);syncWarn("HAUSTIER KONNTE NICHT GESPEICHERT WERDEN.");return}
+        if(cur.data&&(Number(cur.data.pet_points)||0)>(PET.st.pts||0))PET.st.pts=Number(cur.data.pet_points)||0;
         const row={user_id:currentUserId,username:user.username,state:PET.st,pet_points:PET.st.pts||0,updated_at:new Date().toISOString()};
         let {error}=await sb.from("pet_players").upsert({...row,avatar:avatarCurrent().id});
         if(error&&/avatar/i.test(error.message||""))({error}=await sb.from("pet_players").upsert(row));
