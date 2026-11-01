@@ -2570,7 +2570,7 @@ const CHANGELOG=[
   "Lernen: Das Buch „Jessi und Dodo – Die Medien-Detektive“ (12 Fälle) steht oben im Lernbereich und kann in der App gelesen werden",
   "Hauptmenü: beide Fortschrittsbalken haben jetzt einen Namen; neu ist der Balken „Lern-Fortschritt“ unter dem Punkte-Balken",
   "Spiel (Snake): Im Weltraum-Design war die erste Antwort bei der Wiederbelebungs-Frage kaum lesbar – jetzt gut lesbar",
-  "Ranking Medienführerschein: zeigt jetzt auch die Punkte",
+  "Ranking Medienführerschein: zeigt alle mit Lern-Punkten (nur Punkte aus dem Lernen); Krone und Platz oben nur dort, die Quiz-Rankings sind wieder wie vorher",
   "Lernen: 10 Punkte für jedes abgeschlossene Kapitel und 100 Punkte für den bestandenen Medienführerschein (zählen für Level und Quiz-Ranking)",
   "Update-Verlauf: Neu hinzugefügte Bücher erscheinen ab 02.11.2026 automatisch hier (mit Datum und Titel)",
   "Ranking: neuer Reiter „Medienführerschein“; wer den Abschlusstest besteht, bekommt eine Krone und steht oben. Wer zuerst besteht, bleibt auf Platz 1"
@@ -4163,13 +4163,13 @@ document.addEventListener("keydown",e=>{
 let rankLastSync="",rankLastError="";
 async function rankSync(){
     if(!currentUserId||!user)return;
-    const st=stats(),av=(typeof avatarCurrent==="function"?avatarCurrent().id:"a00"),key=st.points+"|"+st.perfect+"|"+st.done+"|"+av+"|"+((learnTestPassed()&&user.learned.mtest.date)||"");
+    const st=stats(),av=(typeof avatarCurrent==="function"?avatarCurrent().id:"a00"),key=st.points+"|"+st.perfect+"|"+st.done+"|"+av+"|"+((learnTestPassed()&&user.learned.mtest.date)||"")+"|"+learnBonus();
     if(key===rankLastSync)return;
     try{
         const row={user_id:currentUserId,username:user.username,points:st.points,perfect:st.perfect,done:st.done,updated_at:new Date().toISOString()};
         const lic=(learnTestPassed()&&user.learned.mtest.date)||null;
-        let {error}=await sb.from("ranking_stats").upsert({...row,avatar:av,license_at:lic});
-        if(error&&/license_at/i.test(error.message||""))({error}=await sb.from("ranking_stats").upsert({...row,avatar:av}));
+        let {error}=await sb.from("ranking_stats").upsert({...row,avatar:av,license_at:lic,learn_points:learnBonus()});
+        if(error&&/license_at|learn_points/i.test(error.message||""))({error}=await sb.from("ranking_stats").upsert({...row,avatar:av}));
         if(error&&/avatar/i.test(error.message||""))({error}=await sb.from("ranking_stats").upsert(row));
         if(error){console.error("RANK SYNC",error);rankLastError=error.message||String(error)}else{rankLastSync=key;rankLastError=""}
     }catch(e){console.error(e);rankLastError=String(e)}
@@ -4191,25 +4191,22 @@ async function rankTab(t){
     box.textContent="LADE …";
     try{
         const col=t==="quiz"?"points":"perfect";
-        const sel="username,points,perfect,done,license_at";
         let error=null,data=[];
         if(t==="lic"){
-            const r=await qAv("ranking_stats",sel,q=>q.not("license_at","is",null).order("license_at",{ascending:true}).limit(50));
-            error=r.error;data=r.data||[];
-            if(error&&/license_at/i.test(error.message||"")){error=null;data=[]}
-        }else{
-            const a=await qAv("ranking_stats",sel,q=>q.not("license_at","is",null).order("license_at",{ascending:true}).limit(20));
-            let pas=[];
-            if(a.error&&/license_at/i.test(a.error.message||"")){}
-            else if(a.error)error=a.error;
-            else pas=a.data||[];
-            const b=await qAv("ranking_stats",pas.length||!a.error?sel:"username,points,perfect,done",q=>{let x=q.gt(col,0);if(!a.error)x=x.is("license_at",null);return x.order(col,{ascending:false}).limit(20)});
+            const sel="username,learn_points,license_at";
+            const a=await qAv("ranking_stats",sel,q=>q.not("license_at","is",null).order("license_at",{ascending:true}).limit(50));
+            if(a.error&&!/license_at|learn_points/i.test(a.error.message||""))error=a.error;
+            const pas=a.error?[]:(a.data||[]);
+            const b=a.error?{data:[]}:await qAv("ranking_stats",sel,q=>q.is("license_at",null).gt("learn_points",0).order("learn_points",{ascending:false}).limit(50));
             if(b.error&&!error)error=b.error;
-            data=[...pas,...(b.data||[])].slice(0,20);
+            data=[...pas,...(b.data||[])].slice(0,50);
+        }else{
+            const r=await qAv("ranking_stats","username,points,perfect,done",q=>q.gt(col,0).order(col,{ascending:false}).limit(20));
+            error=r.error;data=r.data||[];
         }
         box.textContent="";
         const note=document.createElement("div");note.className="status";
-        note.textContent=t==="quiz"?"RANGLISTE: MEISTE QUIZ-PUNKTE (👑 = MEDIENFÜHRERSCHEIN BESTANDEN, DIE STEHEN OBEN)":t==="perfect"?"RANGLISTE: MEISTE FEHLERFREIE QUIZ (👑 = MEDIENFÜHRERSCHEIN BESTANDEN, DIE STEHEN OBEN)":"WER HAT DEN MEDIENFÜHRERSCHEIN BESTANDEN? WER ZUERST BESTEHT, BLEIBT AUF PLATZ 1.";
+        note.textContent=t==="quiz"?"RANGLISTE: MEISTE QUIZ-PUNKTE":t==="perfect"?"RANGLISTE: MEISTE FEHLERFREIE QUIZ":"MEDIENFÜHRERSCHEIN: 👑 = BESTANDEN (OBEN, WER ZUERST BESTEHT, BLEIBT AUF PLATZ 1). DANACH FOLGEN ALLE MIT LERN-PUNKTEN. ES ZÄHLEN NUR PUNKTE AUS DEM LERNEN.";
         box.append(note);
         if(rankLastError){const m=document.createElement("div");m.className="error";m.textContent="FEHLER BEIM EINTRAGEN: "+rankLastError;box.append(m)}
         if(error){const m=document.createElement("div");m.className="error";m.textContent="FEHLER BEIM LADEN: "+error.message;box.append(m);return}
@@ -4217,8 +4214,8 @@ async function rankTab(t){
         data.forEach((r,i)=>{
             const d=document.createElement("div");d.className="rank";
             const me=norm(r.username)===norm(user.username);
-            const crown=r.license_at?"👑 ":"";
-            const rest=t==="lic"?" – BESTANDEN AM "+new Date(r.license_at).toLocaleDateString("de-DE")+" – "+r.points+" PUNKTE":" – "+(t==="quiz"?r.points+" PUNKTE ("+r.done+" QUIZ)":r.perfect+" FEHLERFREIE QUIZ");
+            const crown=t==="lic"?(r.license_at?"👑 ":""):(i===0?"👑 ":"");
+            const rest=t==="lic"?" – "+(r.license_at?"BESTANDEN AM "+new Date(r.license_at).toLocaleDateString("de-DE")+" – ":"")+(Number(r.learn_points)||0)+" LERN-PUNKTE":" – "+(t==="quiz"?r.points+" PUNKTE ("+r.done+" QUIZ)":r.perfect+" FEHLERFREIE QUIZ");
             rankLine(d,(i+1)+". "+crown,r.username,rest,r.avatar,me);
             if(me)d.classList.add("success");
             box.append(d);
