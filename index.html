@@ -875,6 +875,15 @@ body.theme-pirat button.tab-on{background:#1d5a4a !important;color:#ffe9b0 !impo
 .pet-av.act{animation:petJump .6s ease-out}
 #petRoom{container-type:inline-size;cursor:pointer}
 #petRoom .pet-av{transition:left 1.2s ease,transform .3s}
+
+#petGuest{left:-22%;transition:left 1.4s ease,transform .3s}
+#petRoom.visit #petGuest{left:30%}
+#petRoom.visit #petAv{left:68% !important}
+#petGuest.out{left:-26% !important}
+.pet-av.talk{animation:paSway 1s ease-in-out infinite !important}
+#petAv.cheer{animation:petJump .6s ease-out 6 !important}
+#petFx span.conf{position:absolute;top:-8%;font-size:6cqw;line-height:1;animation:petConf 2.4s ease-in forwards}
+@keyframes petConf{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(60cqw) rotate(260deg);opacity:0}}
 #petAct{position:absolute;inset:0;pointer-events:none;line-height:1;overflow:hidden}
 #petAct span{position:absolute;display:block;line-height:1}
 #petAct .pa-cap{left:3%;top:4%;font-size:.8em;font-size:3.3cqw;background:rgba(255,255,255,.9);color:#333;border-radius:3cqw;padding:.35em .8em;font-weight:bold;box-shadow:0 1px 4px rgba(0,0,0,.3)}
@@ -980,8 +989,8 @@ body.theme-pirat button.tab-on{background:#1d5a4a !important;color:#ffe9b0 !impo
 @keyframes petFloat{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(-8px);opacity:1}}
 @keyframes petRise{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-70px);opacity:0}}
 #petView .pet-bubble{position:relative;max-width:640px;margin:22px 0 12px;padding:14px 18px;border:3px solid #14213d;border-radius:24px;min-height:3em;background:#fff!important;color:#14213d!important;font-size:1.1em;line-height:1.45;box-shadow:3px 3px 0 rgba(0,0,0,.25);text-transform:none}
-#petView .pet-bubble::before{content:"";position:absolute;top:-17px;left:50%;margin-left:-14px;width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:17px solid #14213d}
-#petView .pet-bubble::after{content:"";position:absolute;top:-11px;left:50%;margin-left:-11px;width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:14px solid #fff}
+#petView .pet-bubble::before{content:"";position:absolute;top:-17px;left:var(--tx,50%);margin-left:-14px;width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:17px solid #14213d}
+#petView .pet-bubble::after{content:"";position:absolute;top:-11px;left:var(--tx,50%);margin-left:-11px;width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:14px solid #fff}
 .pet-answers{max-width:640px;margin:6px 0}
 .pet-answers button{display:block;width:100%;margin:6px 0;text-align:left}
 #petBars{max-width:640px;margin:10px 0}
@@ -2444,10 +2453,10 @@ body button.tab-on{background:#2ecc71 !important;color:#000 !important;font-weig
 <div id="winLayer"><div id="winInner"><div class="win-bar"><div class="win-who"><span id="winAvatar"></span><span id="winName"></span></div><button id="winClose" type="button" onclick="showMenu()">[ ✕ ZUM HAUPTMENÜ ]</button></div>
 <div id="petView" class="box hidden"><h2>🐾 MEIN AVATAR-HAUSTIER</h2>
 <div id="petEvent" class="pet-event hidden"></div>
-<div id="petRoom"><div id="petRoomSvg"></div><div id="petAv" class="pet-av"></div><div id="petZzz"></div><div id="petFx"></div><div id="petAct"></div></div>
+<div id="petRoom"><div id="petRoomSvg"></div><div id="petGuest" class="pet-av ok hidden"></div><div id="petAv" class="pet-av"></div><div id="petZzz"></div><div id="petFx"></div><div id="petAct"></div></div>
 <div id="petBubble" class="pet-bubble"></div><div id="petLesson" class="pet-lesson hidden"></div><div id="petAnswers" class="pet-answers"></div>
 <div id="petBars"></div>
-<div class="pet-btns"><button type="button" onclick="petAct('food')">🍎 FÜTTERN</button><button type="button" onclick="petAct('drink')">💧 TRINKEN GEBEN</button><button type="button" onclick="petAct('wash')">🫧 SAUBER MACHEN</button><button type="button" onclick="petAct('care')">❤️ PFLEGEN</button><button type="button" onclick="petPlay()">🎮 SPIELEN</button><button type="button" onclick="petAsk()">💬 FRAGE</button><button type="button" onclick="petTip()">💡 MEDIEN-TIPP</button><button type="button" onclick="petDecoToggle()">🛋️ ZIMMER EINRICHTEN</button><button type="button" onclick="petHelpToggle()">📖 ANLEITUNG</button></div>
+<div class="pet-btns"><button type="button" onclick="petAct('food')">🍎 FÜTTERN</button><button type="button" onclick="petAct('drink')">💧 TRINKEN GEBEN</button><button type="button" onclick="petAct('wash')">🫧 SAUBER MACHEN</button><button type="button" onclick="petAct('care')">❤️ PFLEGEN</button><button type="button" onclick="petPlay()">🎮 SPIELEN</button><button type="button" onclick="petAsk()">💬 FRAGE</button><button type="button" onclick="petTip()">💡 MEDIEN-TIPP</button><button type="button" onclick="petVisitStart(true)">👋 BESUCH EINLADEN</button><button type="button" onclick="petDecoToggle()">🛋️ ZIMMER EINRICHTEN</button><button type="button" onclick="petHelpToggle()">📖 ANLEITUNG</button></div>
 <div id="petHelp" class="pet-deco hidden"></div>
 <div id="petDeco" class="pet-deco hidden"></div><div id="petMeasure"></div>
 <p id="petPts" class="pet-sub"></p><p id="petNext" class="pet-sub"></p>
@@ -2604,6 +2613,8 @@ function dailyStreak(rec,today){
 }
 const CHANGELOG=[
  {d:"02.11.2026",items:[
+  "Avatar pflegen: Dein Avatar jubelt mit Konfetti, wenn du ein neues Level erreicht oder ein Quiz perfekt hast",
+  "Avatar pflegen: Neu – Avatare anderer Kinder kommen zu Besuch (auch per Knopf „Besuch einladen“). Sie begrüßen sich, sagen Gedichte auf, tauschen Witze aus, sprechen über Punkte und den Medienführerschein, spielen Fußball und tanzen. Die Anleitung ist ergänzt",
   "Spielmarken: Für ein perfektes Quiz (alle Fragen richtig) gibt es jetzt 2 Spielmarken statt 5. Die Anleitung bei Snake ist angepasst",
   "Anmeldung: Auch im Anmeldefenster kann das Passwort jetzt mit „Passwort anzeigen“ sichtbar gemacht werden",
   "Anmeldung: Unangemessene Benutzernamen (Schimpfwörter, auch mit Zahlen oder Leerzeichen getarnt) werden nicht mehr angenommen. Die Prüfung läuft in der App und zusätzlich in der Datenbank",
@@ -6104,7 +6115,7 @@ function petIdleStop(){
     if(a)a.textContent="";
 }
 function petIdleStart(kind){
-    if(PET_IDLE.kind||!$("petRoom")||$("petView").classList.contains("hidden")||petSleeping())return;
+    if(PET.visit||PET_IDLE.kind||!$("petRoom")||$("petView").classList.contains("hidden")||petSleeping())return;
     if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return;
     const keys=Object.keys(PET_ACTS);
     if(!kind){const pool=keys.filter(k=>k!==PET_IDLE.last&&(!PET_ACTS[k].when||PET_ACTS[k].when()));kind=pool[Math.floor(Math.random()*pool.length)]}
@@ -6117,8 +6128,122 @@ function petIdleLoop(){
     clearTimeout(PET_IDLE.t);
     PET_IDLE.t=setTimeout(()=>{
         if($("petView").classList.contains("hidden")){petIdleStop();return}
-        petIdleStart();petIdleLoop();
+        if(!PET.visit&&Math.random()<0.35)petVisitStart(false);else petIdleStart();
+        petIdleLoop();
     },(30+Math.random()*50)*1000);
+}
+
+/* ===== Gratulieren und Besuch ===== */
+const PET_POEMS=["Ein Buch, ein Buch, so bunt und fein, / lädt mich in andre Welten ein. / Ich blättre um und lese weiter, / und werde jeden Tag gescheiter.", "Der Regen tanzt am Fensterglas, / ich lese drin und habe Spaß. / Und draußen springt ein Frosch im Nass, / der freut sich auch, das ist doch was!", "Der Igel schnuppert durch das Laub, / er ist nicht blind und ist nicht taub. / Er sucht sich Käfer, Schnecken, Beeren, / und niemand kann ihn dabei stören.", "Der Mond sagt leise: Gute Nacht, / die Sterne haben Wache gemacht. / Ich kuschel mich ins Bett hinein, / und schlafe ganz zufrieden ein.", "Mein Passwort bleibt für mich allein, / so soll es sein, so muss es sein. / Und kommt mir etwas komisch vor, / sag ich es gleich, ich bin kein Tor.", "Ein Lesehelden-Tag ist schön, / da kann man viele Bücher sehn. / Man lacht, man staunt, man rät und denkt, / und ist am Ende reich beschenkt."];
+function petSleepMs(ms,tok){return new Promise(r=>setTimeout(()=>r(PET.visit===tok&&!$("petView").classList.contains("hidden")&&!petSleeping()),ms))}
+function petConfetti(n){
+    const f=$("petFx");if(!f)return;
+    for(let i=0;i<(n||14);i++)setTimeout(()=>{
+        const e=document.createElement("span");e.className="conf";e.textContent=["🎉","🎊","⭐","✨","🥳"][i%5];e.style.left=(5+Math.random()*88)+"%";f.append(e);setTimeout(()=>e.remove(),2500);
+    },i*140);
+}
+function petCheerCheck(){
+    if(!PET.st||petSleeping())return;
+    const s=PET.st,st=stats(),lv=level().level,perf=st.perfect||0;
+    if(!s.cheer||typeof s.cheer.lv!=="number"){s.cheer={lv,perf};petSave();return}
+    let msg="";
+    if(lv>s.cheer.lv)msg="🎉 JUHU, "+user.username+"! Du hast ein neues Level geschafft: Level "+lv+" – "+level().name+"! Ich bin so stolz auf dich!";
+    else if(perf>s.cheer.perf)msg="🥳 JUHU, "+user.username+"! Ein perfektes Quiz – alle Fragen richtig! Das war spitze!";
+    s.cheer={lv,perf};petSave();
+    if(!msg)return;
+    PET.jokeUntil=Date.now()+12000;
+    petSay(msg);
+    const av=$("petAv");av.classList.add("cheer");setTimeout(()=>av.classList.remove("cheer"),3800);
+    petConfetti(16);
+}
+async function petGuestsLoad(){
+    if(PET.guests&&Date.now()-(PET.guestsTs||0)<5*60000)return PET.guests;
+    let list=[];
+    try{
+        const r=await qAv("ranking_stats","user_id,username,points,perfect,done",q=>q.gt("points",0).limit(200));
+        if(!r.error&&r.data)list=r.data.filter(x=>x.user_id!==currentUserId&&norm(x.username)!==norm(user.username));
+    }catch(e){console.error("PET GUESTS",e)}
+    PET.guests=list;PET.guestsTs=Date.now();return list;
+}
+function petPick(a){return a[Math.floor(Math.random()*a.length)]}
+function petVisitScript(g){
+    const me=user.username,gn=g.username,st=stats(),mp=st.points||0,gp=Number(g.points)||0;
+    const lvOf=p=>(LEVELS.filter(x=>p>=x.min).at(-1)||LEVELS[0]).level;
+    const M=t=>({w:"me",t}),G=t=>({w:"g",t});
+    const seg={};
+    seg.poem=()=>{
+        const [a,b]=Math.random()<.5?[M,G]:[G,M],p=petPick(PET_POEMS);
+        return [a("Soll ich dir ein Gedicht aufsagen?"),b("Ja, bitte! Ich höre gern zu."),a("📜 "+p),b("Wunderschön! 👏 Das hat mir gefallen.")];
+    };
+    seg.joke=()=>{
+        const i=Math.floor(Math.random()*PET_JOKES.length);let j=Math.floor(Math.random()*PET_JOKES.length);if(j===i)j=(j+1)%PET_JOKES.length;
+        const [a,b]=Math.random()<.5?[M,G]:[G,M];
+        return [a("Ich kenne einen Witz: "+PET_JOKES[i][0]),a("😄 "+PET_JOKES[i][1]),b("Hihi, der ist gut! 😂 Jetzt ich: "+PET_JOKES[j][0]),b("😄 "+PET_JOKES[j][1]),a("Haha! Den merke ich mir!")];
+    };
+    seg.points=()=>{
+        const gl=lvOf(gp),ml=lvOf(mp),gper=Number(g.perfect)||0,mper=st.perfect||0;
+        const out=[M("Ich habe schon "+mp+" Punkte und bin Level "+ml+"."),G("Ich habe "+gp+" Punkte und bin Level "+gl+".")];
+        out.push(gp>mp?M("Wow, du hast mehr Punkte als ich! Glückwunsch! 👏"):gp<mp?G("Toll gemacht! Ich lese weiter und hole auf. 💪"):M("Wir haben gleich viele Punkte. Wie cool! 🤝"));
+        out.push(M(mper?("Ich habe "+mper+" perfekte Quiz geschafft."):"Ein perfektes Quiz habe ich noch nicht, aber ich übe!"));
+        out.push(G(gper?("Ich habe "+gper+" perfekte Quiz. Alle Fragen richtig, das lohnt sich!"):"Ich übe auch noch für mein erstes perfektes Quiz."));
+        const ach=(user.achievements||[]).length;
+        if(ach)out.push(M("Und ich habe "+ach+" Erfolge freigeschaltet. Das macht Spaß!"));
+        return out;
+    };
+    seg.media=()=>{
+        const t=petTipsPool(),a=petPick(t);let b=petPick(t);if(t.length>1)while(b===a)b=petPick(t);
+        const [x,y]=Math.random()<.5?[M,G]:[G,M];
+        return [x("Im Medienführerschein habe ich gelernt: "+a.t),y("Stimmt! Ich habe gelernt: "+b.t),x("Gut zu wissen! Das merke ich mir. 🧠")];
+    };
+    seg.ball=()=>[M("Wollen wir Fußball spielen?"),G("Ja, gern! Ich bin im Tor!"),{w:"g",t:"⚽ Hier kommt der Ball …",room:"ball"},{w:"me",t:"Schuss! Tooor! 🥅 Super gespielt!",room:"ball"},G("Toller Schuss! Noch eine Runde?")];
+    seg.dance=()=>[G("Ich höre Musik! Wollen wir tanzen?"),M("Au ja! 🎵"),{w:"g",t:"💃 Tanz mit mir!",room:"dance"},{w:"me",t:"🕺 Das macht richtig Spaß!",room:"dance"}];
+    const keys=["poem","joke","points","media","ball","dance"].sort(()=>Math.random()-.5).slice(0,4);
+    const steps=[{w:"g",t:"Hallo "+me+"! Ich bin "+gn+" und besuche dich. 👋",fx:"👋"},{w:"me",t:"Hallo "+gn+"! Schön, dass du da bist! 🤗",fx:"🤗"}];
+    keys.forEach(k=>steps.push(...seg[k]()));
+    steps.push({w:"g",t:"Es war schön bei dir, "+me+"! Bis bald! 👋",fx:"👋"},{w:"me",t:"Tschüss "+gn+"! Komm bald wieder! 💛",fx:"💛"});
+    return steps;
+}
+function petVisitClear(){
+    const pb=$("petBubble");if(pb)pb.style.removeProperty("--tx");
+    const r=$("petRoom");if(r){r.className=r.className.replace(/\bidle-\w+/g,"").replace(/\bvisit\b/g,"").trim()}
+    const a=$("petAct");if(a)a.textContent="";
+    $("petAv")&&$("petAv").classList.remove("talk");
+    const g=$("petGuest");if(g){g.classList.remove("talk");g.classList.add("out");setTimeout(()=>{if(!PET.visit){g.classList.add("hidden");g.classList.remove("out");g.textContent=""}},1500)}
+}
+function petVisitEnd(){PET.visit=null;petVisitClear()}
+async function petVisitStart(manual){
+    if(PET.visit||PET_IDLE.kind)return;
+    if(petSleeping()||$("petView").classList.contains("hidden")){if(manual)petRender();return}
+    if(manual)petSay("Ich schaue, wer zu Besuch kommen kann …");
+    const list=await petGuestsLoad();
+    if(PET.visit||PET_IDLE.kind||$("petView").classList.contains("hidden")||petSleeping())return;
+    if(!list.length){if(manual)petSay("Gerade ist kein anderer Avatar da. Probiere es später noch einmal!");return}
+    const g=petPick(list),tok={};PET.visit=tok;
+    const gv=$("petGuest");
+    gv.innerHTML=avatarSvg(g.avatar,140).replace(/<rect width="100" height="100" fill="[^"]*"\/>/,"");
+    gv.className="pet-av ok";
+    $("petRoom").classList.remove("visit");
+    void gv.offsetWidth;
+    $("petRoom").classList.add("visit");
+    $("petAct").innerHTML='<span class="pa-cap">👋 '+String(g.username).replace(/[<>&]/g,"")+' ist zu Besuch</span>';
+    const steps=petVisitScript(g);
+    for(const st of steps){
+        if(PET.visit!==tok)return;
+        const who=st.w==="me"?user.username:g.username;
+        PET.jokeUntil=Date.now()+14000;
+        const r=$("petRoom");r.className=r.className.replace(/\bidle-\w+/g,"").trim();
+        if(st.room==="ball"){r.classList.add("idle-ball");$("petAct").innerHTML=PET_ACTS.ball.html.replace("Ich spiele mit dem Ball …","⚽ Wir spielen Fußball!")}
+        else if(st.room==="dance"){r.classList.add("idle-dance");$("petAct").innerHTML=PET_ACTS.dance.html.replace("Ich tanze zur Musik …","Wir tanzen!")}
+        else if(!st.room&&/pa-ballx|pa-disco/.test($("petAct").innerHTML))$("petAct").innerHTML='<span class="pa-cap">👋 '+String(g.username).replace(/[<>&]/g,"")+' ist zu Besuch</span>';
+        const me=$("petAv"),gs=$("petGuest");
+        if(!st.room){me.classList.toggle("talk",st.w==="me");gs.classList.toggle("talk",st.w!=="me")}
+        $("petBubble").style.setProperty("--tx",st.w==="me"?"68%":"30%");
+        petSay(who+": "+st.t,null,false);
+        if(st.fx)petFx(st.fx);
+        const ok=await petSleepMs(Math.min(9000,2800+st.t.length*55),tok);
+        if(!ok){if(PET.visit===tok)petVisitEnd();return}
+    }
+    if(PET.visit===tok){PET.visit=null;petVisitClear();petSay("Das war ein schöner Besuch! 💛");PET.jokeUntil=Date.now()+8000}
 }
 function petRender(keepSay){
     if(!PET.st)return;
@@ -6126,7 +6251,7 @@ function petRender(keepSay){
     $("petRoomSvg").innerHTML=petRoomSvg();
     const av=$("petAv");
     av.innerHTML=avatarSvg(avatarCurrent().id,140).replace(/<rect width="100" height="100" fill="[^"]*"\/>/,"");
-    if(sl){av.innerHTML=avatarClosedEyes(av.innerHTML);petIdleStop()}
+    if(sl){av.innerHTML=avatarClosedEyes(av.innerHTML);petIdleStop();if(PET.visit)petVisitEnd()}
     av.className="pet-av "+(sl?"sleep":mood);
     $("petZzz").textContent=sl?"💤":(mood==="sad"?"😢":(mood==="happy"?"":"😐"));
     $("petBars").innerHTML=petBar("HUNGER","🍎",s.h)+petBar("DURST","💧",s.t)+petBar("SAUBERKEIT","🫧",s.c)+petBar("PFLEGE","❤️",s.p);
@@ -6228,6 +6353,8 @@ async function showPet(){
     petIdleStop();
     setTimeout(()=>{if(!$("petView").classList.contains("hidden"))petIdleStart()},7000);
     petIdleLoop();
+    PET.visit=null;petVisitClear();
+    petCheerCheck();
     $("petRoom").onclick=()=>petIdleStart();
     window.scrollTo(0,0);
 }
@@ -6325,6 +6452,11 @@ function petHelpRender(){
         "Pflegen, Füttern, Trinken geben und Sauber machen: je 1 Punkt. Eine richtige Antwort: 3 Punkte und Pflege +10. Ein Snake-Spiel starten: 1 Punkt.",
         "Pro Tag gibt es höchstens "+PET_MAX_DAY+" Punkte. Um Mitternacht beginnt der Zähler neu. Zwischen 22 und 7 Uhr gibt es keine Punkte.",
         "Deine Punkte stehen im Ranking unter „Avatar-Pflege“. Sie zählen nicht zu den Quiz-Punkten und nicht zu deinem Level."
+    ]);
+    sec("GRATULIEREN UND BESUCH",[
+        "🎉 Wenn du ein neues Level erreichst oder ein Quiz perfekt hast (alle Fragen richtig), jubelt dein Avatar beim nächsten Besuch: Er hüpft und es regnet Konfetti.",
+        "👋 Ab und zu kommt der Avatar eines anderen Kindes zu Besuch. Du kannst auch auf „BESUCH EINLADEN“ tippen. Die beiden begrüßen sich und sprechen über ihre Punkte, über den Medienführerschein, sagen Gedichte auf, tauschen Witze aus, spielen Fußball und tanzen.",
+        "Die Gespräche sind nur zum Spaß. Es werden nur Name, Avatar, Punkte und perfekte Quiz des anderen Kindes gezeigt, die auch im Ranking stehen."
     ]);
     sec("SCHLAFEN",[
         "Von 22 Uhr bis 7 Uhr morgens schläft dein Avatar. Das Zimmer ist dunkel, im Fenster steht der Mond und die Knöpfe sind gesperrt. Ab 7 Uhr ist er wieder wach."
