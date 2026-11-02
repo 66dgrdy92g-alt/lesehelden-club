@@ -2492,10 +2492,10 @@ body.theme-ev-weihnacht button.tab-on{background:#2f8f4b !important;box-shadow:0
 <div class="g-actions"><button id="snakeStart" onclick="snakeStart()">[ SPIEL STARTEN (1 MARKE) ]</button><button id="snakePauseBtn" onclick="snakePause()">[ PAUSE ]</button><button id="snakeLeave" type="button" onclick="snakeLeave()">[ ✕ SPIEL VERLASSEN ]</button></div>
 <details class="g-details"><summary>📜 SPIELVERLAUF (<span id="snakeLogCount">0</span>)</summary><div class="g-body"><h4>DIESES SPIEL</h4><div id="snakeLogList" class="g-log"></div><h4>LETZTE SPIELE</h4><div id="snakeHistList"></div></div></details>
 <h3 class="g-sec">RANGLISTE (TOP 20)</h3>
-<div class="g-rankbar"><button id="snakeTabWeek" onclick="snakeTab('week')">[ DIESE WOCHE ]</button><button id="snakeTabAll" onclick="snakeTab('all')">[ FÜR IMMER ]</button></div>
+<div class="g-rankbar"><button id="snakeTabDay" onclick="snakeTab('day')">[ HEUTE ]</button><button id="snakeTabWeek" onclick="snakeTab('week')">[ DIESE WOCHE ]</button><button id="snakeTabAll" onclick="snakeTab('all')">[ FÜR IMMER ]</button></div>
 <div id="snakeRanking"></div>
 <div class="g-sec"><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div></div>
-<div id="rankingView" class="box hidden"><h2>RANKING</h2><button id="rkTabQuiz" onclick="rankTab('quiz')">[ QUIZ-PUNKTE ]</button><button id="rkTabPerfect" onclick="rankTab('perfect')">[ PERFEKTE QUIZ ]</button><button id="rkTabGame" onclick="rankTab('game')">[ SPIEL ]</button><button id="rkTabLic" onclick="rankTab('lic')">🎓 MEDIENFÜHRERSCHEIN</button><button id="rkTabPet" onclick="rankTab('pet')">AVATAR-PFLEGE</button><div id="rankSub" class="hidden"><button id="rkSubWeek" onclick="snakeTab('week')">[ DIESE WOCHE ]</button><button id="rkSubAll" onclick="snakeTab('all')">[ FÜR IMMER ]</button></div><div id="rankList"></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
+<div id="rankingView" class="box hidden"><h2>RANKING</h2><button id="rkTabQuiz" onclick="rankTab('quiz')">[ QUIZ-PUNKTE ]</button><button id="rkTabPerfect" onclick="rankTab('perfect')">[ PERFEKTE QUIZ ]</button><button id="rkTabGame" onclick="rankTab('game')">[ SPIEL ]</button><button id="rkTabLic" onclick="rankTab('lic')">🎓 MEDIENFÜHRERSCHEIN</button><button id="rkTabPet" onclick="rankTab('pet')">AVATAR-PFLEGE</button><div id="rankSub" class="hidden"><button id="rkSubDay" onclick="snakeTab('day')">[ HEUTE ]</button><button id="rkSubWeek" onclick="snakeTab('week')">[ DIESE WOCHE ]</button><button id="rkSubAll" onclick="snakeTab('all')">[ FÜR IMMER ]</button></div><div id="rankList"></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
 <div id="learnUnitView" class="box hidden"><h2 id="learnUnitTitle"></h2><div class="status" id="learnUnitInfo"></div><div id="learnUnitBody"></div><button onclick="showLearning()">[ ZURÜCK ZUM LERNEN ]</button></div>
 <div id="learnBookView" class="box hidden"><h2 id="lbTitle"></h2><div class="status" id="lbInfo"></div><div id="lbBody"></div></div>
 <div id="learnTestView" class="box hidden"><h2>ABSCHLUSSTEST MEDIENKOMPETENZ</h2><div class="status" id="learnTestInfo"></div><div id="learnTestBody"></div><button onclick="showLearning()">[ ZURÜCK ZUM LERNEN ]</button></div>
@@ -2567,6 +2567,7 @@ function dailyStreak(rec,today){
 }
 const CHANGELOG=[
  {d:"01.11.2026",items:[
+  "Snake: Neue Tages-Rangliste „Heute“ (Top 20). Jedes beendete Spiel zählt einzeln – ein Spieler kann also mehrmals in der Liste stehen. Am nächsten Tag beginnt sie neu",
   "Lernen: Das Buch „Jessi und Dodo – Die Medien-Detektive“ (12 Fälle) steht oben im Lernbereich und kann in der App gelesen werden",
   "Hauptmenü: beide Fortschrittsbalken haben jetzt einen Namen; neu ist der Balken „Lern-Fortschritt“ unter dem Punkte-Balken",
   "Spiel (Snake): Im Weltraum-Design war die erste Antwort bei der Wiederbelebungs-Frage kaum lesbar – jetzt gut lesbar",
@@ -4050,27 +4051,39 @@ async function gameDailyBonus(){
     return true;
 }
 function snakeTab(t){SN.rankTab=t;renderSnakeRanking()}
+/* Tages-Rangliste: jedes beendete Spiel wird einzeln gespeichert (Tabelle snake_runs) */
+async function snakeRunSave(){
+    if(!currentUserId||!(SN.score>0)||SN.runSaved)return;
+    SN.runSaved=true;
+    const row={user_id:currentUserId,username:user.username,score:SN.score,level:SN.level,books:SN.eaten,play_date:snakeToday()};
+    try{
+        let {error}=await sb.from("snake_runs").insert({...row,avatar:(typeof avatarCurrent==="function"?avatarCurrent().id:"a00")});
+        if(error&&/avatar/i.test(error.message||""))({error}=await sb.from("snake_runs").insert(row));
+        if(error){console.error("SNAKE RUN",error);snakeLastError="TAGES-RANGLISTE: "+(error.message||String(error))}
+    }catch(e){console.error(e)}
+}
 async function renderSnakeRanking(){
     const box=$(SN.rankBox||"snakeRanking");box.textContent="LADE …";
-    const week=SN.rankTab==="week";
-    [["snakeTabWeek",week],["snakeTabAll",!week],["rkSubWeek",week],["rkSubAll",!week]].forEach(([id,on])=>{const b=$(id);if(b){b.style.background=on?"#00ff00":"";b.style.color=on?"#000":"";b.classList.toggle("tab-on",!!on)}});
+    const day=SN.rankTab==="day",week=SN.rankTab==="week";
+    [["snakeTabDay",day],["rkSubDay",day],["snakeTabWeek",week],["snakeTabAll",!week&&!day],["rkSubWeek",week],["rkSubAll",!week&&!day]].forEach(([id,on])=>{const b=$(id);if(b){b.style.background=on?"#00ff00":"";b.style.color=on?"#000":"";b.classList.toggle("tab-on",!!on)}});
     try{
         const mod=q=>{
-            if(week)q=q.eq("week_start",snakeWeekStart()).gt("week_score",0).order("week_score",{ascending:false});
+            if(day)q=q.eq("play_date",snakeToday()).gt("score",0).order("score",{ascending:false}).order("created_at",{ascending:true});
+            else if(week)q=q.eq("week_start",snakeWeekStart()).gt("week_score",0).order("week_score",{ascending:false});
             else q=q.gt("best_score",0).order("best_score",{ascending:false});
             return q.limit(20);
         };
-        const {data,error}=await qAv("snake_players","username,best_score,week_score,plays",mod);
+        const {data,error}=await qAv(day?"snake_runs":"snake_players",day?"username,score,created_at":"username,best_score,week_score,plays",mod);
         box.textContent="";
         const note=document.createElement("div");note.className="status";
-        note.textContent=week?"WOCHEN-RANGLISTE – WIRD JEDEN MONTAG ZURÜCKGESETZT":"RANGLISTE FÜR IMMER – BESTE PUNKTZAHL ALLER ZEITEN";
+        note.textContent=day?"TAGES-RANGLISTE (TOP 20) – JEDES SPIEL ZÄHLT, JEDEN TAG NEU":week?"WOCHEN-RANGLISTE – WIRD JEDEN MONTAG ZURÜCKGESETZT":"RANGLISTE FÜR IMMER – BESTE PUNKTZAHL ALLER ZEITEN";
         box.append(note);
         if(snakeLastError){const m=document.createElement("div");m.className="error";m.textContent="FEHLER BEIM EINTRAGEN: "+snakeLastError;box.append(m)}
-        if(error||!data||!data.length){const m=document.createElement("div");m.textContent=error?"RANGLISTE NOCH NICHT VERFÜGBAR: "+(error.message||""):"NOCH KEIN EINTRAG. SEI DER ERSTE!";box.append(m);return}
+        if(error||!data||!data.length){const m=document.createElement("div");m.textContent=error?"RANGLISTE NOCH NICHT VERFÜGBAR: "+(error.message||""):(day?"HEUTE HAT NOCH NIEMAND GESPIELT. SEI DER ERSTE!":"NOCH KEIN EINTRAG. SEI DER ERSTE!");box.append(m);return}
         data.forEach((r,i)=>{
             const d=document.createElement("div");d.className="rank";
             const me=norm(r.username)===norm(user.username);
-            rankLine(d,(i+1)+". "+(i===0?"👑 ":""),r.username," – "+(week?r.week_score:r.best_score)+" PUNKTE",r.avatar,me);
+            rankLine(d,(i+1)+". "+(i===0?"👑 ":""),r.username," – "+(day?r.score:week?r.week_score:r.best_score)+" PUNKTE",r.avatar,me);
             if(me)d.classList.add("success");
             box.append(d);
         });
@@ -4096,6 +4109,7 @@ async function showGame(){
     renderSnakeRanking();
 }
 function snakeReset(){
+    SN.runSaved=false;
     clearInterval(SN.timer);SN.timer=null;
     clearInterval(SN.cd);SN.cd=null;SN.count=0;$("gameView").classList.remove("over");
     SN.running=false;SN.paused=false;SN.over=false;SN.asking=false;SN.revived=false;
@@ -4287,7 +4301,7 @@ function snakeEnd(){
     snakeLog("🏁 Spielende: "+SN.score+" Punkte, Level "+SN.level+", "+SN.eaten+" Bücher"+(rec?" – NEUER REKORD 🏆":"")+(fresh.length?" – Neuer Erfolg: "+fresh.join(", "):""));
     snakeHistAdd({d:new Date().toLocaleString("de-DE",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}),score:SN.score,level:SN.level,books:SN.eaten,rec});
     snakeRenderLog();
-    save();gameSync().then(renderSnakeRanking);
+    save();gameSync().catch(()=>{}).then(snakeRunSave).then(renderSnakeRanking);
     $("snakeMsg").textContent="GAME OVER!\n"+SN.score+" PUNKTE"+(rec?" – NEUER REKORD! 🏆":"")+(fresh.length?"\n🎖 NEUER ERFOLG: "+fresh.join(", ")+" (URKUNDE UNTER ERFOLGE)":"")+"\nFÜR EIN NEUES SPIEL BRAUCHST DU 1 MARKE.";
     snakeDraw();snakeUpdateInfo();
 }
