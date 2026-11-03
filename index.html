@@ -1167,6 +1167,34 @@ body[class*="theme-"] .club-badge-dos{display:none}
 #booksView #bookAlphabet{gap:4px;margin:0}
 #booksView #bookAlphabet button{min-width:32px;padding:4px 6px!important;font-size:.8em!important;min-height:0!important}
 @media(max-width:600px){#booksView #bookAlphabet button{min-width:30px}}
+
+.tk-badge{display:inline-block;min-width:1.5em;padding:0 .45em;border-radius:999px;background:#d62828;color:#fff!important;font-size:.8em;font-weight:800;text-align:center;line-height:1.5;vertical-align:middle}
+.tk-badge.hidden{display:none}
+#ticketView .tk-item{display:block;width:100%;text-align:left;margin:10px 0;padding:10px 14px}
+#ticketView .tk-top{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;justify-content:space-between}
+#ticketView .tk-title{font-size:1em}
+#ticketView .tk-dot{background:#d62828;color:#fff!important;border-radius:999px;padding:2px 10px;font-size:.75em;font-weight:800}
+#ticketView .tk-chips{margin:6px 0 2px}
+#ticketView .tk-chip{display:inline-block;margin:2px 6px 2px 0;padding:2px 10px;border:2px solid currentColor;border-radius:999px;font-size:.75em;font-weight:800}
+#ticketView .tk-chip.s-new{background:#ffe9a8;color:#5c4400!important;border-color:#5c4400}
+#ticketView .tk-chip.s-progress{background:#cfe6ff;color:#0b3a6b!important;border-color:#0b3a6b}
+#ticketView .tk-chip.s-done{background:#d4f5dd;color:#14532d!important;border-color:#14532d}
+#ticketView .tk-chip.s-rejected{background:#e6e6e6;color:#444!important;border-color:#444}
+#ticketView .tk-chip.p-urgent{background:#ffd9d9;color:#7f1d1d!important;border-color:#7f1d1d}
+#ticketView .tk-chip.p-high{background:#ffe0c2;color:#7a3a00!important;border-color:#7a3a00}
+#ticketView .tk-chip.p-low{background:#f1f1f1;color:#555!important;border-color:#555}
+#ticketView .tk-date{font-size:.8em;opacity:.8;margin:2px 0}
+#ticketView .tk-box{border:2px dashed currentColor;border-radius:12px;padding:10px 14px;margin:12px 0}
+#ticketView .tk-pre{white-space:pre-wrap;word-break:break-word}
+#ticketView .tk-cm{border-left:4px solid currentColor;padding:2px 12px;margin:10px 0}
+#ticketView .tk-cm.internal{border-left-style:dashed;opacity:.85}
+#ticketView .tk-form input,#ticketView .tk-form textarea,#ticketView .tk-form select,#ticketView .tk-staff textarea,#ticketView .tk-staff select{display:block;width:100%;max-width:none;margin:0 0 12px}
+#ticketView .tk-cats .tk-cat.on{background:#00ff00;color:#000}
+.theme-blatt #ticketView .tk-cats .tk-cat.on{background:#ffe066!important;color:#111!important}
+#ticketView .tk-check{display:block;margin:6px 0 10px}
+#ticketView .tk-cats{margin:0 0 16px}
+#ticketView .tk-filter{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:600px){#ticketView .tk-filter{grid-template-columns:1fr}}
 .lib-filters{margin:12px 0}
 .lib-filters #bookSearch{display:block;width:100%;max-width:none;margin:0 0 14px}
 .lib-group{margin-bottom:14px}
@@ -2460,6 +2488,8 @@ body button.tab-on{background:#2ecc71 !important;color:#000 !important;font-weig
 <h3 class="m-title">⚙️ KONTO</h3>
 <div class="m-grid">
 <button class="m-btn" onclick="showSettings()"><span class="m-ico">🎨</span>EINSTELLUNGEN</button>
+<button id="ticketButton" class="m-btn" onclick="showTickets()"><span class="m-ico">🎫</span>TICKET MELDEN <span id="ticketBadge" class="tk-badge hidden"></span></button>
+<button id="ticketStaffButton" class="m-btn hidden" onclick="showTicketsStaff()"><span class="m-ico">🗂️</span>TICKETS VERWALTEN <span id="ticketStaffBadge" class="tk-badge hidden"></span></button>
 <button id="adminManageButton" class="m-btn hidden" onclick="showUserManagement()"><span class="m-ico">👥</span>BENUTZERVERWALTUNG</button>
 <button class="m-btn" onclick="logout()"><span class="m-ico">🚪</span>ABMELDEN</button>
 </div>
@@ -2563,6 +2593,7 @@ body button.tab-on{background:#2ecc71 !important;color:#000 !important;font-weig
 <div id="passwordPanel" class="box hidden"><h2>PASSWORT ÄNDERN</h2><label>AKTUELLES PASSWORT:</label><br><input id="currentPassword" type="password"><br><label>NEUES PASSWORT:</label><br><input id="newPassword" type="password"><br><label>NEUES PASSWORT WIEDERHOLEN:</label><br><input id="newPasswordRepeat" type="password"><br><small class="pw-hint">TIPP: DREI WÖRTER, MINDESTENS 8 ZEICHEN.</small><br><button type="button" onclick="togglePw(['newPassword','newPasswordRepeat'],this)">👁 PASSWORT ANZEIGEN</button><br><button onclick="changePassword()">[ PASSWORT SPEICHERN ]</button><p id="passwordStatus"></p><button onclick="showSettings()">[ ZURÜCK ]</button></div>
 <div id="designPanel" class="box hidden"><h2>DESIGN AUSWAHL</h2><p>Dein Design wird in deinem Konto gespeichert und beim Anmelden automatisch geladen. Zeitlich begrenzte Event-Designs findest du bei den Avataren.</p><div id="themeSwitcher"><button onclick="chooseTheme('blatt')">COLLEGE BOOK</button> <button onclick="chooseTheme('maerchen')">MÄRCHENBUCH</button> <button onclick="chooseTheme('miami')">MIAMI</button> <button onclick="chooseTheme('kids')">KUNTERBUNT</button> <button onclick="chooseTheme('pirat')">PIRATEN</button> <button onclick="chooseTheme('meer')">UNTERWASSER</button> <button onclick="chooseTheme('space')">WELTRAUM</button> <button onclick="chooseTheme('dos')">DOS</button></div><p id="themeStatus"></p><button onclick="showSettings()">[ ZURÜCK ]</button></div>
 <div id="adminPanel" class="box hidden"><h2>BENUTZERVERWALTUNG</h2><h3>REGISTRIERTE NUTZER</h3><p id="registeredUserSummary"></p><div id="registeredUserOverview"></div><h3>ROLLEN UND PASSWÖRTER</h3><p>Rolle auswählen und bei Bedarf ein neues Passwort eintragen.</p><div id="adminUserList"></div><p id="adminStatus"></p><h3>PUNKTE PRÜFEN</h3><p>Vergleicht für jedes Kind die gespeicherten Ergebnisse mit den Punkten im Ranking und zeigt Abweichungen.</p><button type="button" onclick="adminCheckPoints()">[ PUNKTE PRÜFEN ]</button><p id="pcSummary"></p><div id="pcList"></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
+<div id="ticketView" class="box hidden"><h2 id="tkHeading">🎫 TICKETS</h2><div id="tkBody"></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div>
 <div id="bookManagePanel" class="box hidden"><h2 id="bookManageHeading">NEUES BUCH UND QUIZ</h2><div id="importExportPanel" class="import-export"><h3>IMPORT UND EXPORT</h3><p>Die gesamte Bibliothek mit allen Quizfragen als Excel-kompatible CSV-Datei sichern oder neue Bücher einlesen.</p><button type="button" onclick="downloadImportTemplate()">[ EXCEL-IMPORTVORLAGE HERUNTERLADEN ]</button><button type="button" onclick="exportBooksAndQuizzes()">[ GESAMTE BIBLIOTHEK EXPORTIEREN ]</button><button type="button" onclick="$('bookQuizImport').click()">[ EXCEL-CSV IMPORTIEREN ]</button><p>Eine Zeile entspricht einer Quizfrage. Die richtige Antwort wird mit A, B, C oder D angegeben.</p><input id="bookQuizImport" type="file" accept=".csv,text/csv" onchange="importBooksAndQuizzes(this)"><p id="bookImportStatus"></p></div><label>TITEL:</label><br><input id="newBookTitle" placeholder="Buchtitel"><br><label>AUTOR:</label><br><input id="newBookAuthor" placeholder="Autor"><br><label>ISBN:</label><br><input id="newBookIsbn" placeholder="z. B. 978-3-..."><br><label>SCHWIERIGKEITSGRAD:</label><br><select id="newBookDifficulty"><option value="1">1 – 1 Punkt pro richtige Antwort</option><option value="2">2 – 2 Punkte pro richtige Antwort</option><option value="3">3 – 3 Punkte pro richtige Antwort</option></select><br><h3>QUIZ-FRAGEN</h3><div id="questionEditors"></div><button onclick="addQuestionEditor()">[ FRAGE HINZUFÜGEN ]</button><br><button id="bookSaveButton" onclick="addBookAndQuiz()">[ BUCH UND QUIZ SPEICHERN ]</button><p id="bookManageStatus"></p><div id="textEditor" class="hidden"><h3>LESETEXT (NUR GEMEINFREI!)</h3><p id="textEditorInfo"></p><label>TEXTDATEI (.TXT, UTF-8):</label><input id="textFile" type="file" accept=".txt,text/plain"><label>QUELLE (WEBADRESSE ODER NAME):</label><input id="textSource" placeholder="z. B. gutenberg.org, Nr. 12345"><label>ÜBERSETZER / AUSGABE:</label><input id="textTranslator" placeholder="z. B. Originaltext oder Name und Jahr"><label>LIZENZ:</label><input id="textLicense" value="Gemeinfrei"><label style="display:flex;gap:8px;align-items:flex-start"><input id="textCheck" type="checkbox" style="width:auto;margin-top:6px"> ICH HABE GEPRÜFT: AUTOR UND ÜBERSETZER SIND SEIT MEHR ALS 70 JAHREN TOT.</label><button type="button" onclick="saveBookText()">[ LESETEXT SPEICHERN ]</button><button type="button" onclick="deleteBookText()">[ LESETEXT LÖSCHEN ]</button><p id="textStatus"></p></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div><div id="booksView" class="box hidden"><h2>VERFÜGBARE BÜCHER</h2><div class="lib-counts"><span class="lib-chip">📚 BÜCHER <b id="bookCount"></b></span><span class="lib-chip">📝 QUIZ <b id="quizCount"></b></span><span class="lib-chip">❓ FRAGEN <b id="questionCount"></b></span></div><details class="lib-fold" open><summary>🔎 SUCHEN UND FILTERN</summary><div class="lib-filters"><input id="bookSearch" type="search" placeholder="Titel oder Autor suchen" oninput="bookPage=1;renderBookList()"><div class="lib-group"><span class="lib-label">STATUS</span><div class="lib-row"><button id="newBooksFilter" type="button" onclick="toggleNewBooksFilter()" title="Bücher der letzten 30 Tage">[ NEU ]</button><button id="readBooksFilter" type="button" onclick="toggleReadBooksFilter()">[ GELESEN ]</button><button id="openQuizFilter" type="button" onclick="toggleOpenQuizFilter()">[ QUIZ OFFEN ]</button><button id="completedQuizFilter" type="button" onclick="toggleCompletedQuizFilter()">[ QUIZ FERTIG ]</button><button id="improveFilter" type="button" onclick="toggleFilter('improve')">[ VERBESSERBAR ]</button></div></div><div class="lib-selects"><div><label for="bookDifficulty" class="lib-label">SCHWIERIGKEIT</label><select id="bookDifficulty" onchange="bookPage=1;renderBookList()"><option value="0">ALLE</option><option value="1">LEICHT (1)</option><option value="2">MITTEL (2)</option><option value="3">SCHWER (3)</option></select></div><div><label for="bookSort" class="lib-label">SORTIERUNG</label><select id="bookSort" onchange="bookPage=1;renderBookList()"><option value="title">TITEL A–Z</option><option value="author">AUTOR A–Z</option><option value="easy">LEICHT ZUERST</option><option value="hard">SCHWER ZUERST</option></select></div><button type="button" onclick="resetBookFilters()">[ FILTER LÖSCHEN ]</button></div><div class="lib-group lib-az"><span class="lib-label">ANFANGSBUCHSTABE</span><div id="bookAlphabet" class="book-alphabet" aria-label="Schnellauswahl nach Anfangsbuchstaben"></div></div></div></details><p id="bookFilterStatus" class="hidden"></p><p id="bookSearchEmpty" class="hidden">KEINE PASSENDEN BÜCHER.</p><div id="bookList"></div><div id="bookPagination" class="book-pagination"></div></div>
 <div id="readLibView" class="box hidden"><h2>📜 JETZT LESEN</h2><p>Diese Bücher kannst du gleich hier lesen. Alle Texte sind <strong>gemeinfrei</strong>, das heißt: Jeder darf sie kostenlos lesen und weitergeben.</p><p class="rl-src">Die Texte stammen von <strong>Project Gutenberg</strong> (<a href="https://www.gutenberg.org" target="_blank" rel="noopener noreferrer">gutenberg.org</a>), einer Bibliothek mit freien Büchern. Bei jedem Buch steht die genaue Quelle.</p><div id="readLibList"></div><button onclick="showMenu()">[ ZUM HAUPTMENÜ ]</button></div><div id="readerView" class="box hidden"><h2 id="readerTitle"></h2><p id="readerAuthor" class="rd-sub"></p><div class="rd-tools"><button type="button" onclick="readerFont(-1)" aria-label="Schrift kleiner">[ A− ]</button><button type="button" onclick="readerFont(1)" aria-label="Schrift größer">[ A+ ]</button><button type="button" onclick="readerGo(-1)">[ ◀ ZURÜCK ]</button><button type="button" onclick="readerGo(1)">[ WEITER ▶ ]</button></div><div class="progress"><div id="readerBar" class="progress-bar"></div></div><p id="readerPos" class="rd-sub"></p><div id="readerText"></div><div id="readerEnd" class="hidden"><p class="success">🎉 DU BIST AM ENDE! TOLL GELESEN.</p><button id="readerMarkBtn" type="button"></button><button id="readerQuizBtn" type="button">[ QUIZ STARTEN ]</button></div><div class="rd-tools"><button type="button" onclick="readerGo(-1)">[ ◀ ZURÜCK ]</button><button type="button" onclick="readerGo(1)">[ WEITER ▶ ]</button></div><p id="readerSource" class="rd-src"></p><button type="button" onclick="readerClose()">[ ZURÜCK ]</button></div><div id="bookDetailView" class="box hidden"><h2 id="detailBookTitle"></h2><p id="detailBookAuthor"></p><p id="detailBookIsbn"></p><p id="detailReadingStatus" class="status"></p><button id="detailTextButton" type="button" class="hidden">[ 📖 JETZT LESEN ]</button><button id="detailReadButton" type="button">[ ALS GELESEN MARKIEREN ]</button><button id="detailQuizButton">[ QUIZ STARTEN ]</button><button id="detailEditButton" class="hidden" type="button">[ BUCH UND QUIZ BEARBEITEN ]</button><button onclick="showBooks()">[ ZURÜCK ZUR BUCHLISTE ]</button></div>
 <div id="quizView" class="box hidden"><h2 id="bookTitle"></h2><div class="status">FRAGE <span id="questionNumber"></span> VON <span id="questionTotal"></span><br>QUIZ-PUNKTE: <span id="quizPoints">0</span></div><div class="progress"><div id="progressBar" class="progress-bar"></div></div><h3 id="questionText"></h3><div id="answers"></div><p id="answerResult"></p><button id="nextButton" class="hidden" onclick="nextQuestion()">[ WEITER ]</button><button onclick="cancelQuiz()">[ ABBRECHEN ]</button></div>
@@ -2630,6 +2661,7 @@ function dailyStreak(rec,today){
 }
 const CHANGELOG=[
  {d:"03.11.2026",items:[
+  "Neu: Ticketsystem – Im Hauptmenü gibt es „Ticket melden“. Nutzer können Fehler melden, Bücher und Quiz-Fragen vorschlagen oder eine Idee schicken und sehen den Stand (Neu, In Bearbeitung, Erledigt, Abgelehnt) mit Antworten. Admins sehen alle Tickets, setzen die Priorität und weisen Tickets zu. Moderatoren sehen und übernehmen nur Buch- und Quiz-Tickets",
   "Verfügbare Bücher: Die Suche ist übersichtlicher – Zahlen als kleine Schilder, Suchen und Filtern in einem Rahmen (zum Einklappen), kleinere Filterknöpfe und der A–Z-Streifen mit der Überschrift „Anfangsbuchstabe“ im Filter",
   "Feuerwerk: Es gibt ein Feuerwerk bei jedem perfekten Quiz, bei jeder richtigen Antwort im Quiz des Tages und in Snake bei einem neuen Rekord oder einem Platz in der Tages-Rangliste (Top 20)"
  ]},
@@ -4085,7 +4117,7 @@ $("achievementCount").textContent =
 $("achievementTotal").textContent =
     ACHIEVEMENTS.length;
 
-    $("adminManageButton").classList.toggle("hidden",user.role!=="admin");$("bookManageButton").classList.toggle("hidden",!["admin","moderator"].includes(user.role));if(user.role==="admin"){renderRegisteredUserOverview();renderUsers()}$("bookCount").textContent=books.length;$("quizCount").textContent=books.length;$("questionCount").textContent=books.reduce((n,b)=>n+b.questions.length,0)}
+    $("adminManageButton").classList.toggle("hidden",user.role!=="admin");$("ticketStaffButton").classList.toggle("hidden",!["admin","moderator"].includes(user.role));if(typeof ticketBadgeRefresh==="function")ticketBadgeRefresh();$("bookManageButton").classList.toggle("hidden",!["admin","moderator"].includes(user.role));if(user.role==="admin"){renderRegisteredUserOverview();renderUsers()}$("bookCount").textContent=books.length;$("quizCount").textContent=books.length;$("questionCount").textContent=books.reduce((n,b)=>n+b.questions.length,0)}
 
     async function renderUsers(){let box=$("adminUserList");box.textContent="";const { data: users, error } = await sb
     .from("profiles")
@@ -4116,6 +4148,263 @@ btn.onclick = async()=>{
 ;d.append(name,sel,btn);box.append(d)})}
 /* ===== SNAKE ===== */
 const SN={cols:20,rows:16,cell:20,timer:null,running:false,paused:false,over:false,asking:false,revived:false,snake:[],dir:{x:1,y:0},queue:[],food:null,bonus:null,walls:[],score:0,level:1,eaten:0,ticks:0,rankTab:"week"};
+/* ===== Ticketsystem ===== */
+const TK_CAT={bug:"🐞 FEHLER",book:"📚 BUCH",quiz:"📝 QUIZ",idea:"💡 IDEE"};
+const TK_ST={new:"NEU",progress:"IN BEARBEITUNG",done:"ERLEDIGT",rejected:"ABGELEHNT"};
+const TK_PR={low:"NIEDRIG",normal:"NORMAL",high:"HOCH",urgent:"DRINGEND"};
+const TK_PRW={urgent:0,high:1,normal:2,low:3};
+const TK={mode:"mine",list:[],staff:null,f:{st:"open",cat:"all",who:"all"},badgeTs:0,newCat:"bug"};
+function tkEl(tag,txt,cls){const e=document.createElement(tag);if(txt!=null)e.textContent=txt;if(cls)e.className=cls;return e}
+function tkDate(s){try{return new Date(s).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}catch(e){return ""}}
+function tkIsStaff(){return user&&(user.role==="admin"||user.role==="moderator")}
+function tkCanStaff(t){return user&&(user.role==="admin"||(user.role==="moderator"&&(t.category==="book"||t.category==="quiz")))}
+function tkChip(txt,cls){return tkEl("span",txt,"tk-chip "+cls)}
+function tkMsg(box,txt,ok){const m=tkEl("p",txt,ok?"success":"error");box.append(m);return m}
+function tkNeedsSeen(t){return !!t.reply_at&&(!t.user_seen_at||new Date(t.reply_at)>new Date(t.user_seen_at))}
+function tkOpenView(){
+    hideViews();$("ticketView").classList.remove("hidden");window.scrollTo(0,0);
+}
+async function showTickets(){
+    TK.mode="mine";tkOpenView();
+    $("tkHeading").textContent="🎫 MEINE TICKETS";
+    const b=$("tkBody");b.textContent="";b.append(tkEl("p","LADE …"));
+    let data=[],err=null;
+    try{const r=await sb.from("tickets").select("*").eq("user_id",currentUserId).order("created_at",{ascending:false}).limit(100);data=r.data||[];err=r.error}catch(e){err=e}
+    TK.list=data;tkRenderMine(err);
+}
+function tkRenderMine(err){
+    const b=$("tkBody");b.textContent="";
+    const help=document.createElement("details");help.className="g-details tk-help";
+    help.append(tkEl("summary","❓ SO FUNKTIONIERT'S"));
+    const hb=tkEl("div",null,"g-body");
+    [["Hier kannst du uns etwas melden:","ul",["🐞 Fehler: Etwas in der App funktioniert nicht richtig.","📚 Buch: Du wünschst dir ein neues Buch in der Bibliothek.","📝 Quiz: Du hast eine Frage für ein Buch-Quiz.","💡 Idee: Du hast einen Vorschlag für die App."]],
+     ["Danach kümmern sich die Admins und Moderatoren darum. Hier siehst du, wie es steht: NEU, IN BEARBEITUNG, ERLEDIGT oder ABGELEHNT. Wenn es eine Antwort gibt, siehst du einen roten Punkt.","p"],
+     ["Du kannst höchstens 5 offene Tickets gleichzeitig haben. Schreibe bitte freundlich und gib keine privaten Daten wie Adresse oder Telefonnummer an.","p"]].forEach(x=>{
+        if(x[1]==="p"){hb.append(tkEl("p",x[0]));return}
+        hb.append(tkEl("p",x[0]));const ul=tkEl("ul");x[2].forEach(l=>ul.append(tkEl("li",l)));hb.append(ul)});
+    help.append(hb);b.append(help);
+    const nb=tkEl("button","➕ NEUES TICKET");nb.type="button";nb.onclick=tkNewForm;b.append(nb);
+    if(err){tkMsg(b,"TICKETS KONNTEN NICHT GELADEN WERDEN. HAT DER ADMIN DAS SQL AUSGEFÜHRT? "+(err.message||""))}
+    else if(!TK.list.length)b.append(tkEl("p","DU HAST NOCH KEIN TICKET."));
+    TK.list.forEach(t=>b.append(tkItem(t,false)));
+}
+function tkItem(t,staff){
+    const bt=tkEl("button",null,"tk-item");bt.type="button";
+    const top=tkEl("div",null,"tk-top");
+    top.append(tkEl("strong",t.title,"tk-title"));
+    if(!staff&&tkNeedsSeen(t))top.append(tkEl("span","● NEUE ANTWORT","tk-dot"));
+    bt.append(top);
+    const row=tkEl("div",null,"tk-chips");
+    row.append(tkChip(TK_CAT[t.category]||t.category,"c"),tkChip(TK_ST[t.status]||t.status,"s-"+t.status));
+    if(staff){row.append(tkChip(TK_PR[t.priority]||t.priority,"p-"+t.priority));if(t.assigned_name)row.append(tkChip("→ "+t.assigned_name,"c"))}
+    bt.append(row);
+    bt.append(tkEl("div",(staff?"VON "+t.username+" · ":"")+tkDate(t.created_at),"tk-date"));
+    bt.onclick=()=>tkOpen(t.id);
+    return bt;
+}
+/* ---------- Neues Ticket ---------- */
+function tkNewForm(){
+    $("tkHeading").textContent="➕ NEUES TICKET";
+    const b=$("tkBody");b.textContent="";
+    b.append(tkEl("label","WORUM GEHT ES?","lib-label"));
+    const row=tkEl("div",null,"lib-row tk-cats");
+    Object.keys(TK_CAT).forEach(k=>{const x=tkEl("button",TK_CAT[k]);x.type="button";x.className=TK.newCat===k?"tk-cat on":"tk-cat";x.onclick=()=>{TK.newCat=k;tkNewForm()};row.append(x)});
+    b.append(row);
+    const f=tkEl("div",null,"tk-form");b.append(f);
+    const inp=(id,label,ph,max,multi)=>{
+        f.append(tkEl("label",label,"lib-label"));
+        const e=document.createElement(multi?"textarea":"input");e.id=id;e.maxLength=max;e.placeholder=ph||"";if(multi){e.rows=4}
+        f.append(e);return e};
+    const c=TK.newCat;
+    if(c==="bug"){inp("tkT","KURZ: WAS IST DAS PROBLEM?","z. B. Quiz lässt sich nicht starten",80);inp("tkB","WAS IST PASSIERT UND WO?","Beschreibe es so genau wie möglich",1000,true)}
+    if(c==="idea"){inp("tkT","DEINE IDEE IN KURZ","z. B. Mehr Abzeichen",80);inp("tkB","ERKLÄRE SIE UNS","Was soll die App können?",1000,true)}
+    if(c==="book"){inp("tkBk","TITEL DES BUCHES","z. B. Ronja Räubertochter",80);inp("tkAu","AUTOR (WENN DU ES WEISST)","z. B. Astrid Lindgren",60);inp("tkB","WARUM SOLL ES REIN? (FREIWILLIG)","",500,true)}
+    if(c==="quiz"){
+        inp("tkBk","ZU WELCHEM BUCH?","Titel des Buches",80);inp("tkQ","DEINE FRAGE","Wer ...? Was ...? Wie ...?",200);
+        ["A","B","C","D"].forEach(l=>inp("tkA"+l,"ANTWORT "+l,"",100));
+        f.append(tkEl("label","WELCHE ANTWORT IST RICHTIG?","lib-label"));
+        const s=document.createElement("select");s.id="tkRight";[["","BITTE WÄHLEN"],["A","A"],["B","B"],["C","C"],["D","D"]].forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t;s.append(o)});f.append(s);
+        inp("tkB","HINWEIS (FREIWILLIG)","",500,true);
+    }
+    const msg=tkEl("div");
+    const send=tkEl("button","[ TICKET ABSENDEN ]");send.type="button";send.onclick=()=>tkSubmit(msg,send);
+    const back=tkEl("button","[ ZURÜCK ]");back.type="button";back.onclick=showTickets;
+    b.append(send,back,msg);
+}
+async function tkSubmit(msg,btn){
+    msg.textContent="";
+    const g=id=>{const e=$(id);return e?e.value.trim():""};
+    const c=TK.newCat;let title="",body=g("tkB"),details=null,err="";
+    if(c==="bug"||c==="idea"){title=g("tkT");if(title.length<3)err="BITTE SCHREIBE EINE KURZE ÜBERSCHRIFT (MINDESTENS 3 ZEICHEN).";else if(c==="bug"&&body.length<5)err="BITTE BESCHREIBE, WAS PASSIERT IST.";else if(c==="idea"&&body.length<5)err="BITTE ERKLÄRE DEINE IDEE."}
+    if(c==="book"){const t=g("tkBk");if(t.length<2)err="BITTE SCHREIBE DEN TITEL DES BUCHES.";title="Buchvorschlag: "+t;details={title:t,author:g("tkAu")}}
+    if(c==="quiz"){
+        const bk=g("tkBk"),q=g("tkQ"),a=["A","B","C","D"].map(l=>g("tkA"+l)),r=g("tkRight");
+        if(bk.length<2)err="BITTE SCHREIBE, ZU WELCHEM BUCH DIE FRAGE GEHÖRT.";
+        else if(q.length<5)err="BITTE SCHREIBE DEINE FRAGE.";
+        else if(a.some(x=>!x))err="BITTE FÜLLE ALLE VIER ANTWORTEN AUS.";
+        else if(!r)err="BITTE WÄHLE DIE RICHTIGE ANTWORT.";
+        title="Quiz-Vorschlag: "+bk;details={book:bk,question:q,answers:a,right:r};
+    }
+    if(err){tkMsg(msg,err);return}
+    btn.disabled=true;
+    try{
+        const {error}=await sb.from("tickets").insert({user_id:currentUserId,category:c,title:title.slice(0,120),body,details});
+        if(error){
+            tkMsg(msg,/zu viele/i.test(error.message||"")?"DU HAST SCHON 5 OFFENE TICKETS. WARTE BITTE, BIS EINES ERLEDIGT IST.":"TICKET KONNTE NICHT GESENDET WERDEN. "+(error.message||""));
+            btn.disabled=false;return;
+        }
+        await showTickets();
+        tkMsg($("tkBody"),"DANKE! DEIN TICKET IST ANGEKOMMEN.",true);
+    }catch(e){tkMsg(msg,"TICKET KONNTE NICHT GESENDET WERDEN.");btn.disabled=false}
+}
+/* ---------- Verwaltung (Admin und Moderator) ---------- */
+async function showTicketsStaff(){
+    if(!tkIsStaff())return;
+    TK.mode="staff";tkOpenView();
+    $("tkHeading").textContent=user.role==="admin"?"🗂️ TICKETS VERWALTEN":"🗂️ BUCH- UND QUIZ-TICKETS";
+    const b=$("tkBody");b.textContent="";b.append(tkEl("p","LADE …"));
+    let data=[],err=null;
+    try{const r=await sb.from("tickets").select("*").order("created_at",{ascending:false}).limit(500);data=r.data||[];err=r.error}catch(e){err=e}
+    TK.list=data;tkRenderStaff(err);
+}
+function tkRenderStaff(err){
+    const b=$("tkBody");b.textContent="";
+    const sel=(label,key,opts)=>{
+        const w=tkEl("div");w.append(tkEl("label",label,"lib-label"));
+        const s=document.createElement("select");opts.forEach(([v,t])=>{const o=document.createElement("option");o.value=v;o.textContent=t;if(TK.f[key]===v)o.selected=true;s.append(o)});
+        s.onchange=()=>{TK.f[key]=s.value;tkRenderStaff()};w.append(s);return w};
+    const bar=tkEl("div",null,"lib-selects tk-filter");
+    bar.append(sel("STATUS","st",[["open","OFFEN (NEU + IN BEARBEITUNG)"],["new","NEU"],["progress","IN BEARBEITUNG"],["done","ERLEDIGT"],["rejected","ABGELEHNT"],["all","ALLE"]]));
+    const cats=user.role==="admin"?[["all","ALLE"],["bug","🐞 FEHLER"],["book","📚 BUCH"],["quiz","📝 QUIZ"],["idea","💡 IDEE"]]:[["all","BUCH + QUIZ"],["book","📚 BUCH"],["quiz","📝 QUIZ"]];
+    bar.append(sel("KATEGORIE","cat",cats));
+    bar.append(sel("ZUSTÄNDIG","who",[["all","ALLE"],["me","MIR ZUGEWIESEN"],["none","NICHT ZUGEWIESEN"]]));
+    b.append(bar);
+    if(err){tkMsg(b,"TICKETS KONNTEN NICHT GELADEN WERDEN. "+(err.message||""));return}
+    const f=TK.f;
+    const list=TK.list.filter(t=>(f.st==="all"||(f.st==="open"?(t.status==="new"||t.status==="progress"):t.status===f.st))&&(f.cat==="all"||t.category===f.cat)&&(f.who==="all"||(f.who==="me"?t.assigned_to===currentUserId:!t.assigned_to)))
+        .sort((x,y)=>(TK_PRW[x.priority]-TK_PRW[y.priority])||(new Date(x.created_at)-new Date(y.created_at)));
+    b.append(tkEl("p",list.length+" TICKET"+(list.length===1?"":"S"),"tk-count"));
+    if(!list.length)b.append(tkEl("p","KEINE PASSENDEN TICKETS."));
+    list.forEach(t=>b.append(tkItem(t,true)));
+}
+/* ---------- Einzelnes Ticket ---------- */
+async function tkOpen(id){
+    tkOpenView();
+    const b=$("tkBody");b.textContent="";b.append(tkEl("p","LADE …"));
+    let t=null,cm=[],err=null;
+    try{
+        const r=await sb.from("tickets").select("*").eq("id",id).maybeSingle();t=r.data;err=r.error;
+        if(t){const c=await sb.from("ticket_comments").select("*").eq("ticket_id",id).order("created_at",{ascending:true});cm=c.data||[]}
+    }catch(e){err=e}
+    b.textContent="";
+    const back=tkEl("button","[ ZURÜCK ZUR LISTE ]");back.type="button";back.onclick=()=>(TK.mode==="staff"?showTicketsStaff():showTickets());
+    if(err||!t){b.append(tkEl("p","TICKET NICHT GEFUNDEN.","error"),back);return}
+    const own=t.user_id===currentUserId,staff=tkCanStaff(t);
+    $("tkHeading").textContent="🎫 TICKET #"+t.id;
+    b.append(back);
+    b.append(tkEl("h3",t.title,"tk-h"));
+    const row=tkEl("div",null,"tk-chips");
+    row.append(tkChip(TK_CAT[t.category]||t.category,"c"),tkChip(TK_ST[t.status]||t.status,"s-"+t.status));
+    if(staff)row.append(tkChip("PRIORITÄT: "+(TK_PR[t.priority]||t.priority),"p-"+t.priority));
+    if(t.assigned_name)row.append(tkChip("ZUSTÄNDIG: "+t.assigned_name,"c"));
+    b.append(row);
+    b.append(tkEl("div","VON "+t.username+" · "+tkDate(t.created_at)+(t.closed_at?" · GESCHLOSSEN "+tkDate(t.closed_at):""),"tk-date"));
+    const box=tkEl("div",null,"tk-box");
+    const d=t.details||{};
+    const kv=(k,v)=>{if(!v)return;const p=tkEl("p");p.append(tkEl("strong",k+": "),document.createTextNode(v));box.append(p)};
+    if(t.category==="book"){kv("BUCH",d.title);kv("AUTOR",d.author);kv("WARUM",t.body)}
+    else if(t.category==="quiz"){
+        kv("BUCH",d.book);kv("FRAGE",d.question);
+        (d.answers||[]).forEach((a,i)=>{const L="ABCD"[i];kv("ANTWORT "+L+(d.right===L?" ✓ (RICHTIG)":""),a)});
+        kv("HINWEIS",t.body);
+    }else{const p=tkEl("p",t.body,"tk-pre");box.append(p)}
+    b.append(box);
+    b.append(tkEl("h4","VERLAUF"));
+    const vis=cm.filter(c=>staff||!c.internal);
+    if(!vis.length)b.append(tkEl("p","NOCH KEINE ANTWORT."));
+    vis.forEach(c=>{
+        const x=tkEl("div",null,"tk-cm"+(c.internal?" internal":""));
+        x.append(tkEl("div",(c.internal?"🔒 INTERN · ":"")+c.author_name+(c.author_role==="user"?"":" ("+(c.author_role==="admin"?"ADMIN":"MODERATOR")+")")+" · "+tkDate(c.created_at),"tk-date"));
+        x.append(tkEl("p",c.body,"tk-pre"));b.append(x);
+    });
+    if(own&&tkNeedsSeen(t)){
+        try{await sb.from("tickets").update({user_seen_at:new Date().toISOString()}).eq("id",t.id);TK.badgeTs=0;ticketBadgeRefresh()}catch(e){}
+    }
+    if(staff)await tkStaffPanel(b,t);
+}
+async function tkStaffList(){
+    if(TK.staff)return TK.staff;
+    try{const r=await sb.rpc("ticket_staff");if(!r.error&&r.data)TK.staff=r.data}catch(e){}
+    return TK.staff||[];
+}
+async function tkStaffPanel(b,t){
+    const staff=await tkStaffList();
+    const p=tkEl("div",null,"tk-box tk-staff");
+    p.append(tkEl("h4",user.role==="admin"?"ADMIN":"MODERATOR"));
+    const msg=tkEl("div");
+    const mk=(label,opts,val)=>{
+        p.append(tkEl("label",label,"lib-label"));
+        const s=document.createElement("select");opts.forEach(([v,tx])=>{const o=document.createElement("option");o.value=v;o.textContent=tx;if(String(val)===String(v))o.selected=true;s.append(o)});p.append(s);return s};
+    const upd=async(patch,ok)=>{
+        msg.textContent="";
+        try{const {error}=await sb.from("tickets").update(patch).eq("id",t.id);
+            if(error){tkMsg(msg,"NICHT GESPEICHERT: "+(error.message||""));return}
+            TK.badgeTs=0;await tkOpen(t.id);tkMsg($("tkBody"),ok||"GESPEICHERT.",true);
+        }catch(e){tkMsg(msg,"NICHT GESPEICHERT.")}
+    };
+    if(user.role==="moderator"&&t.assigned_to!==currentUserId){
+        const take=tkEl("button","✋ ÜBERNEHMEN");take.type="button";take.onclick=()=>upd({assigned_to:currentUserId,status:t.status==="new"?"progress":t.status},"DU HAST DAS TICKET ÜBERNOMMEN.");p.append(take);
+    }
+    const sSt=mk("STATUS",Object.entries(TK_ST),t.status);
+    let sPr=null;if(user.role==="admin")sPr=mk("PRIORITÄT",Object.entries(TK_PR),t.priority);
+    const who=staff.filter(s=>user.role==="admin"||s.role==="moderator");
+    const sWho=mk("ZUSTÄNDIG",[["","NIEMAND"],...who.map(s=>[s.id,s.username+(s.role==="admin"?" (ADMIN)":"")])],t.assigned_to||"");
+    const save=tkEl("button","[ SPEICHERN ]");save.type="button";
+    save.onclick=()=>{const patch={status:sSt.value,assigned_to:sWho.value||null};if(sPr)patch.priority=sPr.value;upd(patch)};
+    p.append(save);
+    p.append(tkEl("label","ANTWORT ODER NOTIZ SCHREIBEN","lib-label"));
+    const ta=document.createElement("textarea");ta.rows=3;ta.maxLength=1000;p.append(ta);
+    const lab=tkEl("label",null,"tk-check");const cb=document.createElement("input");cb.type="checkbox";lab.append(cb,document.createTextNode(" 🔒 NUR INTERN (DAS KIND SIEHT ES NICHT)"));p.append(lab);
+    const send=tkEl("button","[ SENDEN ]");send.type="button";
+    send.onclick=async()=>{
+        const txt=ta.value.trim();if(!txt){tkMsg(msg,"BITTE EINEN TEXT SCHREIBEN.");return}
+        send.disabled=true;
+        try{const {error}=await sb.from("ticket_comments").insert({ticket_id:t.id,author_id:currentUserId,body:txt,internal:cb.checked});
+            if(error){tkMsg(msg,"NICHT GESENDET: "+(error.message||""));send.disabled=false;return}
+            await tkOpen(t.id);tkMsg($("tkBody"),cb.checked?"NOTIZ GESPEICHERT.":"ANTWORT GESENDET.",true);
+        }catch(e){tkMsg(msg,"NICHT GESENDET.");send.disabled=false}
+    };
+    p.append(send);
+    if(t.category==="book"&&t.details&&t.details.title){
+        const ed=tkEl("button","➕ BUCH IM EDITOR ANLEGEN");ed.type="button";
+        ed.onclick=()=>{editingBookId=null;openBookEditor({title:t.details.title,author:t.details.author||""})};p.append(ed);
+    }
+    if(user.role==="admin"){
+        const del=tkEl("button","🗑 TICKET LÖSCHEN");del.type="button";let ask=false;
+        del.onclick=async()=>{
+            if(!ask){ask=true;del.textContent="WIRKLICH LÖSCHEN? NOCHMAL TIPPEN";return}
+            const {error}=await sb.from("tickets").delete().eq("id",t.id);
+            if(error){tkMsg(msg,"NICHT GELÖSCHT: "+(error.message||""));return}
+            TK.badgeTs=0;showTicketsStaff();
+        };
+        p.append(del);
+    }
+    p.append(msg);b.append(p);
+}
+/* ---------- Roter Punkt im Hauptmenü ---------- */
+async function ticketBadgeRefresh(){
+    if(!currentUserId||typeof sb==="undefined"||!sb.from)return;
+    if(Date.now()-TK.badgeTs<30000)return;TK.badgeTs=Date.now();
+    let mine=0,open=0;
+    try{
+        const r=await sb.from("tickets").select("id,reply_at,user_seen_at").eq("user_id",currentUserId).not("reply_at","is",null).limit(200);
+        if(!r.error&&r.data)mine=r.data.filter(tkNeedsSeen).length;
+        if(tkIsStaff()){const c=await sb.from("tickets").select("id",{count:"exact",head:true}).eq("status","new");if(!c.error)open=c.count||0}
+    }catch(e){}
+    const a=$("ticketBadge"),s=$("ticketStaffBadge");
+    if(a){a.textContent=mine?String(mine):"";a.classList.toggle("hidden",!mine)}
+    if(s){s.textContent=open?String(open):"";s.classList.toggle("hidden",!open)}
+}
 /* ===== Feuerwerk ===== */
 let fwRunning=false;
 function fireworks(ms){
@@ -4640,7 +4929,7 @@ async function rankTab(t){
 function winOpen(){if(typeof avatarRefresh==="function")avatarRefresh();const w=$("winLayer");w.classList.add("open");document.body.classList.add("win-open");w.scrollTop=0}
 function winClose(){$("winLayer").classList.remove("open");document.body.classList.remove("win-open")}
 function showMenu(){hideViews();winClose();updateDashboard();if(typeof avatarRefresh==='function')avatarRefresh();if(typeof rankSync==='function')rankSync();window.scrollTo(0,0)}
-function hideViews(){winOpen();if(typeof dailyTimerStop==="function")dailyTimerStop();if(typeof snakePlayOff==="function")snakePlayOff();if(typeof snakeAutoPause==="function")snakeAutoPause();["changelogView","statView","dailyView","petView","readLibView","readerView","avatarView","booksView","bookDetailView","quizView","resultView","progressView","achievementsView","urkundeView","settingsPanel","learningView","gameView","rankingView","learnUnitView","learnTestView","learnBookView","passwordPanel","designPanel","adminPanel","bookManagePanel"].forEach(id=>$(id).classList.add("hidden"))}
+function hideViews(){winOpen();if(typeof dailyTimerStop==="function")dailyTimerStop();if(typeof snakePlayOff==="function")snakePlayOff();if(typeof snakeAutoPause==="function")snakeAutoPause();["changelogView","statView","dailyView","petView","readLibView","readerView","avatarView","booksView","bookDetailView","quizView","resultView","progressView","achievementsView","urkundeView","settingsPanel","learningView","gameView","rankingView","learnUnitView","learnTestView","learnBookView","passwordPanel","designPanel","adminPanel","bookManagePanel","ticketView"].forEach(id=>$(id).classList.add("hidden"))}
 async function logout(){
     await sb.auth.signOut();
 
