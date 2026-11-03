@@ -2679,6 +2679,7 @@ function dailyStreak(rec,today){
 }
 const CHANGELOG=[
  {d:"03.11.2026",items:[
+  "Bibliothek: Die Anzahl der Quizfragen stimmt jetzt. Bisher wurden nur die ersten 1000 Fragen aus der Datenbank geladen, dadurch fehlten Fragen bei manchen Büchern.",
   "Avatar-Pflege: Im Zimmer gibt es jetzt Haustiere (Kaninchen ab Level 5, Katze, Hund, kleiner T-Rex, Schildkröte; je in einer Farbe) und Kleidung für den Avatar (Mütze, Schal, Sonnenbrille, Umhang; je 3 Designs). Dafür sind einige Einrichtungsgegenstände weggefallen (Globus, Wimpelkette, Deckenschmuck, Pokal, Lichterkette, Schaukelpferd, Vorhang, Blumenkasten, Bücherstapel). Ab und zu füttert dein Avatar die Tiere, kuschelt, streichelt oder spielt mit ihnen",
   "Neu: Ticketsystem – Im Hauptmenü gibt es „Ticket melden“. Nutzer können Fehler melden, Bücher und Quiz-Fragen vorschlagen oder eine Idee schicken und sehen den Stand (Neu, In Bearbeitung, Erledigt, Abgelehnt) mit Antworten. Admins sehen alle Tickets, setzen die Priorität und weisen Tickets zu. Moderatoren sehen und übernehmen nur Buch- und Quiz-Tickets",
   "Verfügbare Bücher: Die Suche ist übersichtlicher – Zahlen als kleine Schilder, Suchen und Filtern in einem Rahmen (zum Einklappen), kleinere Filterknöpfe und der A–Z-Streifen mit der Überschrift „Anfangsbuchstabe“ im Filter",
@@ -3359,14 +3360,26 @@ function makeSlug(title,taken){
 }
 
 // Buecher und Fragen aus Supabase laden
+// Alle Zeilen laden: Supabase liefert pro Anfrage max. 1000, darum seitenweise
+async function sbAll(make){
+    const out=[];
+    for(let from=0;from<200000;from+=1000){
+        const r=await make(from,from+999);
+        if(r.error)return {data:null,error:r.error};
+        out.push(...(r.data||[]));
+        if((r.data||[]).length<1000)break;
+    }
+    return {data:out,error:null};
+}
 async function loadBooks(){
+    const bSel=c=>sbAll((a,b)=>sb.from("books").select(c).order("title").order("id").range(a,b));
     let [bRes,qRes]=await Promise.all([
-        sb.from("books").select("id,slug,title,author,isbn,description,difficulty,created_at").order("title").range(0,4999),
-        sb.from("questions").select("book_id,position,question,answer_a,answer_b,answer_c,answer_d,correct_answer").order("position").range(0,19999)
+        bSel("id,slug,title,author,isbn,description,difficulty,created_at"),
+        sbAll((a,b)=>sb.from("questions").select("book_id,position,question,answer_a,answer_b,answer_c,answer_d,correct_answer").order("book_id").order("position").range(a,b))
     ]);
     if(bRes.error&&!qRes.error){
         // Spalte created_at fehlt noch: ohne sie weiterladen
-        bRes=await sb.from("books").select("id,slug,title,author,isbn,description,difficulty").order("title").range(0,4999);
+        bRes=await bSel("id,slug,title,author,isbn,description,difficulty");
     }
     if(bRes.error||qRes.error){
         console.error("BOOKS LOAD ERROR",bRes.error||qRes.error);
@@ -3419,10 +3432,10 @@ async function adminCheckPoints(){
     const sum=$("pcSummary"),box=$("pcList");box.textContent="";sum.textContent="PRÜFE …";
     try{
         const [pr,up,rk,sn]=await Promise.all([
-            sb.from("profiles").select("id,username").range(0,4999),
-            sb.from("user_progress").select("user_id,completed,learned").range(0,4999),
-            sb.from("ranking_stats").select("user_id,points,learn_points").range(0,4999),
-            sb.from("snake_players").select("user_id,best_score").range(0,4999)
+            sbAll((a,b)=>sb.from("profiles").select("id,username").order("id").range(a,b)),
+            sbAll((a,b)=>sb.from("user_progress").select("user_id,completed,learned").order("user_id").range(a,b)),
+            sbAll((a,b)=>sb.from("ranking_stats").select("user_id,points,learn_points").order("user_id").range(a,b)),
+            sbAll((a,b)=>sb.from("snake_players").select("user_id,best_score").order("user_id").range(a,b))
         ]);
         const err=[pr,up,rk,sn].find(r=>r.error);
         if(err&&(pr.error||up.error)){sum.textContent="FEHLER: "+(err.error.message||err.error);return}
