@@ -887,6 +887,24 @@ body.theme-pirat button.tab-on{background:#1d5a4a !important;color:#ffe9b0 !impo
 #petAct{position:absolute;inset:0;pointer-events:none;line-height:1;overflow:hidden}
 #petAct span{position:absolute;display:block;line-height:1}
 #petAct .pa-cap{left:3%;top:4%;font-size:.8em;font-size:3.3cqw;background:rgba(255,255,255,.9);color:#333;border-radius:3cqw;padding:.35em .8em;font-weight:bold;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.pet-g{transform-box:fill-box;transform-origin:50% 100%}
+.pt-eat{animation:ptEat .5s ease-in-out infinite alternate}
+.pt-hug{animation:ptHug 1.2s ease-in-out infinite}
+.pt-pat{animation:ptPat .7s ease-in-out infinite alternate}
+.pt-play{animation:ptPlay .7s ease-out infinite}
+@keyframes ptEat{from{transform:translateY(0) scaleY(1)}to{transform:translateY(1px) scaleY(.94)}}
+@keyframes ptHug{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes ptPat{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+@keyframes ptPlay{0%{transform:translateY(0)}40%{transform:translateY(-10px)}100%{transform:translateY(0)}}
+#petAct .pt-up{font-size:.5em;font-size:5.5cqw;opacity:0;animation:ptUp 2.4s ease-out infinite}
+#petAct .pt-bnc{font-size:.5em;font-size:5.5cqw;animation:ptBnc .8s ease-in-out infinite}
+@keyframes ptUp{0%{transform:translateY(0);opacity:0}20%{opacity:1}100%{transform:translateY(-14cqw);opacity:0}}
+@keyframes ptBnc{0%,100%{transform:translateY(0)}50%{transform:translateY(-6cqw)}}
+.pi-feed #petAv{animation:paRead 2.4s ease-in-out infinite !important}
+.pi-hug #petAv{animation:petBob 1.2s ease-in-out infinite !important}
+.pi-stroke #petAv{animation:paSway 1.4s ease-in-out infinite !important}
+.pi-play #petAv{animation:paHop .8s ease-out infinite !important}
+
 .idle-window .pet-av{left:79% !important;animation:petBob 1.6s ease-in-out infinite !important}
 #petAct .pa-sponge{left:78%;top:13%;font-size:.5em;font-size:9cqw;animation:paWipe 1.6s ease-in-out infinite}
 #petAct .pa-shine{left:72.3%;top:10%;width:19.4%;height:29%;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.7) 50%,transparent 70%);background-size:250% 100%;animation:paShine 1.6s linear infinite}
@@ -2661,6 +2679,7 @@ function dailyStreak(rec,today){
 }
 const CHANGELOG=[
  {d:"03.11.2026",items:[
+  "Avatar-Pflege: Im Zimmer gibt es jetzt Haustiere (Kaninchen ab Level 5, Katze, Hund, kleiner T-Rex, Schildkröte; je in einer Farbe) und Kleidung für den Avatar (Mütze, Schal, Sonnenbrille, Umhang; je 3 Designs). Dafür sind einige Einrichtungsgegenstände weggefallen (Globus, Wimpelkette, Deckenschmuck, Pokal, Lichterkette, Schaukelpferd, Vorhang, Blumenkasten, Bücherstapel). Ab und zu füttert dein Avatar die Tiere, kuschelt, streichelt oder spielt mit ihnen",
   "Neu: Ticketsystem – Im Hauptmenü gibt es „Ticket melden“. Nutzer können Fehler melden, Bücher und Quiz-Fragen vorschlagen oder eine Idee schicken und sehen den Stand (Neu, In Bearbeitung, Erledigt, Abgelehnt) mit Antworten. Admins sehen alle Tickets, setzen die Priorität und weisen Tickets zu. Moderatoren sehen und übernehmen nur Buch- und Quiz-Tickets",
   "Verfügbare Bücher: Die Suche ist übersichtlicher – Zahlen als kleine Schilder, Suchen und Filtern in einem Rahmen (zum Einklappen), kleinere Filterknöpfe und der A–Z-Streifen mit der Überschrift „Anfangsbuchstabe“ im Filter",
   "Feuerwerk: Es gibt ein Feuerwerk bei jedem perfekten Quiz, bei jeder richtigen Antwort im Quiz des Tages und in Snake bei einem neuen Rekord oder einem Platz in der Tages-Rangliste (Top 20)"
@@ -6214,8 +6233,7 @@ const PET_ITEMS=[
   else if(v===1)pl=`<rect x="84" y="108" width="10" height="34" rx="5" fill="#4caf50"/><rect x="76" y="118" width="8" height="5" rx="2" fill="#4caf50"/><rect x="76" y="118" width="5" height="14" rx="2" fill="#4caf50"/><rect x="94" y="122" width="10" height="5" rx="2" fill="#4caf50"/><rect x="99" y="112" width="5" height="15" rx="2" fill="#4caf50"/>`;
   else pl=`<path d="M89 140v-34M80 140v-26M98 140v-22" stroke="#3c9a3c" stroke-width="3"/><circle cx="89" cy="104" r="6" fill="#ff6b81"/><circle cx="80" cy="112" r="5" fill="#ffd32a"/><circle cx="98" cy="116" r="5" fill="#a29bfe"/>`;
   return `<path d="M80 140h18l-3 20h-12z" fill="${pot}"/>${pl}`}},
- {lv:5,n:"Stehlampe",s:(c,v)=>{const col=["#ffd966","#ff9ecb","#8fd3ff"][v];const sh=v===1?`<path d="M250 95a12 12 0 0 1 24 0z" fill="${col}"/>`:v===2?`<rect x="252" y="76" width="20" height="19" fill="${col}"/>`:`<path d="M250 95h24l-6-22h-12z" fill="${col}"/>`;
-  return `<rect x="260" y="95" width="4" height="62" fill="#555"/>${sh}<ellipse cx="262" cy="158" rx="12" ry="4" fill="#555"/>${c.night?`<ellipse cx="262" cy="90" rx="34" ry="30" fill="#fff6b0" opacity=".25"/>`:""}`}},
+ {lv:5,n:"Kaninchen",pet:true,key:"rabbit",x:80,s:(c,v)=>{const f=["#b8895a","#b8895a","#b8895a"][v];return `<g class="${c.thumb?"":"pet-g"}" data-k="rabbit"><g transform="translate(${c.thumb?40:80} ${c.thumb?40:191}) scale(1 1)"><ellipse cx="-5" cy="-1" rx="5" ry="2.5" fill="${f}"/><ellipse cx="7" cy="-1" rx="4" ry="2.5" fill="${f}"/><circle cx="-12" cy="-11" r="4.5" fill="#fff"/><ellipse cx="0" cy="-9" rx="11" ry="8" fill="${f}"/><circle cx="9" cy="-17" r="7" fill="${f}"/><ellipse cx="6" cy="-29" rx="2.6" ry="8.5" fill="${f}"/><ellipse cx="13" cy="-29" rx="2.6" ry="8.5" fill="${f}"/><ellipse cx="6" cy="-29" rx="1.2" ry="6" fill="#ffb3c6"/><ellipse cx="13" cy="-29" rx="1.2" ry="6" fill="#ffb3c6"/><circle cx="11.5" cy="-18" r="1.3" fill="#111"/><circle cx="15.5" cy="-16" r="1.1" fill="#ff7a9a"/></g></g>`}},
  {lv:6,n:"Bücherregal",s:(c,v)=>{const wood=["#8b5a2b","#f1ece0","#2f4f7f"][v],inner=["#5a3a1a","#cfc6b0","#1d3252"][v];const cols=[["#d9534f","#5bc0de","#f0ad4e","#5cb85c","#9b59b6","#e67e22","#3498db"],["#e74c3c","#e67e22","#f1c40f","#2ecc71","#1abc9c","#3498db","#9b59b6"],["#ffffff","#ffd166","#ef476f","#06d6a0","#118ab2","#ffd166","#ef476f"]][v];let b="";
   for(let i=0;i<7;i++){b+=`<rect x="${21+i*7}" y="80" width="6" height="24" fill="${cols[i]}"/><rect x="${21+i*7}" y="110" width="6" height="${i%2?22:20}" fill="${cols[(i+3)%7]}"/>`}
   return `<rect x="15" y="72" width="58" height="66" fill="${wood}"/><rect x="19" y="76" width="50" height="28" fill="${inner}"/><rect x="19" y="107" width="50" height="28" fill="${inner}"/>${b}`}},
@@ -6235,27 +6253,24 @@ const PET_ITEMS=[
   if(v===0)return `<circle cx="55" cy="176" r="10" fill="#e84c3d"/><path d="M45 176h20M55 166v20" stroke="#fff" stroke-width="2"/>`;
   if(v===1)return `<circle cx="55" cy="176" r="10" fill="#fff" stroke="#222"/><polygon points="55,171 60,175 58,181 52,181 50,175" fill="#222"/>`;
   return `<circle cx="55" cy="176" r="10" fill="#ffd60a"/><path d="M46 172q9 4 18 0M46 180q9-4 18 0" stroke="#3498db" stroke-width="3" fill="none"/>`}},
- {lv:12,n:"Globus",s:(c,v)=>{const [o,l]=[["#3d8fd1","#5fa34a"],["#c9a66b","#8b6b3d"],["#2ec4b6","#ffd166"]][v];
-  return `<circle cx="34" cy="62" r="9" fill="${o}"/><path d="M28 60q6-6 10 0q-2 6-8 6z" fill="${l}"/><rect x="31" y="70" width="6" height="2" fill="#333"/>`}},
+ {lv:12,n:"Mütze",cloth:true,s:()=>"",av:(v)=>{const [a,b]=[["#d9534f","#fff"],["#4a90d9","#f0c040"],["#58a55c","#fff"]][v];return `<path d="M27 34Q26 5 50 5Q74 5 73 34Q50 26 27 34Z" fill="${a}"/><path d="M34 26Q35 14 42 9M50 25V6M66 26Q65 14 58 9" stroke="${b}" stroke-width="2" fill="none" opacity=".8"/><rect x="26" y="26" width="48" height="9" rx="4" fill="${b}"/><circle cx="50" cy="4" r="6" fill="${b}" stroke="${a}"/>`}},
  {lv:13,n:"Poster",s:(c,v)=>{let m;
   if(v===0)m=`<rect x="180" y="27" width="22" height="18" fill="#e8a33d"/><path d="M180 52h22M180 57h16" stroke="#666" stroke-width="2"/>`;
   else if(v===1)m=`<rect x="180" y="27" width="22" height="30" fill="#0b1d4d"/><path d="M191 31l4 14h-8z" fill="#e8e8e8"/><circle cx="191" cy="38" r="1.6" fill="#4aa3ff"/><path d="M187 45l-3 5M195 45l3 5" stroke="#e74c3c" stroke-width="2"/>`;
   else m=`<rect x="180" y="27" width="22" height="30" fill="#5b3c88"/><text x="191" y="40" font-size="10" fill="#ffe066" text-anchor="middle">★</text><text x="185" y="52" font-size="7" fill="#fff">★</text><text x="197" y="53" font-size="7" fill="#fff">★</text>`;
   return `<rect x="176" y="22" width="30" height="40" fill="#f7f1e1" stroke="#444"/>${m}`}},
- {lv:14,n:"Wimpelkette",s:(c,v)=>{const pal=[["#e74c3c","#f1c40f","#2ecc71","#3498db","#9b59b6"],["#ff9ecb","#ffd6e7","#fff","#b39ddb","#8fd3ff"],["#1b9aaa","#06d6a0","#ffc43d","#ef476f","#118ab2"]][v];let t="";
-  for(let i=0;i<14;i++){const u=(i+.5)/14,x=300*u,y=8+44*u*(1-u);t+=v===2?`<circle cx="${x}" cy="${y+6}" r="6" fill="${pal[i%5]}"/>`:`<polygon points="${x-7},${y} ${x+7},${y} ${x},${y+13}" fill="${pal[i%5]}"/>`}
-  return `<path d="M0 8Q150 52 300 8" stroke="#555" fill="none"/>${t}`}},
- {lv:15,n:"Deckenschmuck",s:(c,v)=>{const sym=["★","☾","✦"][v],col=["#ffe066","#fff3b0","#ff9ecb"][v];const pts=c.thumb?[[12,18],[34,10],[56,20],[24,34],[46,36]]:[[30,40],[70,16],[190,12],[285,100],[12,100],[145,70]];return pts.map(([x,y])=>`<text x="${x}" y="${y}" font-size="${c.thumb?16:12}" fill="${col}" text-anchor="middle">${sym}</text>`).join("")}},
- {lv:16,n:"Pokal",s:(c,v)=>{const [a,b]=[["#f2c200","#c99a00"],["#cfd8dc","#90a4ae"],["#cd7f32","#a05a1c"]][v];return `<path d="M56 52h14v8q0 7-7 7t-7-7z" fill="${a}"/><rect x="61" y="66" width="4" height="6" fill="${b}"/>`}},
- {lv:17,n:"Lichterkette",s:(c,v)=>{const pal=[["#ff5252","#ffd740","#69f0ae","#40c4ff"],["#fff3b0","#ffe082","#fff8e1","#ffe082"],["#ff80ab","#ea80fc","#b388ff","#82b1ff"]][v];let t="";
-  for(let i=0;i<9;i++)t+=`<circle cx="${212+i*8}" cy="17" r="2.6" fill="${pal[i%4]}" opacity="${c.night?.95:.7}"/>`;return `<path d="M212 17h64" stroke="#333"/>${t}`}},
- {lv:18,n:"Schaukelpferd",s:(c,v)=>{const col=["#c98b4b","#f4f1ea","#8d9db6"][v];return `<path d="M16 178q22 12 44 0" stroke="#7a4a1c" stroke-width="3" fill="none"/><ellipse cx="38" cy="166" rx="15" ry="8" fill="${col}"/><circle cx="53" cy="156" r="6" fill="${col}"/><rect x="26" y="170" width="3" height="8" fill="#7a4a1c"/><rect x="46" y="170" width="3" height="8" fill="#7a4a1c"/><circle cx="55" cy="154" r="1.2" fill="#000"/><path d="M48 150q-4 6-3 10" stroke="${v===1?"#999":"#6b4423"}" stroke-width="2" fill="none"/>`}},
+ {lv:14,n:"Stehlampe",s:(c,v)=>{const col=["#ffd966","#ff9ecb","#8fd3ff"][v];const sh=v===1?`<path d="M250 95a12 12 0 0 1 24 0z" fill="${col}"/>`:v===2?`<rect x="252" y="76" width="20" height="19" fill="${col}"/>`:`<path d="M250 95h24l-6-22h-12z" fill="${col}"/>`;
+  return `<rect x="260" y="95" width="4" height="62" fill="#555"/>${sh}<ellipse cx="262" cy="158" rx="12" ry="4" fill="#555"/>${c.night?`<ellipse cx="262" cy="90" rx="34" ry="30" fill="#fff6b0" opacity=".25"/>`:""}`}},
+ {lv:15,n:"Schal",cloth:true,s:()=>"",av:(v)=>{const [a,b]=[["#d9534f","#fff"],["#4a90d9","#f0c040"],["#58a55c","#fff"]][v];return `<path d="M33 66Q50 80 67 66L70 75Q50 90 30 75Z" fill="${a}"/><path d="M40 72l-1 9M50 76v9M60 72l1 9" stroke="${b}" stroke-width="2.2"/><path d="M58 80L69 77L73 96L62 98Z" fill="${a}"/><path d="M61 88l11-3M62 93l10-3" stroke="${b}" stroke-width="2"/>`}},
+ {lv:16,n:"Katze",pet:true,key:"cat",x:240,s:(c,v)=>{const f=["#f0a04b","#555","#e8e0d0"][v];const st=v===0?`<path d="M-4 -18v6M1 -18v7M6 -17v5" stroke="#c97a22" stroke-width="2"/>`:"";return `<g class="${c.thumb?"":"pet-g"}" data-k="cat"><g transform="translate(${c.thumb?40:240} ${c.thumb?40:190}) scale(${c.thumb?1:-1} 1)"><path d="M-12 -10Q-27 -14 -20 -31" stroke="${f}" stroke-width="4.5" fill="none" stroke-linecap="round"/><rect x="-8" y="-8" width="4" height="8" rx="2" fill="${f}"/><rect x="5" y="-8" width="4" height="8" rx="2" fill="${f}"/><ellipse cx="0" cy="-11" rx="13" ry="9" fill="${f}"/>${st}<polygon points="5,-25 6,-35 11,-27" fill="${f}"/><polygon points="12,-27 17,-35 19,-24" fill="${f}"/><circle cx="12" cy="-20" r="8" fill="${f}"/><circle cx="9.5" cy="-21" r="1.4" fill="#111"/><circle cx="15" cy="-21" r="1.4" fill="#111"/><polygon points="11,-18 13.5,-18 12.2,-16.5" fill="#ff7a9a"/><path d="M16 -18h6M16 -16l6 2M8 -18h-5" stroke="#444" stroke-width=".6"/></g></g>`}},
+ {lv:17,n:"Hund",pet:true,key:"dog",x:38,s:(c,v)=>{const f=["#c68c53","#444","#e9d7b5"][v],e=["#9a6a3a","#222","#c8b48a"][v];return `<g class="${c.thumb?"":"pet-g"}" data-k="dog"><g transform="translate(${c.thumb?40:38} ${c.thumb?40:191}) scale(1 1)"><path d="M-15 -14Q-24 -22 -20 -28" stroke="${f}" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="-12" y="-8" width="4" height="8" rx="2" fill="${f}"/><rect x="-4" y="-8" width="4" height="8" rx="2" fill="${f}"/><rect x="5" y="-8" width="4" height="8" rx="2" fill="${f}"/><rect x="11" y="-8" width="4" height="8" rx="2" fill="${f}"/><ellipse cx="0" cy="-13" rx="16" ry="9" fill="${f}"/><circle cx="15" cy="-22" r="8" fill="${f}"/><ellipse cx="9" cy="-21" rx="3.6" ry="7" fill="${e}"/><ellipse cx="21" cy="-20" rx="5.5" ry="4" fill="#f3e3c5"/><circle cx="25" cy="-21" r="1.9" fill="#111"/><circle cx="16.5" cy="-24" r="1.4" fill="#111"/><path d="M22 -17q2 4 0 5" stroke="#ff7a9a" stroke-width="2" fill="none"/></g></g>`}},
+ {lv:18,n:"Sonnenbrille",cloth:true,s:()=>"",av:(v)=>{if(v===0)return `<circle cx="42" cy="45" r="7" fill="#1b1b1b"/><circle cx="58" cy="45" r="7" fill="#1b1b1b"/><path d="M49 44h2M35 44l-5-2M65 44l5-2" stroke="#1b1b1b" stroke-width="2"/><path d="M38 42l4-2" stroke="#fff" opacity=".5" stroke-width="1.5"/>`;if(v===1)return `<rect x="34" y="39" width="15" height="12" rx="3" fill="#1d4f86"/><rect x="51" y="39" width="15" height="12" rx="3" fill="#1d4f86"/><path d="M49 43h2M34 42l-5-2M66 42l5-2" stroke="#1d4f86" stroke-width="2"/>`;return `<path d="M42 51C33 45 34 38 38.500 39C41 39 42 41 42 42C42 41 43 39 45.500 39C50 38 51 45 42 51Z" fill="#ff5c8a"/><path d="M58 51C49 45 50 38 54.500 39C57 39 58 41 58 42C58 41 59 39 61.500 39C66 38 67 45 58 51Z" fill="#ff5c8a"/><path d="M49 43h2" stroke="#ff5c8a" stroke-width="2"/>`}},
  {lv:19,n:"Teleskop",s:(c,v)=>{const col=["#8d99a6","#d9534f","#d4a017"][v];return `<rect x="278" y="106" width="22" height="6" fill="${col}" transform="rotate(-28 289 109)"/><path d="M289 112l-7 42M289 112l7 42" stroke="#444" stroke-width="2"/>`}},
  {lv:20,n:"Kuscheldecke",s:(c,v)=>{const col=["#e07fb1","#6fa8dc","#8bc34a"][v];return `<path d="M205 126q22 9 46 0v10q-23 9-46 0z" fill="${col}"/>${v===1?`<path d="M215 129v10M225 131v10M235 131v10M245 129v9" stroke="#fff" stroke-width="2"/>`:""}`}},
- {lv:21,n:"Vorhang",s:(c,v)=>{const col=["#c0392b","#2f6fb3","#2e8b57"][v];return `<rect x="208" y="17" width="68" height="2" fill="#555"/><path d="M210 18h8v62h-8zM273 18h8v62h-8z" fill="${col}"/>${v===2?`<path d="M213 20v58M277 20v58" stroke="#fff" stroke-width="1.5" opacity=".6"/>`:""}`}},
- {lv:22,n:"Blumenkasten",s:(c,v)=>{const pal=[["#ff6b81","#ffd32a","#ffffff","#ff9f43","#a29bfe"],["#ff4d6d","#ff758f","#ff4d6d","#ff758f","#ffb3c1"],["#fff176","#ffee58","#fdd835","#fff59d","#fbc02d"]][v];return `<rect x="216" y="76" width="58" height="6" fill="#8b5a2b"/>${pal.map((c2,i)=>`<circle cx="${222+i*11}" cy="73" r="3.5" fill="${c2}"/>`).join("")}`}},
+ {lv:21,n:"Kleiner T-Rex",pet:true,key:"trex",x:278,s:(c,v)=>{const f=["#5cb85c","#e8833a","#6ec1e4"][v],d=["#3f8f3f","#b85d1c","#3f97c0"][v];return `<g class="${c.thumb?"":"pet-g"}" data-k="trex"><g transform="translate(${c.thumb?40:278} ${c.thumb?40:191}) scale(${c.thumb?.9:-.9} .9)"><path d="M-12 -26L-34 -6L-10 -8Z" fill="${f}"/><polygon points="-8,-30 -4,-36 0,-30" fill="${d}"/><polygon points="0,-31 4,-37 8,-31" fill="${d}"/><rect x="-9" y="-9" width="7" height="9" rx="3" fill="${f}"/><rect x="3" y="-9" width="7" height="9" rx="3" fill="${f}"/><ellipse cx="0" cy="-19" rx="14" ry="12" fill="${f}"/><ellipse cx="3" cy="-17" rx="8" ry="8" fill="#f3f0c0" opacity=".8"/><path d="M9 -20l6 3M9 -17l5 3" stroke="${d}" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="14" cy="-33" rx="11" ry="8" fill="${f}"/><path d="M18 -29h9" stroke="#222" stroke-width="1.4"/><polygon points="20,-29 22,-26 24,-29" fill="#fff"/><circle cx="16" cy="-36" r="2.2" fill="#fff"/><circle cx="16.6" cy="-36" r="1.2" fill="#111"/></g></g>`}},
+ {lv:22,n:"Umhang",cloth:true,s:()=>"",av:(v)=>{const [a,b]=[["#d32f2f","#ffd54f"],["#1565c0","#ffffff"],["#7b1fa2","#ffd54f"]][v];return `<path d="M12 100Q12 74 33 67L39 71Q23 79 26 100Z" fill="${a}"/><path d="M88 100Q88 74 67 67L61 71Q77 79 74 100Z" fill="${a}"/><path d="M38 70Q50 77 62 70" stroke="${b}" stroke-width="2.4" fill="none"/><circle cx="50" cy="75" r="3.2" fill="${b}"/>`}},
  {lv:23,n:"Krone",s:(c,v)=>{const [a,b]=[["#f2c200","#c99a00"],["#cfd8dc","#90a4ae"],["#b39ddb","#7e57c2"]][v];return `<path d="M120 14l5 8 5-8 5 8 5-8v14h-20z" fill="${a}" stroke="${b}"/><circle cx="130" cy="24" r="2" fill="${v===2?"#fff":"#e74c3c"}"/>`}},
- {lv:24,n:"Bücherstapel",s:(c,v)=>{const p=[["#d4a017","#b8860b","#e6b422"],["#2f6fb3","#1d4f86","#4a90d9"],["#c0392b","#962d22","#e0574a"]][v];return `<rect x="262" y="172" width="30" height="7" fill="${p[0]}"/><rect x="266" y="165" width="26" height="7" fill="${p[1]}"/><rect x="264" y="158" width="24" height="7" fill="${p[2]}"/>`}},
+ {lv:24,n:"Schildkröte",pet:true,key:"turtle",x:206,s:(c,v)=>{const f=["#4caf50","#8d6e63","#26a69a"][v];return `<g class="${c.thumb?"":"pet-g"}" data-k="turtle"><g transform="translate(${c.thumb?40:206} ${c.thumb?40:191}) scale(${c.thumb?1:-1} 1)"><rect x="-10" y="-5" width="5" height="5" rx="2" fill="#9ccc65"/><rect x="5" y="-5" width="5" height="5" rx="2" fill="#9ccc65"/><polygon points="-15,-6 -21,-4 -15,-3" fill="#9ccc65"/><circle cx="17" cy="-9" r="4.8" fill="#9ccc65"/><circle cx="18.5" cy="-10" r="1.1" fill="#111"/><path d="M-15 -4Q-15 -20 0 -20Q15 -20 15 -4Z" fill="${f}" stroke="#2e6b31" stroke-width="1.2"/><path d="M-8 -5l-3 -9M0 -5v-14M8 -5l3 -9M-12 -12h24" stroke="#2e6b31" stroke-width="1" fill="none"/></g></g>`}},
  {lv:25,n:"Regenbogen",s:(c,v)=>{const pal=[["#ff4d4d","#ffa534","#ffe14d","#4cd964","#4d9bff"],["#ffb3ba","#ffdfba","#ffffba","#baffc9","#bae1ff"],["#0d47a1","#1565c0","#1e88e5","#42a5f5","#90caf9"]][v];return pal.map((c2,i)=>`<path d="M${20+i*4} 50a${30-i*4} ${30-i*4} 0 0 1 ${60-i*8} 0" stroke="${c2}" stroke-width="4" fill="none"/>`).join("")}},
  {lv:26,n:"Discokugel",s:(c,v)=>{const [a,b]=[["#cfd8dc","#90a4ae"],["#ffe082","#d4a017"],["#f8bbd0","#e91e63"]][v];return `<line x1="118" y1="0" x2="118" y2="46" stroke="#888"/><circle cx="118" cy="54" r="9" fill="${a}" stroke="${b}"/><path d="M110 54h16M118 46v16M112 49l12 10M124 49l-12 10" stroke="${b}" stroke-width=".8"/>`}}
 ];
@@ -6346,8 +6361,10 @@ function petAddPts(n){
     const g=Math.max(0,Math.min(n,PET_MAX_DAY-(s.dayPts||0)));
     s.pts=(s.pts||0)+g;s.dayPts=(s.dayPts||0)+g;return g;
 }
-function petDeco(){const s=PET.st;if(!s.deco||typeof s.deco!=="object")s.deco={};return s.deco}
+function petDeco(){const s=PET.st;if(!s.deco||typeof s.deco!=="object")s.deco={};if((s.decoV|0)<3){if(s.decoV!==2)[5,12,14,15,16,17,18,21,22,24].filter(l=>l!==5).forEach(l=>{delete s.deco[l]});if(s.deco[5]){s.deco[14]=s.deco[5];delete s.deco[5]}s.decoV=3}return s.deco}
+function petClothSvg(){const lv=(typeof level==="function"&&level().level)||1,d=petDeco();return PET_ITEMS.filter(i=>i.cloth&&i.lv<=lv&&d[i.lv]&&d[i.lv].on).map(i=>i.av(Math.min(2,Math.max(0,(d[i.lv].d)|0)))).join("")}
 function petItemsFor(lv){const d=petDeco();return PET_ITEMS.filter(i=>i.lv<=lv&&d[i.lv]&&d[i.lv].on)}
+function petActivePets(){const lv=(typeof level==="function"&&level().level)||1;return petItemsFor(lv).filter(i=>i.pet)}
 function petSky(h){
     if(h>=22||h<6)return {c:"#14213d",night:true,moon:true};
     if(h<7)return {c:"#f4a261",night:true};
@@ -6369,7 +6386,7 @@ function petRoomSvg(){
     if(sky.moon||sleeping){g+=`<path d="M246 32a9 9 0 1 0 8 14a7 7 0 1 1-8-14z" fill="#fff3b0"/><circle cx="228" cy="34" r="1" fill="#fff"/><circle cx="262" cy="58" r="1" fill="#fff"/><circle cx="238" cy="62" r="1" fill="#fff"/>`}
     g+=`<line x1="245" y1="22" x2="245" y2="76" stroke="#6b4423" stroke-width="3"/><line x1="217" y1="49" x2="273" y2="49" stroke="#6b4423" stroke-width="3"/>`;
     // Gegenstände
-    petItemsFor(lv).forEach(i=>{g+=`<g>${i.s(ctx,Math.min(2,Math.max(0,(petDeco()[i.lv].d)|0)))}</g>`});
+    petItemsFor(lv).filter(i=>!i.cloth).forEach(i=>{g+=`<g>${i.s(ctx,i.pet?0:Math.min(2,Math.max(0,(petDeco()[i.lv].d)|0)))}</g>`});
     // Feiertag
     const ev=petEvent();
     if(ev&&PET_EV[ev.ev.k])g+=`<g>${PET_EV[ev.ev.k](ctx)}</g>`;
@@ -6481,7 +6498,7 @@ function petIdleStop(){
     if(a)a.textContent="";
 }
 function petIdleStart(kind){
-    if(PET.visit||PET_IDLE.kind||!$("petRoom")||$("petView").classList.contains("hidden")||petSleeping())return;
+    if(PET.visit||PET.pi||PET_IDLE.kind||!$("petRoom")||$("petView").classList.contains("hidden")||petSleeping())return;
     if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return;
     const keys=Object.keys(PET_ACTS);
     if(!kind){const pool=keys.filter(k=>k!==PET_IDLE.last&&(!PET_ACTS[k].when||PET_ACTS[k].when()));kind=pool[Math.floor(Math.random()*pool.length)]}
@@ -6490,11 +6507,54 @@ function petIdleStart(kind){
     $("petAct").innerHTML=PET_ACTS[kind].html;
     PET_IDLE.end=setTimeout(petIdleStop,PET_ACTS[kind].ms);
 }
+
+/* ===== Haustiere im Zimmer: Avatar kümmert sich ===== */
+const PET_SPECIES={
+ rabbit:{acc:"mein Kaninchen",dat:"meinem Kaninchen",pr:"ihm",food:"🥕",toy:"🌼"},
+ cat:{acc:"meine Katze",dat:"meiner Katze",pr:"ihr",food:"🐟",toy:"🧶"},
+ dog:{acc:"meinen Hund",dat:"meinem Hund",pr:"ihm",food:"🦴",toy:"🎾"},
+ trex:{acc:"meinen kleinen T-Rex",dat:"meinem kleinen T-Rex",pr:"ihm",food:"🍖",toy:"⚽"},
+ turtle:{acc:"meine Schildkröte",dat:"meiner Schildkröte",pr:"ihr",food:"🥬",toy:"🍃"}
+};
+const PET_PACTS={
+ feed:{cap:"Ich füttere mein Tier …",say:s=>"Ich füttere "+s.acc+". Mampf, mampf – lecker!",fx:s=>s.food,an:"eat",cls:"bnc",ms:6500},
+ hug:{cap:"Ich kuschle mit meinem Tier …",say:s=>"Ich kuschle mit "+s.dat+". Ist das gemütlich!",fx:()=>"💕",an:"hug",cls:"up",ms:6500},
+ stroke:{cap:"Ich streichle mein Tier …",say:s=>"Ich streichle "+s.acc+". Das gefällt "+s.pr+"!",fx:()=>"💗",an:"pat",cls:"up",ms:6000},
+ play:{cap:"Ich spiele mit meinem Tier …",say:s=>"Ich spiele mit "+s.dat+". Das macht Spaß!",fx:s=>s.toy,an:"play",cls:"bnc",ms:7000}
+};
+function petPWait(ms,tok){return new Promise(r=>setTimeout(()=>r(PET.pi===tok&&!$("petView").classList.contains("hidden")&&!petSleeping()),ms))}
+function petPetEnd(){
+    PET.pi=null;
+    const r=$("petRoom");if(!r)return;
+    r.className=r.className.replace(/\bpi-\w+/g,"").trim();
+    r.querySelectorAll(".pet-g").forEach(g=>{g.setAttribute("class","pet-g")});
+    const a=$("petAct");if(a)a.textContent="";
+    const av=$("petAv");if(av)av.style.removeProperty("left");
+}
+async function petPetAct(){
+    if(PET.pi||PET.visit||PET_IDLE.kind||!$("petRoom")||$("petView").classList.contains("hidden")||petSleeping())return;
+    if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+    const pets=petActivePets();if(!pets.length)return;
+    const it=petPick(pets),sp=PET_SPECIES[it.key];if(!sp)return;
+    const ak=petPick(Object.keys(PET_PACTS)),a=PET_PACTS[ak],tok={};PET.pi=tok;
+    const room=$("petRoom"),av=$("petAv"),px=it.x;
+    av.style.left=Math.max(20,Math.min(80,px<150?px/3+19:px/3-19))+"%";
+    if(!await petPWait(1500,tok)){if(PET.pi===tok)petPetEnd();return}
+    room.classList.add("pi-"+ak);
+    const pg=room.querySelector('.pet-g[data-k="'+it.key+'"]');if(pg)pg.setAttribute("class","pet-g pt-"+a.an);
+    const fx=a.fx(sp);let h='<span class="pa-cap">'+a.cap+'</span>';
+    for(let i=0;i<4;i++)h+='<span class="pt-'+a.cls+'" style="left:'+(px/3-3+i*2.2).toFixed(1)+'%;bottom:'+(a.cls==="up"?24:14)+'%;animation-delay:'+(i*.6).toFixed(1)+'s">'+fx+'</span>';
+    $("petAct").innerHTML=h;
+    PET.jokeUntil=Date.now()+a.ms+3000;
+    petSay(a.say(sp),null,false);
+    if(!await petPWait(a.ms,tok)){if(PET.pi===tok)petPetEnd();return}
+    petPetEnd();
+}
 function petIdleLoop(){
     clearTimeout(PET_IDLE.t);
     PET_IDLE.t=setTimeout(()=>{
         if($("petView").classList.contains("hidden")){petIdleStop();return}
-        if(!PET.visit&&Math.random()<0.35)petVisitStart(false);else petIdleStart();
+        if(petActivePets().length&&!PET.visit&&Math.random()<0.5)petPetAct();else if(!PET.visit&&!PET.pi&&Math.random()<0.35)petVisitStart(false);else petIdleStart();
         petIdleLoop();
     },(30+Math.random()*50)*1000);
 }
@@ -6578,7 +6638,7 @@ function petVisitClear(){
 }
 function petVisitEnd(){PET.visit=null;petVisitClear()}
 async function petVisitStart(manual){
-    if(PET.visit||PET_IDLE.kind)return;
+    if(PET.visit||PET.pi||PET_IDLE.kind)return;
     if(petSleeping()||$("petView").classList.contains("hidden")){if(manual)petRender();return}
     if(manual)petSay("Ich schaue, wer zu Besuch kommen kann …");
     const list=await petGuestsLoad();
@@ -6614,10 +6674,11 @@ async function petVisitStart(manual){
 function petRender(keepSay){
     if(!PET.st)return;
     const s=PET.st,sl=petSleeping(),mood=petMood();
-    $("petRoomSvg").innerHTML=petRoomSvg();
+    if(!PET.pi)$("petRoomSvg").innerHTML=petRoomSvg();
     const av=$("petAv");
     av.innerHTML=avatarSvg(avatarCurrent().id,140).replace(/<rect width="100" height="100" fill="[^"]*"\/>/,"");
-    if(sl){av.innerHTML=avatarClosedEyes(av.innerHTML);petIdleStop();if(PET.visit)petVisitEnd()}
+    if(sl){av.innerHTML=avatarClosedEyes(av.innerHTML);petIdleStop();petPetEnd();if(PET.visit)petVisitEnd()}
+    {const cl=petClothSvg();if(cl)av.innerHTML=av.innerHTML.replace(/<\/svg>\s*$/,cl+"</svg>")}
     av.className="pet-av "+(sl?"sleep":mood);
     $("petZzz").textContent=sl?"💤":(mood==="sad"?"😢":(mood==="happy"?"":"😐"));
     $("petBars").innerHTML=petBar("HUNGER","🍎",s.h)+petBar("DURST","💧",s.t)+petBar("SAUBERKEIT","🫧",s.c)+petBar("PFLEGE","❤️",s.p);
@@ -6717,11 +6778,11 @@ async function showPet(){
     }
     petTimerOn();
     petIdleStop();
-    setTimeout(()=>{if(!$("petView").classList.contains("hidden"))petIdleStart()},7000);
+    setTimeout(()=>{if(!$("petView").classList.contains("hidden")){if(petActivePets().length&&Math.random()<0.6)petPetAct();else petIdleStart()}},7000);
     petIdleLoop();
-    PET.visit=null;petVisitClear();
+    PET.visit=null;petVisitClear();petPetEnd();
     petCheerCheck();
-    $("petRoom").onclick=()=>petIdleStart();
+    $("petRoom").onclick=()=>{if(petActivePets().length&&Math.random()<0.6)petPetAct();else petIdleStart()};
     window.scrollTo(0,0);
 }
 function petPlay(){
@@ -6748,6 +6809,8 @@ function petPlay(){
     };
 })();
 function petThumb(it,d){
+    if(it.pet)return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 50" preserveAspectRatio="xMidYMid meet"><rect width="80" height="50" fill="#efe1c4"/>${it.s({now:petNow(),night:false,thumb:true},d)}</svg>`;
+    if(it.cloth)return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#efe1c4"/><path d="M12 100Q14 72 36 67L64 67Q86 72 88 100Z" fill="#8a8f98"/><rect x="43" y="56" width="14" height="16" rx="6" fill="#f6d2b0"/><ellipse cx="50" cy="42" rx="21" ry="23" fill="#f6d2b0"/><circle cx="42" cy="45" r="2.7" fill="#3b2412"/><circle cx="58" cy="45" r="2.7" fill="#3b2412"/><path d="M44 54Q50 59.500 56 54" stroke="#a0453a" fill="none" stroke-width="2" stroke-linecap="round"/>${it.av(d)}</svg>`;
     const host=$("petMeasure");
     host.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" width="300" height="200"><g id="pmG">${it.s({now:petNow(),night:false,thumb:true},d)}</g></svg>`;
     let bb={x:0,y:0,width:300,height:200};
@@ -6766,7 +6829,7 @@ function petDecoRender(){
     p.textContent="";
     const h=document.createElement("h3");h.textContent="ZIMMER EINRICHTEN";p.append(h);
     const info=document.createElement("p");info.className="pet-sub";
-    info.textContent="Hier stehen alle Gegenstände. Freigeschaltete Gegenstände kannst du ins Zimmer stellen und aus 3 Designs wählen. Gesperrte Gegenstände schaltest du mit höherem Level frei.";p.append(info);
+    info.textContent="Hier stehen alle Gegenstände, Haustiere (🐰 🐱 🐶 🦖 🐢) und Kleidungsstücke (🧢 🧣 🕶️ 🦸). Freigeschaltetes kannst du ins Zimmer holen oder deinem Avatar anziehen. Gegenstände und Kleidung haben 3 Designs, die Tiere nicht. Gesperrtes schaltest du mit höherem Level frei.";p.append(info);
     PET_ITEMS.forEach(it=>{
         const row=document.createElement("div");row.className="pd-row";
         const open=it.lv<=lv,cur=dec[it.lv]||{on:false,d:0};
@@ -6775,14 +6838,14 @@ function petDecoRender(){
         row.append(t);
         if(!open){row.classList.add("locked");p.append(row);return}
         const tg=document.createElement("button");tg.type="button";tg.className="pd-on"+(cur.on?" on":"");
-        tg.textContent=cur.on?"✓ IM ZIMMER (ENTFERNEN)":"INS ZIMMER STELLEN";
-        tg.onclick=()=>{const d=petDeco();d[it.lv]={on:!cur.on,d:cur.d|0};petSave();petDecoRender();petRender(true)};
+        tg.textContent=it.cloth?(cur.on?"✓ ANGEZOGEN (AUSZIEHEN)":"ANZIEHEN"):it.pet?(cur.on?"✓ IM ZIMMER (WEGSCHICKEN)":"INS ZIMMER HOLEN"):(cur.on?"✓ IM ZIMMER (ENTFERNEN)":"INS ZIMMER STELLEN");
+        tg.onclick=()=>{petPetEnd();const d=petDeco();d[it.lv]={on:!cur.on,d:cur.d|0};petSave();petDecoRender();petRender(true)};
         row.append(tg);
         const ds=document.createElement("div");ds.className="pd-designs";
-        for(let d=0;d<3;d++){
+        for(let d=0;d<(it.pet?1:3);d++){
             const b=document.createElement("button");b.type="button";b.className="pd-d"+(cur.on&&(cur.d|0)===d?" sel":"");
-            b.title="Design "+(d+1);b.innerHTML=petThumb(it,d)+"<span>DESIGN "+(d+1)+"</span>";
-            b.onclick=()=>{const dd=petDeco();dd[it.lv]={on:true,d};petSave();petDecoRender();petRender(true)};
+            b.title="Design "+(d+1);b.innerHTML=petThumb(it,d)+"<span>"+(it.pet?it.n.toUpperCase():"DESIGN "+(d+1))+"</span>";
+            b.onclick=()=>{petPetEnd();const dd=petDeco();dd[it.lv]={on:true,d};petSave();petDecoRender();petRender(true)};
             ds.append(b);
         }
         row.append(ds);p.append(row);
@@ -6831,6 +6894,8 @@ function petHelpRender(){
     sec("GEGENSTÄNDE UND LEVEL",[
         "Dein Zimmer ist bei Level 1 leer. Mit jedem neuen Level schaltest du einen Gegenstand frei. Dein Level steigt mit deinen Quiz-Punkten. Du bist jetzt bei Level "+lv+".",
         "Freigeschaltete Gegenstände stellst du unter „Zimmer einrichten“ selbst ins Zimmer. Jeder hat 3 Designs. Gesperrte stehen grau mit dem Level, ab dem sie freikommen.",
+        "Haustiere (ohne Designs): Kaninchen, Katze, Hund, kleiner T-Rex und Schildkröte holst du dir ins Zimmer. Ab und zu füttert dein Avatar sie, kuschelt, streichelt oder spielt mit ihnen. Das passiert von allein, du kannst auch aufs Zimmer tippen.",
+        "Kleidung: Mütze, Schal, Sonnenbrille und Umhang ziehst du deinem Avatar an. Du siehst sie sofort an ihm.",
         "Freischaltung: "+PET_ITEMS.map(i=>"Level "+i.lv+" "+i.n).join(" · ")
     ]);
     const y=avToday().getFullYear();
